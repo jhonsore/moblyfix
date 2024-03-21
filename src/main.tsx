@@ -8,11 +8,16 @@ import {
 } from "react-router-dom";
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
+import RecuperarSenha from './pages/recuperarsenha';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:<Login />
+  },
+  {
+    path: "/recuperarsenha",
+    element:<RecuperarSenha />
   },
   {
     path: "/dashboard",
