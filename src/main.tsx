@@ -9,6 +9,7 @@ import {
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import RecuperarSenha from './pages/recuperarsenha';
+import Modals from './pages/modals';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element:<Dashboard />
+  },
+  {
+    path: "/modals",
+    element: <Modals />
   },
 ]);
 

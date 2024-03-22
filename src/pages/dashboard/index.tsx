@@ -39,6 +39,8 @@ const transactions = [
     netAmount2: 'Encerrado',
     netAmount3: 'Aguardando',
     netAmount4: 'Em atendimento',
+    netAmount5: 'Retirada',
+    netAmount6: 'Reparo',
   },
   // More transactions...
 ]
@@ -209,10 +211,10 @@ export default function Example() {
                   </div>
                 </div>
 
-                <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
+                <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end ">
                   <a
                     href="#"
-                    className="ml-6 inline-flex items-center px-4 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-[#3C50E0]  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Busca avançada
                   </a>
@@ -378,7 +380,7 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                              <td className="inline-flex rounded-full bg-[#21965413] px-2 mt-4 text-xs font-semibold leading-5 text-[#219653]">{transaction.netAmount}</td>
+                              <td className="inline-flex rounded-full bg-[#21965413] px-3 mt-4 text-xs font-semibold leading-5 text-[#219653]">{transaction.netAmount}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <a href="#" className="text-indigo-600 hover:text-indigo-900">
                                   Edit<span className="sr-only">, {transaction.id}</span>
@@ -400,7 +402,7 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                              <td className="inline-flex rounded-full bg-[#d3405321] px-2 mt-4 text-xs font-semibold leading-5 text-[#D34053]">{transaction.netAmount2}</td>
+                              <td className="inline-flex rounded-full bg-[#d3405321] px-3 mt-4 text-xs font-semibold leading-5 text-[#D34053]">{transaction.netAmount2}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <a href="#" className="text-indigo-600 hover:text-indigo-900">
                                   Edit<span className="sr-only">, {transaction.id}</span>
@@ -422,7 +424,7 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                              <td className="inline-flex rounded-full bg-[#ffa60b1e] px-2 mt-4 text-xs font-semibold leading-5 text-[#FFA70B]">{transaction.netAmount3}</td>
+                              <td className="inline-flex rounded-full bg-[#ffa60b1e] px-3 mt-4 text-xs font-semibold leading-5 text-[#FFA70B]">{transaction.netAmount3}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <a href="#" className="text-indigo-600 hover:text-indigo-900">
                                   Edit<span className="sr-only">, {transaction.id}</span>
@@ -445,7 +447,53 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
 
-                              <td className="inline-flex rounded-full bg-[#3c4fe025] px-2 mt-4 text-xs font-semibold leading-5 text-[#3C50E0]">{transaction.netAmount4}</td>
+                              <td className="inline-flex rounded-full bg-[#3c4fe025] px-3 mt-4 text-xs font-semibold leading-5 text-[#3C50E0]">{transaction.netAmount4}</td>
+                              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                  Edit<span className="sr-only">, {transaction.id}</span>
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tbody className=" bg-white">
+                          {transactions.map((transaction) => (
+                            <tr key={transaction.id} className='border-b border-gray-200'>
+                              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+                                {transaction.id}
+                              </td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
+                                {transaction.company}
+                              </td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
+
+                              <td className="inline-flex rounded-full bg-[#541dab11] px-3 mt-4 text-xs font-semibold leading-5 text-[#531DAB]">{transaction.netAmount5}</td>
+                              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                  Edit<span className="sr-only">, {transaction.id}</span>
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tbody className=" bg-white">
+                          {transactions.map((transaction) => (
+                            <tr key={transaction.id} className='border-b border-gray-200'>
+                              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+                                {transaction.id}
+                              </td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
+                                {transaction.company}
+                              </td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
+                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
+
+                              <td className="inline-flex rounded-full bg-[#d46b0854] px-3  mt-4 text-xs font-semibold leading-5 text-[#D46B08]">{transaction.netAmount6}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <a href="#" className="text-indigo-600 hover:text-indigo-900">
                                   Edit<span className="sr-only">, {transaction.id}</span>
@@ -465,7 +513,7 @@ export default function Example() {
               <div className='px-10 py-4'>
                 <button
                   type="button"
-                  className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 hover:bg-[#3C50E0] hover:text-white"
+                  className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-[#3C50E0] focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
                 >
                   <span className="sr-only">Previous</span>
                   <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -483,18 +531,7 @@ export default function Example() {
 
 
 
-            <div className="py-6">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-              </div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                {/* Replace with your content */}
-                <div className="py-4">
-                  <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-                </div>
-                {/* /End replace */}
-              </div>
-            </div>
+            
           </main>
         </div>
       </div>
