@@ -11,21 +11,23 @@ import Dashboard from './pages/dashboard';
 import RecuperarSenha from './pages/recuperarsenha';
 import Modals from './pages/modals';
 import Novaos from './pages/novaos';
-import Osaberta from './pages/osaberta';
 import DadosCliente from './pages/modals/dadocliente/dadoscliente';
+
+import Dados from './pages/dados';
+import Anexo from './pages/anexo';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<Login />
+    element: <Login />
   },
   {
     path: "/recuperarsenha",
-    element:<RecuperarSenha />
+    element: <RecuperarSenha />
   },
   {
     path: "/dashboard",
-    element:<Dashboard />
+    element: <Dashboard />
   },
   {
     path: "/modals",
@@ -40,9 +42,14 @@ const router = createBrowserRouter([
     element: <Novaos />
   },
   {
-    path: "/osaberta",
-    element: <Osaberta />
+    path: "/dados",
+    element: <Dados />
   },
+  {
+    path: "/anexo",
+    element: <Anexo />
+  },
+ 
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
