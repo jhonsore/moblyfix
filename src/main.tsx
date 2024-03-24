@@ -12,6 +12,7 @@ import RecuperarSenha from './pages/recuperarsenha';
 import Modals from './pages/modals';
 import Novaos from './pages/novaos';
 import Osaberta from './pages/osaberta';
+import DadosCliente from './pages/modals/dadocliente/dadoscliente';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/modals",
     element: <Modals />
+  },
+  {
+    path: "/modals/dadocliente",
+    element: <DadosCliente />
   },
   {
     path: "/novaos",

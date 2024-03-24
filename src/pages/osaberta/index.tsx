@@ -257,9 +257,6 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
-
-
-
                   <div className="flex items-center py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0 mt-6 border-b border-gray-200">
                     <div className=" ">
                       <label htmlFor="Produto" className='text-sm mt-2'>
@@ -284,7 +281,6 @@ export default function Example() {
                       </a>
                     </div>
                   </div>
-
                   <div className="flex justify-between items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                     <div className="w-5/12 mr-6 flex-1">
                       <label htmlFor="Produto" className='text-sm mt-2'>
@@ -316,10 +312,9 @@ export default function Example() {
                   <div className="flex  items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                     <div>
                       <label htmlFor="Produto" className='text-sm mt-2'>
-                      Produto
+                        Produto
                       </label>
                       <div className="relative mt-2">
-
                         <input
                           id="search"
                           name="search"
@@ -329,7 +324,6 @@ export default function Example() {
                         />
                       </div>
                     </div>
-
                   </div>
                   <div className="flex items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                     <div className="w-5/12 mr-6 inline-block">
@@ -338,7 +332,6 @@ export default function Example() {
                       </label>
                       <div className="relative mt-2">
                         <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-
                         </div>
                         <input
                           id="search"
@@ -363,7 +356,6 @@ export default function Example() {
                         <label htmlFor="comments" className="font-medium text-gray-700">
                           Garantia
                         </label>
-
                       </div>
                     </div>
                     <div className="flex-1 items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
@@ -373,7 +365,6 @@ export default function Example() {
                         </label>
                         <div className="relative mt-2">
                           <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-
                           </div>
                           <input
                             id="date"
@@ -385,7 +376,6 @@ export default function Example() {
                         </div>
                       </div>
                     </div>
-
                   </div>
                   <div className="flex-1 items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                     <div>
@@ -403,7 +393,6 @@ export default function Example() {
                         />
                       </div>
                     </div>
-
                   </div>
                   <div>
                     <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mt-4">
@@ -436,9 +425,8 @@ export default function Example() {
                     </div>
                     <div className="   mt-8">
                       <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mt-4">
-                      Assinatura do cliente
+                        Assinatura do cliente
                       </label>
-                      
                       <div className="mt-2">
                         <textarea
 
@@ -453,7 +441,6 @@ export default function Example() {
                         <h2>
                           Fotos do aparelho
                         </h2>
-                        
                       </div>
                       <div className='flex gap-4'>
                         <div className='relative bg-img-add w-32 h-32'>
@@ -478,9 +465,6 @@ export default function Example() {
                           </button>
                         </div>
                       </div>
-
-
-
                     </div>
                   </div>
                 </div>
