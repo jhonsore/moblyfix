@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { PlusSmIcon as PlusSmIconSolid, StarIcon } from '@heroicons/react/solid'
-import { PlusSmIcon as PlusSmIconOutline, XIcon } from '@heroicons/react/outline'
+
+import { PlusSmIcon as PlusSmIconOutline, Bars2Icon as MenuAlt2Icon, XMarkIcon as XIcon, MagnifyingGlassIcon as SearchIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 
 
@@ -20,18 +21,31 @@ const Modals = () => {
 
       <div className=" sm:mx-auto sm:w-full sm:max-w-md mt-7">
         <div className="bg-white  shadow sm:rounded-lg ">
-          <div className='text-center pt-4'>
-            <h1 className="font-bold text-3xl py-2 ">
+          <div className='flex justify-end pt-2 pr-2'>
+            <button
+              type="button"
+              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
+              onClick={() => setOpen(false)}
+            >
+              <span className="sr-only">Close</span>
+              <XIcon className="h-6 w-6 text-black " aria-hidden="true" />
+            </button>
+          </div>
+          <div className='text-center'>
+
+            <h1 className="font-bold text-3xl ">
               OS nº 000005 criada
             </h1>
+
             <p className='text-base'>
               O que deseja fazer agora?
             </p>
           </div>
+
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-7">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-[#3c4fe01c]"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Imprimir
             </a>
@@ -39,7 +53,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-[#3c4fe01c]"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Enviar whatsapp
             </a>
@@ -47,7 +61,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-[#3c4fe01c]"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Nova OS
             </a>
@@ -55,7 +69,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-[#3c4fe01c]"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Nova OS do mesmo cliente
             </a>
@@ -63,12 +77,12 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3 pb-4 ">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center  py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-[#3c4fe01c]"
+              className="ml-6 inline-flex items-center w-64 justify-center  py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Fechar
             </a>
           </div>
-          
+
 
 
         </div>

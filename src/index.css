@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+
+.bg-img-add {
+  background-image: url(../img/relogio-add.png);
+  background-repeat: no-repeat;
+  
+}
+
+.active-page {
+  background-color: #3C50E0;
+  color: white;
+}
+
+.img-whts {
+  background-image: url(../img/whatsapp.svg);
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+}
+

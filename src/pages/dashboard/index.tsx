@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition, Switch } from '@headlessui/react'
 import {
@@ -146,7 +148,7 @@ export default function Example() {
               <img
                 className="h-8 w-auto"
                 src="./img/logo-dash.svg"
-                alt="Workflow"
+                alt="logo"
               />
             </div>
             <div className="mt-5 flex-1 flex flex-col">
@@ -182,6 +184,7 @@ export default function Example() {
                   Novo item
                 </button>
               </div>
+
             </div>
           </div>
 
@@ -202,7 +205,7 @@ export default function Example() {
                         <input
                           id="search"
                           name="search"
-                          className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
                           placeholder="Digite o nome do cliente"
                           type="search"
                         />
@@ -214,7 +217,7 @@ export default function Example() {
                 <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end ">
                   <a
                     href="#"
-                    className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-6 py-2 border-transparent text-base font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Busca avançada
                   </a>
@@ -382,8 +385,15 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
                               <td className="inline-flex rounded-full bg-[#21965413] px-3 mt-4 text-xs font-semibold leading-5 text-[#219653]">{transaction.netAmount}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -404,8 +414,15 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
                               <td className="inline-flex rounded-full bg-[#d3405321] px-3 mt-4 text-xs font-semibold leading-5 text-[#D34053]">{transaction.netAmount2}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                              <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -426,8 +443,15 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
                               <td className="inline-flex rounded-full bg-[#ffa60b1e] px-3 mt-4 text-xs font-semibold leading-5 text-[#FFA70B]">{transaction.netAmount3}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                              <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -449,8 +473,15 @@ export default function Example() {
 
                               <td className="inline-flex rounded-full bg-[#3c4fe025] px-3 mt-4 text-xs font-semibold leading-5 text-[#3C50E0]">{transaction.netAmount4}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                              <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -472,8 +503,15 @@ export default function Example() {
 
                               <td className="inline-flex rounded-full bg-[#541dab11] px-3 mt-4 text-xs font-semibold leading-5 text-[#531DAB]">{transaction.netAmount5}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                              <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -495,8 +533,15 @@ export default function Example() {
 
                               <td className="inline-flex rounded-full bg-[#d46b0854] px-3  mt-4 text-xs font-semibold leading-5 text-[#D46B08]">{transaction.netAmount6}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                  Edit<span className="sr-only">, {transaction.id}</span>
+                              <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-indigo-900">
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span><span className="sr-only">, {transaction.id}</span>
                                 </a>
                               </td>
                             </tr>
@@ -509,29 +554,29 @@ export default function Example() {
                 </div>
               </div>
             </div>
-            
-              <div className='px-10 py-4'>
-                <button
-                  type="button"
-                  className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-[#3C50E0] focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-                >
-                  <span className="sr-only">Previous</span>
-                  <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-[#3C50E0] hover:text-white "
-                >
-                  <span className="sr-only">Next</span>
-                  <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
-            
+
+            <div className='px-10 py-4'>
+              <button
+                type="button"
+                className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-[#3C50E0] focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
+              >
+                <span className="sr-only">Previous</span>
+                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-[#3C50E0] hover:text-white "
+              >
+                <span className="sr-only">Next</span>
+                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
 
 
 
 
-            
+
+
           </main>
         </div>
       </div>
