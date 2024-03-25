@@ -162,85 +162,58 @@ export default function Example() {
           <div className=" px-4 sm:px-6 lg:px-8 bg-[#F1F5F9] pt-32">
             <div className=" mx-auto bg-white mt-6 h-svh">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div>
-                  <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                    <div className='border-b border-[#EFF4FB]  pt-6 flex justify-between'>
-                      <div className='flex gap-2'>
-                        <button
-                          type="button"
-                          className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
-                        >
-                          Dados da OS
-                        </button>
-                        <button
-                          type="button"
-                          className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
-                        >
-                          Anexos
-                        </button>
-                        <button
-                          type="button"
-                          className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
-                        >
-                          Acompanhamento
-                        </button>
-                      </div>
-                      <div className='flex gap-3 text-[#64748B] '>
-                        <button>
-                          <span className="material-symbols-outlined hover:text-blue-500">
-                            attachment
-                          </span>
-                        </button>
-                        <button>
-                          <span className="material-symbols-outlined hover:text-blue-500">
-                            mail
-                          </span>
-                        </button>
-                        <button>
-                          <span className="material-symbols-outlined hover:text-blue-500">
-                            print
-                          </span>
-                        </button>
-                        <button>
-                          <span className='img-whts inline-block '>
-                          </span>
-                        </button>
-                      </div>
+                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
+                  <div className='border-b border-[#EFF4FB]  pt-6 flex justify-between'>
+                    <div className='flex gap-2'>
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                      >
+                        Dados da OS
+                      </button>
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                      >
+                        Anexos
+                      </button>
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                      >
+                        Acompanhamento
+                      </button>
+                    </div>
+                    <div className='flex gap-3 text-[#64748B] '>
+                      <button>
+                        <span className="material-symbols-outlined hover:text-blue-500">
+                          attachment
+                        </span>
+                      </button>
+                      <button>
+                        <span className="material-symbols-outlined hover:text-blue-500">
+                          mail
+                        </span>
+                      </button>
+                      <button>
+                        <span className="material-symbols-outlined hover:text-blue-500">
+                          print
+                        </span>
+                      </button>
+                      <button>
+                        <span className='img-whts inline-block '>
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
-
-                <div className='flex gap-4 pb-4  mt-8 border-b border-[#EFF4FB]'>
-                  <div className='relative bg-img-add w-32 h-32'>
-                    <button>
-                      <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                        delete
-                      </span>
-                    </button>
-                  </div>
-                  <div className='relative bg-img-add w-32 h-32'>
-                    <button>
-                      <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                        delete
-                      </span>
-                    </button>
-                  </div>
-                  <div className='relative bg-img-add w-32 h-32'>
-                    <button>
-                      <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                        delete
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div className='flex justify-end mt-4'>
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-[#3C50E0] shadow-sm text-sm font-medium rounded-md text-[#3C50E0] bg-white hover:bg-[#3C50E0] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
-                  >
-                    Adicionar anexo
-                  </button>
-                </div>
+                      <div className='bg-[#F5F5F5] mt-8  rounded-lg p-6'>
+                      <div className='flex justify-between text-sm'>
+                        <h2>Criado por: Jhonnatan</h2>
+                        <p>10/10/2024 10:00</p>
+                      </div>
+                      <p className='font-bold pt-2'>OS criada</p>
+                      </div>
               </div>
             </div>
           </div>

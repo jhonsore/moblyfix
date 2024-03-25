@@ -6,7 +6,7 @@ import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 
 
 
-const DadosCliente = () => {
+const Modals = () => {
 
 
 
@@ -323,4 +323,4 @@ const DadosCliente = () => {
 
   </div>
 }
-export default DadosCliente
+export default Modals

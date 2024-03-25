@@ -11,10 +11,15 @@ import Dashboard from './pages/dashboard';
 import RecuperarSenha from './pages/recuperarsenha';
 import Modals from './pages/modals';
 import Novaos from './pages/novaos';
-import DadosCliente from './pages/modals/dadocliente/dadoscliente';
+import DadosCliente from './pages/modals/dadocliente';
 
 import Dados from './pages/dados';
 import Anexo from './pages/anexo';
+import Acompanhamento from './pages/acompanhamento';
+import Atendimentoiniciado from './pages/modals/atendimentoiniciado';
+import Enviarwhatsapp from './pages/modals/enviarwhatsapp';
+import Relatotecnico from './pages/modals/relatotecnico';
+import Ematendimento from './pages/ematendimento';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +43,18 @@ const router = createBrowserRouter([
     element: <DadosCliente />
   },
   {
+    path: "/modals/atendimentoiniciado",
+    element: <Atendimentoiniciado />
+  },
+  {
+    path: "/modals/enviarwhatsapp",
+    element: <Enviarwhatsapp />
+  },
+  {
+    path: "/modals/relatotecnico",
+    element: <Relatotecnico />
+  },
+  {
     path: "/novaos",
     element: <Novaos />
   },
@@ -49,6 +66,15 @@ const router = createBrowserRouter([
     path: "/anexo",
     element: <Anexo />
   },
+  {
+    path: "/acompanhamento",
+    element: <Acompanhamento />
+  },
+  {
+    path: "/ematendimento",
+    element: <Ematendimento />
+  },
+  
  
 ]);
 
