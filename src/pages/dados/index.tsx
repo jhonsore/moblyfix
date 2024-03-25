@@ -172,13 +172,13 @@ export default function Example() {
               <div className="mr-2 flex-shrink-0 flex">
                 <button
                   type="button"
-                  className="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#D34053] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0] mr-4"
+                  className="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#D34053] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4"
                 >
                   Cancelar OS
                 </button>
                 <button
                   type="button"
-                  className="relative inline-flex items-center px-10 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#D34053] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                  className="relative inline-flex items-center px-10 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-[#D34053] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Finalizar
                 </button>
@@ -202,7 +202,7 @@ export default function Example() {
               </div>
               <button
                 type="button"
-                className="relative inline-flex items-center px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                className="relative inline-flex items-center px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Iniciar análise técnica
               </button>
@@ -216,24 +216,24 @@ export default function Example() {
                         <div className='flex gap-2'>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Dados da OS
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Anexos
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Acompanhamento
                           </button>
                         </div>
-                        <div className='flex gap-3 text-[#64748B]'>
+                        <div className='flex gap-3 text-gray-500'>
                           <button>
                             <span className="material-symbols-outlined hover:text-blue-500">
                               attachment
@@ -275,7 +275,7 @@ export default function Example() {
                     <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-8">
                       <a
                         href="#"
-                        className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                        className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                       >
                         Salvar
                       </a>
@@ -302,7 +302,7 @@ export default function Example() {
                       <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-8">
                         <a
                           href="#"
-                          className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                          className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                         >
                           Visualizar dados
                         </a>

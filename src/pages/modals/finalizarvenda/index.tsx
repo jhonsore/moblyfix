@@ -28,19 +28,9 @@ const sides = [
 
 
 
-
-
-
-
-
 const Modals = () => {
 
-
-
   return <div>
-
-
-
     <div className=" flex flex-col justify-center sm:px-6 lg:px-8 pb-14 bg-[#F1F5F9]">
 
       <div className=" sm:mx-auto sm:w-full sm:max-w-4xl mt-7">
@@ -57,7 +47,6 @@ const Modals = () => {
               <span className="sr-only">Close</span>
               <XIcon className="h-4 w-4 text-blue-600 " aria-hidden="true" />
             </button>
-
           </div>
           <div>
             <div className="flex items-center px-4 ">
@@ -81,7 +70,6 @@ const Modals = () => {
           </div>
 
           <div className="px-4 sm:px-6 lg:px-8">
-
             <div className="-mx-4 mt-8 flex flex-col sm:-mx-6 md:mx-0">
               <table className="min-w-full ">
                 <thead>
@@ -102,9 +90,7 @@ const Modals = () => {
                       scope="col"
                       className="hidden py-3.5 px-3 text-right text-sm font-semibold text-gray-900 sm:table-cell"
                     >
-
                       Venda á vista R$  <br />(débito/dinheiro)
-
                     </th>
                     <th
                       scope="col"
@@ -176,7 +162,6 @@ const Modals = () => {
             </div>
           </div>
 
-
           <div className='px-6 pt-8'>
             <div>
               <label className="text-sm font-medium text-gray-900">Selecione o método de pagamento</label>
@@ -201,17 +186,14 @@ const Modals = () => {
                 </div>
               </fieldset>
             </div>
+
             <div className='mt-6'>
-
-
-
               <fieldset>
                 <label className="text-sm font-medium text-gray-900">Selecione o tipo de desconto</label>
                 <div className="space-y-4 sm:flex gap-32 sm:items-center sm:space-y-0 sm:space-x-10 mt-2">
                   {sides.map((side, sideIdx) => (
                     <div key={sideIdx} className="flex items-center">
                       <div className="min-w-0 flex-1 text-sm">
-
                       </div>
                       <div className="ml-3 flex items-center h-5">
                         <input
@@ -239,7 +221,7 @@ const Modals = () => {
           <div className="px-6 flex">
             <button
               type="button"
-              className=" flex-1 items-center  py-2 border border-indigo-400 shadow-sm text-sm font-medium rounded-md text-indigo-300 bg-white hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+              className=" flex-1 items-center  py-2 border border-indigo-400 shadow-sm text-sm font-medium rounded-md text-indigo-300 bg-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Adicionar Assinatura
             </button>
@@ -262,20 +244,14 @@ const Modals = () => {
           <div className="px-6 flex pb-4">
             <button
               type="button"
-              className=" flex-1 items-center  py-2 border border-indigo-400 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-300 hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+              className=" flex-1 items-center  py-2 border border-indigo-400 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-300 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Salvar
             </button>
           </div>
-
-
-
-
         </div>
       </div>
     </div>
-
-
   </div>
 }
 export default Modals

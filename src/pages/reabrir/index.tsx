@@ -189,14 +189,14 @@ export default function Example() {
 
                   <button
                     type="button"
-                    className="  px-4 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#D34053] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0] mr-4"
+                    className="  px-4 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#D34053] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4"
                   >
                     Cancelar
                   </button>
                   <button
                 
                     type="button"
-                    className=" px-10 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#D34053] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                    className=" px-10 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-[#D34053] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Finalizar
                   </button>
@@ -224,7 +224,7 @@ export default function Example() {
                 </div>
                 <button
                   type="button"
-                  className="  px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                  className="  px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Finalizar reparo 
                 </button>
@@ -239,37 +239,37 @@ export default function Example() {
                         <div className='flex gap-2'>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Dados da OS
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Anexos
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Relatos técnicos
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Peças/Serviços
                           </button>
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Acompanhamento
                           </button>
                           
                         </div>
-                        <div className='flex gap-3 text-[#64748B]'>
+                        <div className='flex gap-3 text-gray-500'>
                           <button>
                             <span className="material-symbols-outlined hover:text-blue-500">
                               attachment
@@ -296,7 +296,6 @@ export default function Example() {
                 </div>
               </div>
             </div>
-
           </main>
         </div>
       </div>

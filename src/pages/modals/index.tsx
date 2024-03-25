@@ -28,7 +28,7 @@ const Modals = () => {
               onClick={() => setOpen(false)}
             >
               <span className="sr-only">Close</span>
-              <XIcon className="h-6 w-6 text-black " aria-hidden="true" />
+              <XIcon className="h-4 w-4 text-black " aria-hidden="true" />
             </button>
           </div>
           <div className='text-center'>
@@ -45,7 +45,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-7">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2  text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Imprimir
             </a>
@@ -53,7 +53,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2  text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Enviar whatsapp
             </a>
@@ -61,7 +61,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2  text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Nova OS
             </a>
@@ -69,7 +69,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2  text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Nova OS do mesmo cliente
             </a>
@@ -77,7 +77,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-3 pb-4 ">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center  py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
+              className="ml-6 inline-flex items-center w-64 justify-center  py-2  text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"
             >
               Fechar
             </a>

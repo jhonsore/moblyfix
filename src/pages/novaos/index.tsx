@@ -54,14 +54,7 @@ export default function Example() {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+      
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -141,7 +134,7 @@ export default function Example() {
         {/* Static sidebar for desktop */}
         <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col flex-grow pt-5 bg-indigo-700 overflow-y-auto">
+          <div className="flex flex-col flex-grow pt-5 bg-indigo-600 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
               <img
                 className="h-8 w-auto"
@@ -177,21 +170,18 @@ export default function Example() {
               <div className="ml-4 mt-2 flex-shrink-0">
                 <button
                   type="button"
-                  className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                  className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:indigo-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Salvar
                 </button>
               </div>
             </div>
           </div>
-
           <main className='bg-[#F1F5F9]'>
-
             <div className=" px-4 sm:px-6 lg:px-8">
               <div className=" mx-auto bg-white mt-6 pb-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="flex justify-between ">
-
                     <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
                       <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                         <div className="w-full">
@@ -217,7 +207,7 @@ export default function Example() {
                     <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-8">
                       <a
                         href="#"
-                        className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                        className="inline-flex items-center px-6 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                       >
                         Novo cliente
                       </a>
@@ -249,7 +239,6 @@ export default function Example() {
                         </label>
                         <div className="relative mt-2">
                           <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-
                           </div>
                           <input
                             id="search"
@@ -269,7 +258,6 @@ export default function Example() {
                       </label>
                       <div className="relative mt-2">
                         <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-
                         </div>
                         <input
                           id="search"
@@ -294,9 +282,9 @@ export default function Example() {
                         <label htmlFor="comments" className="font-medium text-gray-700">
                           Garantia
                         </label>
-
                       </div>
                     </div>
+
                     <div className="flex-1 items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
                       <div className="">
                         <label htmlFor="Produto" className='text-sm mt-2'>
@@ -304,13 +292,11 @@ export default function Example() {
                         </label>
                         <div className="relative mt-2">
                           <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-
                           </div>
                           <input
                             id="date"
                             name="search"
                             className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
                             type="date"
                           />
                         </div>
@@ -334,7 +320,6 @@ export default function Example() {
                         />
                       </div>
                     </div>
-
                   </div>
 
                   <div>
@@ -373,11 +358,10 @@ export default function Example() {
                       <div className='inline-flex mt-2'>
                         <a
                           href="#"
-                          className="block items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                          className="block items-center px-6 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                         >
                           Adicionar assinatura
                         </a>
-
                       </div>
                       <div className="mt-2">
                         <textarea
@@ -396,7 +380,7 @@ export default function Example() {
                         <div className="ml-4 mt-2 flex">
                           <button
                             type="button"
-                            className="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                            className="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             <span className="material-symbols-outlined mr-2">
                               add_a_photo
@@ -428,32 +412,11 @@ export default function Example() {
                           </button>
                         </div>
                       </div>
-
-
-
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           </main>
         </div>
       </div>

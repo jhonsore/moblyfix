@@ -168,24 +168,24 @@ export default function Example() {
                       <div className='flex gap-2'>
                         <button
                           type="button"
-                          className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                          className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           Dados da OS
                         </button>
                         <button
                           type="button"
-                          className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                          className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white active-page  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           Anexos
                         </button>
                         <button
                           type="button"
-                          className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                          className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           Acompanhamento
                         </button>
                       </div>
-                      <div className='flex gap-3 text-[#64748B] '>
+                      <div className='flex gap-3 text-gray-500 '>
                         <button>
                           <span className="material-symbols-outlined hover:text-blue-500">
                             attachment
@@ -236,7 +236,7 @@ export default function Example() {
                 <div className='flex justify-end mt-4'>
                   <button
                     type="button"
-                    className="inline-flex items-center px-4 py-2 border border-[#3C50E0] shadow-sm text-sm font-medium rounded-md text-[#3C50E0] bg-white hover:bg-[#3C50E0] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                    className="inline-flex items-center px-4 py-2 border border-indigo-500 shadow-sm text-sm font-medium rounded-md text-indigo-500 bg-white hover:bg-indigo-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Adicionar anexo
                   </button>

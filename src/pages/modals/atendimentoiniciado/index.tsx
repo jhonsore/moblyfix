@@ -45,7 +45,7 @@ const Modals = () => {
           <div className="hidden lg:flex lg:items-center lg:justify-center xl:col-span-4 mt-4">
             <a
               href="#"
-              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#3C50E0] bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm active-page"
+              className="ml-6 inline-flex items-center w-64 justify-center py-2 border-transparent text-sm font-medium rounded-md text-indigo-500 bg-white border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm active-page"
             >
               Enviar whatsapp
             </a>

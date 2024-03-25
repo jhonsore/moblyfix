@@ -179,7 +179,7 @@ export default function Example() {
               <div className="ml-4 mt-2 flex-shrink-0">
                 <button
                   type="button"
-                  className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+                  className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Novo item
                 </button>
@@ -217,7 +217,7 @@ export default function Example() {
                 <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end ">
                   <a
                     href="#"
-                    className="inline-flex items-center px-6 py-2 border-transparent text-base font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-6 py-2 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Busca avançada
                   </a>
@@ -295,7 +295,7 @@ export default function Example() {
                     <div className="">
                       <a
                         href="#"
-                        className="ml-6 inline-flex items-center px-4 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-[#3C50E0] bg-white border border-[#3C50E0] hover:bg-[#3C50E0] hover:text-white"
+                        className="ml-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-500 hover:bg-indigo-500 hover:text-white"
                       >
                         Fechar
                       </a>
@@ -303,7 +303,7 @@ export default function Example() {
                     <div className="">
                       <button
                         type="button"
-                        className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#494d6e]  "
+                        className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-white hover:text-indigo-500 hover:border-indigo-600  "
                       >
                         Buscar
                       </button>
@@ -471,7 +471,7 @@ export default function Example() {
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
                               <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
 
-                              <td className="inline-flex rounded-full bg-[#3c4fe025] px-3 mt-4 text-xs font-semibold leading-5 text-[#3C50E0]">{transaction.netAmount4}</td>
+                              <td className="inline-flex rounded-full bg-[#3c4fe025] px-3 mt-4 text-xs font-semibold leading-5 text-indigo-500">{transaction.netAmount4}</td>
                               <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                               <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
                                   <span className="material-symbols-outlined">
@@ -558,14 +558,14 @@ export default function Example() {
             <div className='px-10 py-4'>
               <button
                 type="button"
-                className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-[#3C50E0] focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
+                className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
               <button
                 type="button"
-                className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-[#3C50E0] hover:text-white "
+                className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
               >
                 <span className="sr-only">Next</span>
                 <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
