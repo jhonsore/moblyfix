@@ -207,13 +207,13 @@ export default function Example() {
                     </div>
                   </div>
                 </div>
-                      <div className='bg-[#F5F5F5] mt-8  rounded-lg p-6'>
-                      <div className='flex justify-between text-sm'>
-                        <h2>Criado por: Jhonnatan</h2>
-                        <p>10/10/2024 10:00</p>
-                      </div>
-                      <p className='font-bold pt-2'>OS criada</p>
-                      </div>
+                <div className='bg-[#F5F5F5] mt-8  rounded-lg p-6'>
+                  <div className='flex justify-between text-sm'>
+                    <h2>Criado por: Jhonnatan</h2>
+                    <p>10/10/2024 10:00</p>
+                  </div>
+                  <p className='font-bold pt-2'>OS criada</p>
+                </div>
               </div>
             </div>
           </div>

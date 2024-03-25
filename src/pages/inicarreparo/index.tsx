@@ -165,6 +165,7 @@ export default function Example() {
                 <h3 className="text-lg leading-6 font-bold text-black mr-4">OS - 123456</h3>
                 {transactions.map((transaction) => (
                   <div key={transaction.id} className=''>
+                    <p className='text-xs text-gray-400'>Aberto em: 10/10/2024</p>
                     <span className="inline-flex items-center rounded-full bg-indigo-200 px-3 text-xs font-semibold leading-5 text-indigo-600">{transaction.id} </span>
                   </div>
                 ))}
@@ -175,10 +176,11 @@ export default function Example() {
                   <select
                     name="Tecnico responsavel"
                     id="Tecnico responsavel"
+                    
                     autoComplete="status"
                     className=" py-1 px-10 block shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
                   >
-                    <option></option>
+                    
                     <option>Jhonnatan</option>
                     <option>Gileson</option>
                   </select>
@@ -192,6 +194,7 @@ export default function Example() {
                     Cancelar
                   </button>
                   <button
+                
                     type="button"
                     className=" px-10 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#D34053] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
                   >
@@ -236,7 +239,7 @@ export default function Example() {
                   type="button"
                   className="  px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-[#3C50E0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
                 >
-                  Finalizar análise técnica
+                  Inicar reparo
                 </button>
               </div>
             </div>

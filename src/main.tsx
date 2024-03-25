@@ -19,7 +19,16 @@ import Acompanhamento from './pages/acompanhamento';
 import Atendimentoiniciado from './pages/modals/atendimentoiniciado';
 import Enviarwhatsapp from './pages/modals/enviarwhatsapp';
 import Relatotecnico from './pages/modals/relatotecnico';
-import Ematendimento from './pages/ematendimento';
+import Ematendimento from './pages/finalizaranalisetecnica';
+import Pecaservico from './pages/modals/pecaservico';
+import Adicionarpecaservico from './pages/modals/adicionarpecaservico';
+import Finalizaranalisetecnica from './pages/finalizaranalisetecnica';
+import Inicarreparo from './pages/inicarreparo';
+import Finalizarreparo from './pages/finalizarreparo';
+import Reabrir from './pages/reabrir';
+import Relatofinalizacaoservico from './pages/modals/relatofinalizacaoservico';
+import Motivoreaberturaservico from './pages/modals/motivoreaberturaservico';
+import Finalizarvenda from './pages/modals/finalizarvenda';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +64,28 @@ const router = createBrowserRouter([
     element: <Relatotecnico />
   },
   {
+    path: "/modals/pecaservico",
+    element: <Pecaservico />
+  },
+  {
+    path: "/modals/adicionarpecaservico",
+    element: <Adicionarpecaservico />
+  },
+  {
+    path: "/modals/relatofinalizacaoservico",
+    element: <Relatofinalizacaoservico />
+  },
+  {
+    path: "/modals/motivoreaberturaservico",
+    element: <Motivoreaberturaservico />
+  },
+  {
+    path: "/modals/finalizarvenda",
+    element: <Finalizarvenda />
+  },
+
+  
+  {
     path: "/novaos",
     element: <Novaos />
   },
@@ -71,8 +102,20 @@ const router = createBrowserRouter([
     element: <Acompanhamento />
   },
   {
-    path: "/ematendimento",
-    element: <Ematendimento />
+    path: "/finalizaranalisetecnica",
+    element: <Finalizaranalisetecnica />
+  },
+  {
+    path: "/inicarreparo",
+    element: <Inicarreparo />
+  },
+  {
+    path: "/finalizarreparo",
+    element: <Finalizarreparo />
+  },
+  {
+    path: "/reabrir",
+    element: <Reabrir />
   },
   
  
