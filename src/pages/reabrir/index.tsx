@@ -44,14 +44,7 @@ export default function Example() {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+      
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -204,7 +197,7 @@ export default function Example() {
               </div>
             </div>
           </div>
-          <main className='bg-[#F1F5F9]'>
+          <main className=' bg-[#F1F5F9] h-svh'>
 
             <div className='flex justify-end mt-5 mx-8'>
               

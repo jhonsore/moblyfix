@@ -30,14 +30,14 @@ const Modals = () => {
           </div>
           <div className=''>
             <h1 className="font-bold text-xl ">
-              Dados do cliente
+              Dados do usuário
             </h1>
           </div>
 
           <div className="flex justify-between items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <div className=" flex-1">
               <label htmlFor="text" className='text-sm mt-2'>
-                Cliente
+                Nome
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -52,8 +52,45 @@ const Modals = () => {
               </div>
             </div>
           </div>
+          
+          <div className='grid grid-cols-3 gap-4 mt-4'>
+            <div className="">
+              <label htmlFor="cpf" className='text-sm mt-2'>
+                Usuário
+              </label>
+              <div className="relative mt-2">
+                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                </div>
+                <input
+                  type="text"
+                  pattern="d{3}\.\d{3}\.\d{3}-\d{2}"
+                  id="cpf"
+                  name="cpf"
+                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Digite aqui"
+                />
+              </div>
+            </div>
+            <div className="">
+              <label htmlFor="email" className='text-sm mt-2'>
+                Senha
+              </label>
+              <div className="relative mt-2">
+                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                </div>
+                <input
+                  id="email"
+                  name="email"
+                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Digite aqui"
+                  type="email"
+                />
+              </div>
+            </div>
+          </div>
 
-          <div className='grid grid-cols-3 gap-4'>
+
+          <div className='grid grid-cols-3 gap-4 mt-4'>
             <div className="">
               <label htmlFor="cpf" className='text-sm mt-2'>
                 CPF/CNPJ
@@ -154,15 +191,16 @@ const Modals = () => {
             </div>
             <div className="">
 
-              <label htmlFor="estado" className='text-sm mt-2' >
+              <label htmlFor="Produto" className='text-sm mt-2' >
                 UF
               </label>
 
               <div className="mt-2">
                 <select
-                  name="estado"
-                  id="estado"
-                  autoComplete="estado"
+                  type="text"
+                  name="status-pedido"
+                  id="status-pedido"
+                  autoComplete="status"
                   className="py-1.5 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
                 >
                   <option></option>
@@ -199,34 +237,34 @@ const Modals = () => {
 
             </div>
             <div className="">
-              <label htmlFor="cidade" className='text-sm mt-2'>
+              <label htmlFor="Produto" className='text-sm mt-2'>
                 Cidade
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
                 </div>
                 <input
-                  id="cidade"
-                  name="cidade"
+                  id="search"
+                  name="search"
                   className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Digite aqui"
-                  type="text"
+                  type="search"
                 />
               </div>
             </div>
             <div className="">
-              <label htmlFor="bairro" className='text-sm mt-2'>
+              <label htmlFor="Produto" className='text-sm mt-2'>
                 Bairro
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
                 </div>
                 <input
-                  id="bairro"
-                  name="bairro"
+                  id="search"
+                  name="search"
                   className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Digite aqui"
-                  type="text"
+                  type="search"
                 />
               </div>
             </div>

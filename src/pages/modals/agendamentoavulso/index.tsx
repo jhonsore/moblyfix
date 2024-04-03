@@ -30,11 +30,11 @@ const Modals = () => {
           </div>
           <div className=''>
             <h1 className="font-bold text-xl ">
-              Dados do cliente
+              Agendamento avulso
             </h1>
           </div>
 
-          <div className="flex justify-between items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+          <div className="flex justify-between items-center pt-4 pb- md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <div className=" flex-1">
               <label htmlFor="text" className='text-sm mt-2'>
                 Cliente
@@ -53,7 +53,10 @@ const Modals = () => {
             </div>
           </div>
 
-          <div className='grid grid-cols-3 gap-4'>
+
+
+
+          <div className='grid grid-cols-3 gap-4 mt-4'>
             <div className="">
               <label htmlFor="cpf" className='text-sm mt-2'>
                 CPF/CNPJ
@@ -105,6 +108,94 @@ const Modals = () => {
               </div>
             </div>
             <div className="">
+              <label htmlFor="text" className='text-sm mt-2'>
+                Produto
+              </label>
+              <div className="relative mt-2">
+                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                </div>
+                <input
+                  id="text"
+                  name="text"
+                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Digite aqui"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div className="">
+              <label htmlFor="date" className='text-sm mt-2'>
+                Data
+              </label>
+              <div className="relative mt-2">
+                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                </div>
+                <input
+                  id="date"
+                  name="data"
+                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+
+                  type="date"
+                />
+              </div>
+            </div>
+            <div className="">
+              <label htmlFor="time" className='text-sm mt-2'>
+                Horário
+              </label>
+              <div className="relative mt-2">
+                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                </div>
+                <input
+                  id="time"
+                  name="hora"
+                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="(xx) xxxxx-xxxx"
+                  type="time"
+                />
+              </div>
+            </div>
+          </div>
+         
+          <div className="flex mt-6 mr-20">
+            <div className="flex items-center h-5">
+              <input
+                id="comments"
+                aria-describedby="comments-description"
+                name="comments"
+                type="checkbox"
+                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label htmlFor="comments" className="font-medium text-gray-700">
+                Garantia
+              </label>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mt-6">
+            Relato do problema
+            </label>
+            <div className="mt-2">
+              <textarea
+                placeholder='Digite a mensagem'
+                rows={4}
+                name="comment"
+                id="comment"
+                className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                defaultValue={''}
+              />
+            </div>
+          </div>
+          <div className='py-6'>
+            <a className='block text-right text-indigo-600' href="">Ver menos dados</a>
+          </div>
+          <div className='grid grid-cols-3 gap-4'>
+            
+            
+            
+            <div className="">
               <label htmlFor="tel" className='text-sm mt-2'>
                 Contato 1
               </label>
@@ -154,15 +245,16 @@ const Modals = () => {
             </div>
             <div className="">
 
-              <label htmlFor="estado" className='text-sm mt-2' >
+              <label htmlFor="Produto" className='text-sm mt-2' >
                 UF
               </label>
 
               <div className="mt-2">
                 <select
-                  name="estado"
-                  id="estado"
-                  autoComplete="estado"
+                  type="text"
+                  name="status-pedido"
+                  id="status-pedido"
+                  autoComplete="status"
                   className="py-1.5 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
                 >
                   <option></option>
@@ -210,7 +302,7 @@ const Modals = () => {
                   name="cidade"
                   className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Digite aqui"
-                  type="text"
+                  type="cidade"
                 />
               </div>
             </div>
@@ -226,12 +318,12 @@ const Modals = () => {
                   name="bairro"
                   className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Digite aqui"
-                  type="text"
+                  type="bairro"
                 />
               </div>
             </div>
+            
           </div>
-
           <div className=" flex-1 mt-4">
             <label htmlFor="text" className='text-sm mt-2'>
               Endereço
@@ -304,17 +396,11 @@ const Modals = () => {
           <div className='py-6 flex justify-end'>
             <button
               type="button"
-              className=" inline-flex items-center px-8 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#3c4fe05e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
+              className=" inline-flex items-center px-10 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#3C50E0] hover:bg-[#3c4fe05e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3C50E0]"
             >
               Salvar
             </button>
           </div>
-
-
-
-
-
-
         </div>
       </div>
     </div>

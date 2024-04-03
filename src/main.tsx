@@ -29,6 +29,18 @@ import Reabrir from './pages/reabrir';
 import Relatofinalizacaoservico from './pages/modals/relatofinalizacaoservico';
 import Motivoreaberturaservico from './pages/modals/motivoreaberturaservico';
 import Finalizarvenda from './pages/modals/finalizarvenda';
+import Clientes from './pages/clientes';
+import Usuarios from './pages/usuarios';
+import Lojas from './pages/lojas';
+import Pecasservicos from './pages/pecasservicos';
+import Condicoesdeservicos from './pages/condicoesdeservicos';
+import Dadosdousuario from './pages/modals/dadosdousuario';
+import Dadosdaloja from './pages/modals/dadosdaloja';
+import Dadosdalojapecas from './pages/modals/dadosdalojapecas';
+import Condicoes from './pages/modals/condicoes';
+import Agendamentos from './pages/Agendamentos';
+import Agendamentoavulso from './pages/modals/agendamentoavulso';
+
 
 const router = createBrowserRouter([
   {
@@ -83,6 +95,26 @@ const router = createBrowserRouter([
     path: "/modals/finalizarvenda",
     element: <Finalizarvenda />
   },
+  {
+    path: "/modals/dadosdousuario",
+    element: <Dadosdousuario />
+  },
+  {
+    path: "/modals/dadosdaloja",
+    element: <Dadosdaloja />
+  },
+  {
+    path: "/modals/dadosdalojapecas",
+    element: <Dadosdalojapecas />
+  },
+  {
+    path: "/modals/condicoes",
+    element: <Condicoes />
+  },
+  {
+    path: "/modals/agendamentoavulso",
+    element: <Agendamentoavulso />
+  },
 
   
   {
@@ -116,6 +148,30 @@ const router = createBrowserRouter([
   {
     path: "/reabrir",
     element: <Reabrir />
+  },
+  {
+    path: "/clientes",
+    element: <Clientes />
+  },
+  {
+    path: "/usuarios",
+    element: <Usuarios />
+  },
+  {
+    path: "/lojas",
+    element: <Lojas />
+  },
+  {
+    path: "/pecasservicos",
+    element: <Pecasservicos />
+  },
+  {
+    path: "/condicoesdeservicos",
+    element: <Condicoesdeservicos />
+  },
+  {
+    path: "/agendamentos",
+    element: <Agendamentos />
   },
   
  

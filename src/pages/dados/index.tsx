@@ -275,7 +275,7 @@ export default function Example() {
                     <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-8">
                       <a
                         href="#"
-                        className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                        className="inline-flex items-center px-6 py-2  text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                       >
                         Salvar
                       </a>
