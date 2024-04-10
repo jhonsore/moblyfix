@@ -35,6 +35,13 @@ const transactions = [
   // More transactions...
 ]
 
+const tabs = [
+  { name: 'Dados da OS', href: '#', current: false },
+  { name: 'Anexos', href: '#', current: true },
+  { name: 'Acompanhamento', href: '#', current: false },
+
+]
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -187,19 +194,7 @@ export default function Example() {
           </div>
           <main className='bg-[#F1F5F9]'>
             <div className='flex justify-end mt-5 mr-8'>
-              <div className="flex">
-                <label htmlFor="Produto" className='text-sm mt-2'>
-                  Aberto em:
-                </label>
-                <div className="mr-6">
-                  <input
-                    id="date"
-                    name="data-inicio"
-                    className="block w-full bg-[#F1F5F9]  py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400   sm:text-sm"
-                    type="date"
-                  />
-                </div>
-              </div>
+
               <button
                 type="button"
                 className="relative inline-flex items-center px-6 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#EFF4FB] bg-[#F9983A] hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -209,31 +204,51 @@ export default function Example() {
             </div>
             <div className=" px-4 sm:px-6 lg:px-8">
               <div className=" mx-auto bg-white mt-6 pb-40">
+
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div>
-                    <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                      <div className='border-b border-[#EFF4FB] pt-6 flex justify-between'>
-                        <div className='flex gap-2'>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Dados da OS
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Anexos
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-gray-500 bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Acompanhamento
-                          </button>
-                        </div>
-                        <div className='flex gap-3 text-gray-500'>
+                  <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6 pt-4">
+                    <div className='border-b'>
+                      <div className="sm:hidden">
+                        <label htmlFor="tabs" className="sr-only">
+                          Select a tab
+                        </label>
+                        <select
+                          id="tabs"
+                          name="tabs"
+                          className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                          defaultValue={tabs.find((tab) => tab.current).name}
+                        >
+                          {tabs.map((tab) => (
+                            <option key={tab.name}>{tab.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex justify-between">
+                        <nav className="flex-1 flex max-w-lg" aria-label="Tabs">
+                          {tabs.map((tab, tabIdx) => (
+                            <a
+                              key={tab.name}
+                              href={tab.href}
+                              className={classNames(
+                                tab.current ? ' bg-blue-600 text-white hover:text-blue-600 border-x mx-2 rounded-t-lg' : 'text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
+                                tabIdx === 0 ? '' : '',
+                                tabIdx === tabs.length - 1 ? 'rounded-t-lg' : '',
+                                'group relative min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'
+                              )}
+                              aria-current={tab.current ? 'page' : undefined}
+                            >
+                              <span>{tab.name}</span>
+                              <span
+                                aria-hidden="true"
+                                className={classNames(
+                                  tab.current ? 'bg-indigo-500' : 'bg-transparent',
+                                  'absolute inset-x-0 bottom-0 h-0.5'
+                                )}
+                              />
+                            </a>
+                          ))}
+                        </nav>
+                        <div className='flex gap-3 text-gray-500 text-right'>
                           <button>
                             <span className="material-symbols-outlined hover:text-blue-500">
                               attachment
@@ -257,6 +272,8 @@ export default function Example() {
                       </div>
                     </div>
                   </div>
+
+
                   <div className="flex items-center py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0 mt-6 border-b border-gray-200">
                     <div className=" ">
                       <label htmlFor="Produto" className='text-sm mt-2'>
@@ -302,7 +319,7 @@ export default function Example() {
                       <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-8">
                         <a
                           href="#"
-                          className="inline-flex items-center px-6 py-2 border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
+                          className="inline-flex items-center px-6 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-300  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
                         >
                           Visualizar dados
                         </a>

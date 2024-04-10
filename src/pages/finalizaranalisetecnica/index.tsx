@@ -35,6 +35,13 @@ const transactions = [
   // More transactions...
 ]
 
+const tabs = [
+  { name: 'Dados da OS', href: '#', current: false },
+  { name: 'Anexos', href: '#', current: true },
+  { name: 'Acompanhamento', href: '#', current: false },
+
+]
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -245,66 +252,72 @@ export default function Example() {
             <div className=" px-4 sm:px-6 lg:px-8">
               <div className=" mx-auto bg-white mt-6 pb-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div>
-                    <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                      <div className='border-b border-[#EFF4FB] pt-6 flex justify-between'>
-                        <div className='flex gap-2'>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white active-page focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6 pt-4">
+                      <div className='border-b'>
+                        <div className="sm:hidden">
+                          <label htmlFor="tabs" className="sr-only">
+                            Select a tab
+                          </label>
+                          <select
+                            id="tabs"
+                            name="tabs"
+                            className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                            defaultValue={tabs.find((tab) => tab.current).name}
                           >
-                            Dados da OS
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-10 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Anexos
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Relatos técnicos
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Peças/Serviços
-                          </button>
-                          <button
-                            type="button"
-                            className="relative inline-flex items-center px-6 py-2 border border-[#EFF4FB] shadow-sm text-sm font-medium rounded-md text-[#64748B] bg-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Acompanhamento
-                          </button>
-                          
+                            {tabs.map((tab) => (
+                              <option key={tab.name}>{tab.name}</option>
+                            ))}
+                          </select>
                         </div>
-                        <div className='flex gap-3 text-[#64748B]'>
-                          <button>
-                            <span className="material-symbols-outlined hover:text-blue-500">
-                              attachment
-                            </span>
-                          </button>
-                          <button>
-                            <span className="material-symbols-outlined hover:text-blue-500">
-                              mail
-                            </span>
-                          </button>
-                          <button>
-                            <span className="material-symbols-outlined hover:text-blue-500">
-                              print
-                            </span>
-                          </button>
-                          <button>
-                            <span className='img-whts inline-block '>
-                            </span>
-                          </button>
+                        <div className="flex justify-between">
+                          <nav className="flex-1 flex max-w-lg" aria-label="Tabs">
+                            {tabs.map((tab, tabIdx) => (
+                              <a
+                                key={tab.name}
+                                href={tab.href}
+                                className={classNames(
+                                  tab.current ? ' bg-blue-600 text-white hover:text-blue-600 border-x mx-2 rounded-t-lg' : 'text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
+                                  tabIdx === 0 ? '' : '',
+                                  tabIdx === tabs.length - 1 ? 'rounded-t-lg' : '',
+                                  'group relative min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'
+                                )}
+                                aria-current={tab.current ? 'page' : undefined}
+                              >
+                                <span>{tab.name}</span>
+                                <span
+                                  aria-hidden="true"
+                                  className={classNames(
+                                    tab.current ? 'bg-indigo-500' : 'bg-transparent',
+                                    'absolute inset-x-0 bottom-0 h-0.5'
+                                  )}
+                                />
+                              </a>
+                            ))}
+                          </nav>
+                          <div className='flex gap-3 text-gray-500 text-right'>
+                            <button>
+                              <span className="material-symbols-outlined hover:text-blue-500">
+                                attachment
+                              </span>
+                            </button>
+                            <button>
+                              <span className="material-symbols-outlined hover:text-blue-500">
+                                mail
+                              </span>
+                            </button>
+                            <button>
+                              <span className="material-symbols-outlined hover:text-blue-500">
+                                print
+                              </span>
+                            </button>
+                            <button>
+                              <span className='img-whts inline-block '>
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

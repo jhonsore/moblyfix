@@ -40,6 +40,7 @@ import Dadosdalojapecas from './pages/modals/dadosdalojapecas';
 import Condicoes from './pages/modals/condicoes';
 import Agendamentos from './pages/Agendamentos';
 import Agendamentoavulso from './pages/modals/agendamentoavulso';
+import Acompanhamento2 from './pages/acompanhamento2';
 
 
 const router = createBrowserRouter([
@@ -133,6 +134,7 @@ const router = createBrowserRouter([
     path: "/acompanhamento",
     element: <Acompanhamento />
   },
+ 
   {
     path: "/finalizaranalisetecnica",
     element: <Finalizaranalisetecnica />
