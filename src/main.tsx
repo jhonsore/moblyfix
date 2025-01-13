@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter,
+  createBrowserRouter
 } from "react-router-dom";
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
@@ -39,8 +39,12 @@ import Dadosdalojapecas from './pages/modals/dadosdalojapecas';
 import Condicoes from './pages/modals/condicoes';
 import Agendamentos from './pages/Agendamentos';
 import Agendamentoavulso from './pages/modals/agendamentoavulso';
+import { FirebaseProvider } from './providers/firebase/FirebaseProvider';
+import App from './routes';
+import { AuthProvider } from './providers/auth/AuthProvider';
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const router = createBrowserRouter([
   {
     path: "/",
@@ -115,7 +119,7 @@ const router = createBrowserRouter([
     element: <Agendamentoavulso />
   },
 
-  
+
   {
     path: "/novaos",
     element: <Novaos />
@@ -132,7 +136,7 @@ const router = createBrowserRouter([
     path: "/acompanhamento",
     element: <Acompanhamento />
   },
- 
+
   {
     path: "/finalizaranalisetecnica",
     element: <Finalizaranalisetecnica />
@@ -173,12 +177,17 @@ const router = createBrowserRouter([
     path: "/agendamentos",
     element: <Agendamentos />
   },
-  
- 
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <FirebaseProvider>
+        {/* <RouterProvider router={router} /> */}
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </FirebaseProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
