@@ -19,7 +19,6 @@ import Acompanhamento from './pages/acompanhamento';
 import Atendimentoiniciado from './pages/modals/atendimentoiniciado';
 import Enviarwhatsapp from './pages/modals/enviarwhatsapp';
 import Relatotecnico from './pages/modals/relatotecnico';
-import Ematendimento from './pages/finalizaranalisetecnica';
 import Pecaservico from './pages/modals/pecaservico';
 import Adicionarpecaservico from './pages/modals/adicionarpecaservico';
 import Finalizaranalisetecnica from './pages/finalizaranalisetecnica';
@@ -40,7 +39,6 @@ import Dadosdalojapecas from './pages/modals/dadosdalojapecas';
 import Condicoes from './pages/modals/condicoes';
 import Agendamentos from './pages/Agendamentos';
 import Agendamentoavulso from './pages/modals/agendamentoavulso';
-import Acompanhamento2 from './pages/acompanhamento2';
 
 
 const router = createBrowserRouter([
