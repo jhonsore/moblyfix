@@ -20,7 +20,7 @@ const Modals = () => {
     <div className=" h-svh flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9]">
 
       <div className=" sm:mx-auto sm:w-full sm:max-w-3xl mt-7">
-        <div className="bg-white  shadow sm:rounded-lg px-6 py-4">
+        <div className="bg-white  shadow sm:rounded-lg px-6 py-4 mx-4">
           <div className='flex justify-end'>
             <button
               type="button"
@@ -68,7 +68,7 @@ const Modals = () => {
               />
             </div>
           </div>
-          <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4 mt-8 pb-4">
+          <div className="flex justify-end mt-8 pb-4">
             <a
               href="#"
               className=" inline-flex items-center justify-center py-2 px-14 text-sm font-medium rounded-md text-white bg-indigo-600 border border-indigo-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 shadow-sm hover:bg-indigo-200"

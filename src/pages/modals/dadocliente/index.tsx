@@ -8,16 +8,11 @@ import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 
 const Modals = () => {
 
-
-
-
   return <div>
-
-
 
     <div className=" flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9] py-8">
       <div className=" sm:mx-auto sm:w-full sm:max-w-4xl">
-        <div className="bg-white  shadow sm:rounded-lg px-4 py-2">
+        <div className="bg-white  shadow sm:rounded-lg px-4 py-2 mx-4">
           <div className='flex justify-end'>
             <button
               type="button"
@@ -53,7 +48,7 @@ const Modals = () => {
             </div>
           </div>
 
-          <div className='grid grid-cols-3 gap-4'>
+          <div className='w-full grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3 '>
             <div className="">
               <label htmlFor="cpf" className='text-sm mt-2'>
                 CPF/CNPJ
@@ -249,8 +244,8 @@ const Modals = () => {
             </div>
           </div>
 
-          <div className='flex gap-2'>
-            <div className=" mt-4 w-2/6">
+          <div className='grid grid-cols-4 gap-4 max-[639px]:grid-cols-2'>
+            <div className=" mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 CEP
               </label>
@@ -268,7 +263,7 @@ const Modals = () => {
                 />
               </div>
             </div>
-            <div className=" w-1/5 mt-4">
+            <div className=" mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 Nº
               </label>
@@ -284,7 +279,7 @@ const Modals = () => {
                 />
               </div>
             </div>
-            <div className=" flex-1 mt-4">
+            <div className="col-span-2 mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 Complemento
               </label>

@@ -189,7 +189,7 @@ export default function Example() {
             </div>
           </div>
 
-          <main className='bg-[#F1F5F9] '>
+          <main className='bg-[#F1F5F9] mx-2'>
             <div className="flex justify-betwee px-8">
               <div className=" flex-1">
                 <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">

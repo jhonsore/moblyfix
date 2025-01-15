@@ -192,13 +192,13 @@ export default function Example() {
                       </select>
                     </div>
                     <div className="flex justify-between">
-                      <nav className="flex-1 flex max-w-lg" aria-label="Tabs">
+                      <nav className="flex-1 flex max-w-lg gap-2" aria-label="Tabs">
                         {tabs.map((tab, tabIdx) => (
                           <a
                             key={tab.name}
                             href={tab.href}
                             className={classNames(
-                              tab.current ? ' bg-blue-600 text-white hover:text-blue-600 border-x mx-2 rounded-t-lg' : 'text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
+                              tab.current ? ' active-page max-[639px]:text-xs text-white hover:text-blue-600 border-x rounded-t-lg' : 'max-[639px]:text-xs text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
                               tabIdx === 0 ? '' : '',
                               tabIdx === tabs.length - 1 ? 'rounded-t-lg' : '',
                               'group relative min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'

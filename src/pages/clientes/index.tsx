@@ -49,14 +49,7 @@ export default function Example() {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+      
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -165,7 +158,7 @@ export default function Example() {
         </div>
         <div className="md:pl-64 flex flex-col flex-1">
           <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-            <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+            <div className=" flex items-center justify-between flex-wrap sm:flex-nowrap">
               <div className="ml-4 mt-2">
                 <h3 className="text-lg leading-6 font-bold text-black">Clientes</h3>
               </div>
@@ -182,7 +175,7 @@ export default function Example() {
 
           <main className='bg-[#F1F5F9] '>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between ">
+              <div className="flex justify-between gap-4 items-center">
 
                 <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
                   <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
@@ -197,7 +190,7 @@ export default function Example() {
                         <input
                           id="search"
                           name="search"
-                          className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
+                          className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base "
                           placeholder="Digite o nome do cliente"
                           type="search"
                         />
@@ -206,10 +199,10 @@ export default function Example() {
                   </div>
                 </div>
 
-                <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end ">
+                <div className="ml-4 lg:flex lg:items-center lg:justify-end sm:mt-4 max-[639px]:mt-4">
                   <a
                     href="#"
-                    className="inline-flex items-center px-6 py-2 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex  items-center px-6 py-2 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
                   >
                     Busca avançada
                   </a>

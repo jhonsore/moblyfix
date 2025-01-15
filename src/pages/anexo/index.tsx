@@ -117,7 +117,7 @@ export default function Example() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600',
+                          item.current ? 'bg-indigo-500  text-white' : 'text-indigo-100 hover:bg-indigo-600',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
@@ -189,14 +189,14 @@ export default function Example() {
                               ))}
                             </select>
                           </div>
-                          <div className="flex justify-between">
+                          <div className="flex justify-betwee max-[639px]:block ">
                             <nav className="flex-1 flex max-w-lg" aria-label="Tabs">
                               {tabs.map((tab, tabIdx) => (
                                 <a
                                   key={tab.name}
                                   href={tab.href}
                                   className={classNames(
-                                    tab.current ? 'text-white bg-blue-600 hover:text-blue-600  border-x mx-2 rounded-t-lg' : 'text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
+                                    tab.current ? 'text-white active-page bg-blue-600 hover:text-blue-600  border-x mx-2 rounded-t-lg' : 'text-gray-500 hover:text-gray-700 border-x rounded-t-lg border-t',
                                     tabIdx === 0 ? '' : '',
                                     tabIdx === tabs.length - 1 ? 'rounded-t-lg' : '',
                                     'group relative min-w-0 flex-1 overflow-hidden bg-white py-3 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'
@@ -215,7 +215,7 @@ export default function Example() {
                               ))}
 
                             </nav>
-                            <div className='flex gap-3 text-gray-500 text-right'>
+                            <div className='flex gap-3 text-gray-500 text-right max-[639px]:mt-6'>
                               <button>
                                 <span className="material-symbols-outlined hover:text-blue-500">
                                   attachment

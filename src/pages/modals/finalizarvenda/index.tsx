@@ -34,7 +34,7 @@ const Modals = () => {
     <div className=" flex flex-col justify-center sm:px-6 lg:px-8 pb-14 bg-[#F1F5F9]">
 
       <div className=" sm:mx-auto sm:w-full sm:max-w-4xl mt-7">
-        <div className="bg-white sm:rounded-lg">
+        <div className="bg-white sm:rounded-lg mx-4 max-[639px]:rounded-lg">
           <div className='flex items-center shadow-md border-b border-transparent sw'>
             <h1 className="font-bold text-base m-auto pt-4 pb-2">
               Finalizar venda
@@ -162,13 +162,13 @@ const Modals = () => {
             </div>
           </div>
 
-          <div className='px-6 pt-8'>
+          <div className='px-6 pt-8 sm:px-6 lg:px-8'>
             <div>
               <label className="text-sm font-medium text-gray-900">Selecione o método de pagamento</label>
 
               <fieldset className="mt-2">
                 <legend className="sr-only">pagamento</legend>
-                <div className="space-y-4 sm:flex gap-32 sm:items-center sm:space-y-0 sm:space-x-10">
+                <div className="space-y-4 sm:flex gap-32 sm:gap-20 sm:items-center sm:space-y-0 sm:space-x-10">
                   {notificationMethods.map((notificationMethod) => (
                     <div key={notificationMethod.id} className="flex items-center">
                       <input
@@ -187,13 +187,13 @@ const Modals = () => {
               </fieldset>
             </div>
 
-            <div className='mt-6'>
+            <div className='mt-6 sm:px-6 lg:px-8'>
               <fieldset>
                 <label className="text-sm font-medium text-gray-900">Selecione o tipo de desconto</label>
-                <div className="space-y-4 sm:flex gap-32 sm:items-center sm:space-y-0 sm:space-x-10 mt-2">
+                <div className="space-y-4 sm:flex gap-32 sm:items-center sm:space-y-0 sm:space-x-10 mt-2  ">
                   {sides.map((side, sideIdx) => (
                     <div key={sideIdx} className="flex items-center">
-                      <div className="min-w-0 flex-1 text-sm">
+                      <div className="min-w-0 flex-1 max-[639px]:flex-none text-sm">
                       </div>
                       <div className="ml-3 flex items-center h-5">
                         <input

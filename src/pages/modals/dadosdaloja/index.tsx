@@ -17,11 +17,11 @@ const Modals = () => {
 
     <div className=" flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9] py-8">
       <div className=" sm:mx-auto sm:w-full sm:max-w-4xl">
-        <div className="bg-white  shadow sm:rounded-lg px-4 py-2">
+        <div className="bg-white  shadow sm:rounded-lg px-4 py-2 mx-4">
           <div className='flex justify-end'>
             <button
               type="button"
-              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
+              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  "
               onClick={() => setOpen(false)}
             >
               <span className="sr-only">Close</span>
@@ -30,7 +30,7 @@ const Modals = () => {
           </div>
           <div className=''>
             <h1 className="font-bold text-xl ">
-              Dados do usuário
+            Dados da loja
             </h1>
           </div>
 
@@ -53,10 +53,13 @@ const Modals = () => {
             </div>
           </div>
           
-          <div className='grid grid-cols-3 gap-4 mt-4'>
+          
+
+
+          <div className='grid grid-cols-3 gap-4 max-[639px]:grid-cols-1 mt-4'>
             <div className="">
-              <label htmlFor="cpf" className='text-sm mt-2'>
-                Usuário
+              <label htmlFor="CNPJ" className='text-sm mt-2'>
+              CNPJ
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -64,45 +67,8 @@ const Modals = () => {
                 <input
                   type="text"
                   pattern="d{3}\.\d{3}\.\d{3}-\d{2}"
-                  id="cpf"
-                  name="cpf"
-                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Digite aqui"
-                />
-              </div>
-            </div>
-            <div className="">
-              <label htmlFor="email" className='text-sm mt-2'>
-                Senha
-              </label>
-              <div className="relative mt-2">
-                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Digite aqui"
-                  type="email"
-                />
-              </div>
-            </div>
-          </div>
-
-
-          <div className='grid grid-cols-3 gap-4 mt-4'>
-            <div className="">
-              <label htmlFor="cpf" className='text-sm mt-2'>
-                CPF/CNPJ
-              </label>
-              <div className="relative mt-2">
-                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                </div>
-                <input
-                  type="text"
-                  pattern="d{3}\.\d{3}\.\d{3}-\d{2}"
-                  id="cpf"
-                  name="cpf"
+                  id="CNPJ"
+                  name="CNPJ"
                   className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="xxx.xxx.xxx-xx"
 
@@ -287,13 +253,13 @@ const Modals = () => {
             </div>
           </div>
 
-          <div className='flex gap-2'>
-            <div className=" mt-4 w-2/6">
+          <div className='grid grid-cols-4 gap-4 max-[639px]:grid-cols-1 max-[380px]:grid-cols-2'>
+            <div className=" mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 CEP
               </label>
               <div className="relative mt-2">
-                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                <div className="w-full pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
                 </div>
 
                 <input
@@ -306,7 +272,7 @@ const Modals = () => {
                 />
               </div>
             </div>
-            <div className=" w-1/5 mt-4">
+            <div className=" mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 Nº
               </label>
@@ -322,7 +288,7 @@ const Modals = () => {
                 />
               </div>
             </div>
-            <div className=" flex-1 mt-4">
+            <div className=" col-span-2 mt-4">
               <label htmlFor="text" className='text-sm mt-2'>
                 Complemento
               </label>

@@ -20,7 +20,7 @@ const Modals = () => {
     <div className=" h-svh flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9]">
 
       <div className=" sm:mx-auto sm:w-full sm:max-w-3xl mt-7">
-        <div className="bg-white  shadow sm:rounded-lg px-6 py-4">
+        <div className="bg-white  shadow sm:rounded-lg px-6 py-4 mx-4 max-[639px]:rounded-lg ">
           <div className='flex justify-end'>
             <button
               type="button"
@@ -32,15 +32,13 @@ const Modals = () => {
             </button>
           </div>
           <div>
-
-            <h1 className="font-bold text-2xl ">
-            Motivo de reabertura de serviço
+            <h1 className="font-bold text-2xl max-[380px]:text-base">
+              Motivo de reabertura de serviço
             </h1>
           </div>
-          
           <div>
             <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mt-4">
-            Motivo
+              Motivo
             </label>
             <div className="mt-2">
               <textarea

@@ -64,7 +64,7 @@ const Modals = () => {
               </a>
             </div>
           </div>
-          <div className='bg-[#F5F5F5] mt-4  rounded-lg p-6'>
+          <div className='bg-[#F5F5F5] mt-4  rounded-lg p-6 '>
 
             <label htmlFor="text" className='text-sm mt-2'>
               Peça/serviço
@@ -80,7 +80,7 @@ const Modals = () => {
                 type="text"
               />
             </div>
-            <div className='flex justify-between mt-4'>
+            <div className=' grid grid-cols-2 gap-4 mt-4 max-[380px]:grid-cols-1'>
               <div>
                 <label htmlFor="text" className='text-sm mt-2'>
                   Venda à vista
@@ -91,7 +91,7 @@ const Modals = () => {
                   <input
                     id="text"
                     name="text"
-                    className="block w-80 bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Digite aqui"
                     type="text"
                   />
@@ -107,7 +107,7 @@ const Modals = () => {
                   <input
                     id="text"
                     name="text"
-                    className="block w-80 bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full  bg-white border border-gray-300 rounded-md py-2 pl-4 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Digite aqui"
                     type="text"
                   />

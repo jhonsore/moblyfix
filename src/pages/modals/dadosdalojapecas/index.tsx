@@ -15,9 +15,9 @@ const Modals = () => {
 
 
 
-    <div className=" flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9] py-8">
+    <div className=" flex flex-col justify-center sm:px-6 lg:px-8 bg-[#F1F5F9] py-8 h-svh">
       <div className=" sm:mx-auto sm:w-full sm:max-w-4xl">
-        <div className="bg-white  shadow sm:rounded-lg px-4 py-2">
+        <div className="bg-white  shadow sm:rounded-lg px-4 py-2 mx-4">
           <div className='flex justify-end'>
             <button
               type="button"
@@ -37,7 +37,7 @@ const Modals = () => {
           <div className="flex justify-between items-center py-2 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <div className=" flex-1">
               <label htmlFor="text" className='text-sm mt-2'>
-              Peça/serviço
+                Peça/serviço
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -52,17 +52,10 @@ const Modals = () => {
               </div>
             </div>
           </div>
-          
-          
-
-
           <div className='grid grid-cols-3 gap-4 mt-4'>
-            
-            
-            
             <div className="">
               <label htmlFor="text" className='text-sm mt-2'>
-              Preço de custo
+                Preço de custo
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -78,7 +71,7 @@ const Modals = () => {
             </div>
             <div className="">
               <label htmlFor="text" className='text-sm mt-2'>
-              Venda à vista
+                Venda à vista
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -94,7 +87,7 @@ const Modals = () => {
             </div>
             <div className="">
               <label htmlFor="text" className='text-sm mt-2'>
-              Venda à prazo
+                Venda à prazo
               </label>
               <div className="relative mt-2">
                 <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -108,14 +101,14 @@ const Modals = () => {
                 />
               </div>
             </div>
-            
-            
-            
+
+
+
           </div>
 
-          
 
-          
+
+
           <div className='py-6 flex justify-end'>
             <button
               type="button"

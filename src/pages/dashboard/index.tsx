@@ -54,6 +54,9 @@ function classNames(...classes: string[]) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+
+  // primeira pagina contem os dois primeiros layout
+
   return (
     <>
       {/*
