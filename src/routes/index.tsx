@@ -1,19 +1,26 @@
 import { Route, Routes } from "react-router"
 import Login from "./login"
-import Clientes from "./clientes"
 import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
 import { lazy } from "react"
+import Teste from '../pages/novaos'
 
 const Agendamentos = lazy(() => import('./agendamentos'))
+const Dashboard = lazy(() => import('./dashboard'))
+const Clientes = lazy(() => import('./clientes'))
+const OrdensServicos = lazy(() => import('./os'))
 
 const App = () => {
     return <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="dashboard" element={<Layout />}>
-            <Route path="agendamentos" element={<RequireAuth><Agendamentos /></RequireAuth>} />
-            <Route path="clientes" element={<RequireAuth><Clientes /></RequireAuth>} />
+        <Route path="dashboard" element={<RequireAuth><Layout /></RequireAuth>}>
+            <Route index element={<Dashboard />} />
+            <Route path="agendamentos" element={<Agendamentos />} />
+            <Route path="clientes" element={<Clientes />} />
+            <Route path="ordens-servico" element={<OrdensServicos />} />
+
         </Route>
+        <Route path="teste" element={<Teste />} />
     </Routes>
 }
 export default App

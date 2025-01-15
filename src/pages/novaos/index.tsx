@@ -54,7 +54,7 @@ export default function Example() {
 
   return (
     <>
-      
+
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -353,7 +353,7 @@ export default function Example() {
                     </div>
                     <div className="   mt-8">
                       <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mt-4">
-                      Assinatura do cliente
+                        Assinatura do cliente
                       </label>
                       <div className='inline-flex mt-2'>
                         <a
@@ -398,14 +398,14 @@ export default function Example() {
                           </button>
                         </div>
                         <div className='relative bg-img-add w-32 h-32'>
-                        <button>
+                          <button>
                             <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
                               delete
                             </span>
                           </button>
                         </div>
                         <div className='relative bg-img-add w-32 h-32'>
-                        <button>
+                          <button>
                             <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
                               delete
                             </span>
