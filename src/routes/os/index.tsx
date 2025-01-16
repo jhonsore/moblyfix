@@ -1,8 +1,20 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "../../components/ui/button"
-import { MagnifyingGlassIcon as SearchIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { useForm } from "react-hook-form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
+import { Input } from "../../components/ui/input"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
+import { CalendarIcon, Mail } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 const transactions = [
   {
     id: '1234567',
@@ -22,129 +34,154 @@ const transactions = [
 ]
 
 const OrdensServicos = () => {
+  const form = useForm()
+  const [date, setDate] = useState<Date>()
   return <>
     <HeaderPage title="Ordens de Serviços">
       <Button>Nova OS</Button>
     </HeaderPage>
     <PageContent>
 
-      <div>
-        <div className="flex justify-betwee">
 
-          <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-            <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
-              <div className="w-full">
-                <label htmlFor="search" className="sr-only">
-                  Search
-                </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                  </div>
-                  <input
-                    id="search"
-                    name="search"
-                    className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
-                    placeholder="Digite o nome do cliente"
-                    type="search"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end ">
-            <a
-              href="#"
-              className="inline-flex items-center px-6 py-2 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-blue-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Busca avançada
-            </a>
+      <div className="flex justify-betwee items-center pt-6">
+        <Form {...form}>
+          <form onSubmit={() => { }} className=" flex-1 pr-4">
+            <FormField
+              control={form.control}
+              name="search"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Digite o nome do cliente" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+        <Button variant={"outlinePrimary"}>Busca avançada</Button>
+      </div>
+      <div className=" py-4">
+        <Form {...form}>
+          <form onSubmit={() => { }} className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+            <FormField
+              control={form.control}
+              name="CPF"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Digite aqui seu CPF" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nº da OS</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Numero da OS" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+        <Form {...form}>
+          <form onSubmit={() => { }} className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+          <Popover>
+            <PopoverTrigger asChild>
+                <Button
+                    variant={"outline"}
+                    className={cn(
+                        "w-[240px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                    )}
+                >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+            <FormField
+              control={form.control}
+              name="number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nº da OS</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Numero da OS" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+        
+        <div>
+          <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+            Data de início
+          </label>
+          <div className="mt-2">
+            <input
+              type="date"
+              name="início"
+              id="date"
+              autoComplete="data"
+              className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+            />
           </div>
         </div>
-      </div>
-      <div >
-        <div >
-          <div className=" py-4">
-            <form action="#" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-              <div>
-                <label htmlFor="cpf" className="block text-sm font-medium text-gray-700 ">
-                  CPF/CNPJ
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="cpf"
-                    id="cpf"
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="OS" className="block text-sm font-medium text-gray-700">
-                  Nº da OS
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="OS"
-                    id="OS"
-
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="date" className="block text-sm font-medium text-gray-700">
-                  Data de início
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="date"
-                    name="início"
-                    id="date"
-                    autoComplete="data"
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="status-pedido" className="block text-sm font-medium text-gray-700">
-                  Status do pedido
-                </label>
-                <div className="mt-2">
-                  <select
-                    name="status-pedido"
-                    id="status-pedido"
-                    autoComplete="status"
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                  >
-                    <option></option>
-                    <option>Recebido</option>
-                    <option>Em Reparo</option>
-                    <option>finalizado</option>
-                    <option>Entregue</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-            <div className='flex gap-4 justify-end pt-3'>
-              <div className="">
-                <a
-                  href="#"
-                  className="ml-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-500 hover:bg-indigo-500 hover:text-white"
-                >
-                  Fechar
-                </a>
-              </div>
-              <div className="">
-                <button
-                  type="button"
-                  className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-white hover:text-indigo-500 hover:border-indigo-600  "
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
+        <div>
+          <label htmlFor="status-pedido" className="block text-sm font-medium text-gray-700">
+            Status do pedido
+          </label>
+          <div className="mt-2">
+            <select
+              name="status-pedido"
+              id="status-pedido"
+              autoComplete="status"
+              className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+            >
+              <option></option>
+              <option>Recebido</option>
+              <option>Em Reparo</option>
+              <option>finalizado</option>
+              <option>Entregue</option>
+            </select>
+          </div>
+        </div>
+        <div className='flex gap-4 justify-end pt-3'>
+          <div>
+            <a
+              href="#"
+              className="ml-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-500 hover:bg-indigo-500 hover:text-white"
+            >
+              Fechar
+            </a>
+          </div>
+          <div >
+            <button
+              type="button"
+              className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-white hover:text-indigo-500 hover:border-indigo-600  "
+            >
+              Buscar
+            </button>
           </div>
         </div>
       </div>

@@ -15,8 +15,8 @@ const controller = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "jhonnatansr@gmail.com",
-      password: '123456789'
+      username: "user@moblyfix.com.br",
+      password: 'moblyfix'
     }
   })
 
