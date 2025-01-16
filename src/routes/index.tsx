@@ -4,6 +4,7 @@ import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
 import { lazy } from "react"
 import Teste from '../pages/novaos'
+import Components from './components'
 
 const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
@@ -21,6 +22,8 @@ const App = () => {
 
         </Route>
         <Route path="teste" element={<Teste />} />
+        <Route path="___components" element={<Components />} />
+
     </Routes>
 }
 export default App
