@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button"
 import { Badge } from "../../components/ui/badge"
 import { Checkbox } from "../../components/ui/checkbox"
 import { format } from "date-fns"
-import { CalendarIcon, Mail } from "lucide-react"
+import { CalendarIcon, Mail, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -56,6 +56,7 @@ const Components = () => {
         <h2 className="text-xl font-bold pt-20 pb-10">Inputs</h2>
         <Form {...form}>
             <form onSubmit={() => { }} className="space-y-4">
+
                 <FormField
                     control={form.control}
                     name="username"
