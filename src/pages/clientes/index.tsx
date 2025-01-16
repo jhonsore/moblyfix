@@ -140,7 +140,7 @@ export default function Example() {
             <div className="flex items-center flex-shrink-0 px-4">
               <img
                 className="h-8 w-auto"
-                src="./img/logo-dash.svg"
+                src="/img/logo-dash.svg"
                 alt="logo"
               />
             </div>

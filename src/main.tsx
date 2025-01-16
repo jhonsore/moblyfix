@@ -6,7 +6,8 @@ import './index.css'
 
 import {
   BrowserRouter,
-  createBrowserRouter
+  createBrowserRouter,
+  RouterProvider
 } from "react-router-dom";
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';

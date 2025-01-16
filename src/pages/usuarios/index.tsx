@@ -11,7 +11,7 @@ import {
   InboxIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
-import { Bars2Icon as MenuAlt2Icon, XMarkIcon as XIcon, MagnifyingGlassIcon as SearchIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon as XIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 
 const navigation = [
   { name: 'Ordens de serviço', href: '#', icon: InboxIcon, current: true },
@@ -22,11 +22,6 @@ const navigation = [
   { name: 'Técnicos', href: '#', icon: ChartBarIcon, current: false },
   { name: 'Atendentes', href: '#', icon: ChartBarIcon, current: false },
   { name: 'Peças/Serviços', href: '#', icon: ChartBarIcon, current: false },
-]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
 ]
 
 const transactions = [
