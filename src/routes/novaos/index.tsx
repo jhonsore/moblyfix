@@ -43,12 +43,12 @@ const transactions = [
 
 ]
 
-const OrdensServicos = () => {
+const NovaOs = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
   return <>
-    <HeaderPage title="Ordens de Serviços">
-      <Button variant={"primary"}>Nova OS</Button>
+    <HeaderPage title="Nova Os">
+      <Button variant={"primary"}>Nova Os</Button>
     </HeaderPage>
     <PageContent>
 
@@ -275,4 +275,4 @@ const OrdensServicos = () => {
     </PageContent>
   </>
 }
-export default OrdensServicos
+export default NovaOs

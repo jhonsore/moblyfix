@@ -185,10 +185,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <FirebaseProvider>
       <AuthProvider>
-        {/* <RouterProvider router={router} /> */}
-        <BrowserRouter>
+        <RouterProvider router={router} />
+        {/* <BrowserRouter>
           <App />
-        </BrowserRouter>
+        </BrowserRouter> */}
       </AuthProvider>
     </FirebaseProvider>
     <Toaster />

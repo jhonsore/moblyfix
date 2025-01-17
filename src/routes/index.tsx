@@ -12,6 +12,8 @@ const Clientes = lazy(() => import('./clientes'))
 const OrdensServicos = lazy(() => import('./os'))
 const Usuarios = lazy(() => import('./usuarios'))
 const Lojas = lazy(() => import('./lojas'))
+const NovaOs = lazy(() => import('./novaos'))
+
 
 const App = () => {
     return <Routes>
@@ -23,10 +25,12 @@ const App = () => {
             <Route path="ordens-servico" element={<OrdensServicos />} />
             <Route path="usuarios" element={<Usuarios />} />
             <Route path="lojas" element={<Lojas />} />
+            <Route path="novaos" element={<NovaOs />} />
 
         </Route>
         <Route path="teste" element={<Teste />} />
         <Route path="___components" element={<Components />} />
+        
 
     </Routes>
 }

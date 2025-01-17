@@ -1,263 +1,231 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { MagnifyingGlassIcon as SearchIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { useForm } from "react-hook-form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
+import { Input } from "../../components/ui/input"
+import { Button } from "../../components/ui/button"
+import { useState } from "react"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
+import { CalendarIcon, } from "lucide-react"
+import { cn } from "@/lib/utils"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Badge } from "../../components/ui/badge"
 
 const transactions = [
-    {
-      id: 'Nome do cliente',
-      company: 'xxxxxxx',
-      share: '00/00/00 xx:xx',
-      commission: 'Cancelado',
-      commission2: 'Finalizado',
-      commission3: 'Aguardando',
-  
-    },
-    
-  ]
+  {
+    id: 'Nome do cliente',
+    company: 'xxxxxxx',
+    share: '00/00/00 xx:xx',
+    commission: 'Cancelado',
+
+
+  },
+
+]
 
 
 const Agendamentos = () => {
-    return <>
-        <HeaderPage title="Agendamentos" />
-        <PageContent>
-        <main >
-            <div className="flex justify-betwee px-8">
-              <div className=" flex-1">
-                <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
-                  <div className="w-full">
+  const form = useForm()
+  const [date, setDate] = useState<Date>()
 
-                    <div className="relative mt-2 text-sm">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                      </div>
-                      <input
-                        id="search"
-                        name="search"
-                        className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="Digite o nome do cliente"
-                        type="search"
-                      />
-                    </div>
-                  </div>
-                </div>
+  return <>
+    <HeaderPage title="Agendamentos" />
+    <PageContent>
+      <main >
+        <div className="flex justify-betwee items-center pt-6">
+          <Form {...form}>
+            <form onSubmit={() => { }} className=" flex-1 pr-4">
+              <FormField
+                control={form.control}
+                name="search"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Digite o nome do cliente" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+          <Button variant={"outlinePrimary"}>Busca avançada</Button>
+        </div>
+        <div className=" py-4">
+          <Form {...form}>
+            <form onSubmit={() => { }} className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+              <FormField
+                control={form.control}
+                name="CPF"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CPF</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Digite aqui seu CPF" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="space-y-2">
+
+                <Select>
+                  <FormLabel>Status do pedido</FormLabel>
+                  <SelectTrigger className="flex w-full text-left font-normal">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Status"></SelectItem>
+                    <SelectItem value="Recebido">Recebido</SelectItem>
+                    <SelectItem value="Em Reparo">Em Reparo</SelectItem>
+                    <SelectItem value="Finalizado">Finalizado</SelectItem>
+                    <SelectItem value="Entregue">Entregue</SelectItem>
+                  </SelectContent>
+                </Select>
+
+              </div>
+            </form>
+          </Form>
+          <Form {...form}>
+            <form onSubmit={() => { }} className=" grid items-center grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+              <div className="space-y-2">
+                <FormLabel>Data de início</FormLabel>
+                <Popover >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "flex w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
 
-              <div className="ml-4 hidden lg:flex lg:items-center lg:justify-end mt-2">
-                <a
-                  href="#"
-                  className="inline-flex items-center px-6 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-300 hover:text-white"
-                >
-                  Busca avançada
-                </a>
-              </div>
+            </form>
+          </Form>
+          <div className='flex gap-4 justify-end pt-3'>
+            <div>
+              <Button variant={"outlinePrimary"}>Fechar</Button>
             </div>
-            <div className=" px-4 sm:px-6 lg:px-8">
-              <div className=" mx-auto bg-white">
-                <div className=" py-4 px-4">
-                  <form action="#" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                    <div>
-                      <label htmlFor="cpf" className="block text-sm font-medium text-gray-700 ">
-                        CPF/CNPJ
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          name="cpf"
-                          id="cpf"
+            <div >
+              <Button variant={"outlinePrimary"}>buscar</Button>
+            </div>
+          </div>
+        </div>
 
-                          className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="status-pedido" className="block text-sm font-medium text-gray-700">
-                        Status do pedido
-                      </label>
-                      <div className="mt-2">
-                        <select
-                          type="text"
-                          name="status-pedido"
-                          id="status-pedido"
-                          autoComplete="status"
-                          className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+        <div className=" sm:px-1 lg:px-1">
+          <div className="mt-4">
+            <div className=" w-full">
+              <div className="py-2 align-middle md:px-4 lg:px-7">
+                <div className=" bg-white m-w-full pt-2 pb-6 px-4">
+                  <table className=" w-full bg-gray-50">
+                    <thead>
+                      <tr>
+                        <th
+                          scope="col"
+                          className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                         >
-                          <option></option>
-                          <option>Recebido</option>
-                          <option>Em Reparo</option>
-                          <option>finalizado</option>
-                          <option>Entregue</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="date" className="block text-sm font-medium text-gray-700">
-                        Data de início
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="date"
-                          name="início"
-                          id="date"
-                          autoComplete="data"
-                          className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    
-                  </form>
-                  <div className='flex gap-4 justify-end pt-3'>
-                    <div className="">
-                      <a
-                        href="#"
-                        className="ml-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md shadow-sm text-indigo-500 bg-white border border-indigo-500 hover:bg-indigo-500 hover:text-white"
-                      >
-                        Fechar
-                      </a>
-                    </div>
-                    <div className="">
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-white hover:text-indigo-500 hover:border-indigo-600  "
-                      >
-                        Buscar
-                      </button>
-                    </div>
-                  </div>
+                          Cliente
+                        </th>
+                        <th
+                          scope="col"
+                          className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Produto/ Relato
+                        </th>
+                        <th
+                          scope="col"
+                          className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Data
+                        </th>
+                        <th
+                          scope="col"
+                          className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className=" bg-white">
+                      {transactions.map((transaction) => (
+                        <tr key={transaction.id} className='border-b border-gray-200'>
+                          <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+                            {transaction.id}
+                          </td>
+                          
+                          
+                          <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.company}</td>
+                          <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+
+                          <td className="">
+                            <Badge variant="destructive">{transaction.commission}</Badge>
+                          </td>
+                          <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                              <span className="material-symbols-outlined">
+                                visibility
+                              </span>
+                            </a>
+                            <a href="#" className="text-gray-400 hover:text-indigo-900">
+                              <span className="material-symbols-outlined">
+                                delete
+                              </span><span className="sr-only">, {transaction.id}</span>
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-            <div className=" sm:px-1 lg:px-1">
-              <div className="mt-4">
-                <div className=" w-full">
-                  <div className="py-2 align-middle md:px-4 lg:px-7">
-                    <div className=" bg-white m-w-full pt-2 pb-6 px-4">
-                      <a href="" className="text-gray-400 hover:text-indigo-900">
-                        <span className="material-symbols-outlined block text-right pb-2 pr-6 ">
-                          visibility
-                        </span>
-                      </a>
-                      <table className=" w-full bg-gray-50">
-                        <thead>
-                          <tr>
-                            <th
-                              scope="col"
-                              className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                            >
-                              Cliente
-                            </th>
-                            <th
-                              scope="col"
-                              className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                            >
-                              Produto/ Relato
-                            </th>
-                            <th
-                              scope="col"
-                              className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
-                            >
-                              Data
-                            </th>
-                            <th
-                              scope="col"
-                              className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                            >
-                              Status
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className=" bg-white">
-                          {transactions.map((transaction) => (
-                            <tr key={transaction.id} className='border-b border-gray-200'>
-                              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                                {transaction.id}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                                {transaction.company}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                              <td className="inline-flex rounded-full bg-gray-300 px-3 mt-4 text-xs font-semibold leading-5 text-gray-900">{transaction.commission}</td>
-                              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                
-                                <a href="#" className="text-gray-400 hover:text-indigo-900">
-                                  <span className="material-symbols-outlined">
-                                    delete
-                                  </span><span className="sr-only">, {transaction.id}</span>
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                        <tbody className=" bg-white">
-                          {transactions.map((transaction) => (
-                            <tr key={transaction.id} className='border-b border-gray-200'>
-                              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                                {transaction.id}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                                {transaction.company}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                              <td className="inline-flex rounded-full bg-green-200 px-3 mt-4 text-xs font-semibold leading-5 text-green-600">{transaction.commission2}</td>
-                              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                
-                                <a href="#" className="text-gray-400 hover:text-indigo-900">
-                                  <span className="material-symbols-outlined">
-                                    delete
-                                  </span><span className="sr-only">, {transaction.id}</span>
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                        <tbody className=" bg-white">
-                          {transactions.map((transaction) => (
-                            <tr key={transaction.id} className='border-b border-gray-200'>
-                              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                                {transaction.id}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                                {transaction.company}
-                              </td>
-                              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                              <td className="inline-flex rounded-full bg-yellow-50 px-3 mt-4 text-xs font-semibold leading-5 text-yellow-400">{transaction.commission3}</td>
-                              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                
-                                <a href="#" className="text-gray-400 hover:text-indigo-900">
-                                  <span className="material-symbols-outlined">
-                                    delete
-                                  </span><span className="sr-only">, {transaction.id}</span>
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                        
-                        
-                        
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='px-10 py-4'>
-              <button
-                type="button"
-                className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-              >
-                <span className="sr-only">Previous</span>
-                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="active-page ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-              >
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
-            </div>
-          </main>
-        </PageContent>
-    </>
+          </div>
+        </div>
+        <div className='px-10 py-4'>
+          <button
+            type="button"
+            className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
+          >
+            <span className="sr-only">Previous</span>
+            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className=" ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
+          >
+            <span className="sr-only">Next</span>
+            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      </main>
+    </PageContent>
+  </>
 }
 export default Agendamentos
