@@ -27,7 +27,7 @@ import { Link } from "react-router"
 //https://ui.shadcn.com/docs/components/sidebar
 const items = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
-    { title: 'Ordens de serviço', href: 'ordens-servico', icon: AdjustmentsHorizontalIcon, current: false },
+    { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
     { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
@@ -40,7 +40,7 @@ const items = [
 export function AppSidebar() {
     const { open } = useSidebar()
     return (
-        <Sidebar collapsible='icon'>
+        <Sidebar collapsible='icon' className="z-30">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
