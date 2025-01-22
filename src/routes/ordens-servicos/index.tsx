@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Badge } from "../../components/ui/badge"
-
+import { Link } from "react-router"
 
 
 
@@ -48,7 +48,9 @@ const OrdensServicos = () => {
   const [date, setDate] = useState<Date>()
   return <>
     <HeaderPage title="Ordens de Serviços">
+      <Link to={'/dashboard/ordem-servico/criar'}>
       <Button variant={"primary"}>Nova OS</Button>
+      </Link> 
     </HeaderPage>
     <PageContent>
 

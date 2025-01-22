@@ -1,7 +1,7 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
+import { Textarea } from "../../components/ui/textarea"
 import { Button } from "../../components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
@@ -15,262 +15,217 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Badge } from "../../components/ui/badge"
+import { Checkbox } from "../../components/ui/checkbox"
+import { Link } from "react-router"
 
-
-
-
-
-const transactions = [
-  {
-    id: '1234567',
-    company: 'Jhonnatan Soares Rebuli',
-    share: '10/03/24',
-    commission: '10/03/24',
-    price: '10 dias',
-    quantity: 'Iphone X',
-    netAmount: 'Finalizado',
-   
-  },
-  
-
-]
 
 const NovaOs = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
   return <>
-    <HeaderPage title="Nova Os">
-      <Button variant={"primary"}>Nova Os</Button>
+    <HeaderPage title="Nova OS">
+      <Link to={'/dashboard/ordem-servico/dados'}>
+        <Button variant={"primary"}>Salvar</Button>
+      </Link>
     </HeaderPage>
     <PageContent>
 
 
-      <div className="flex justify-betwee items-center pt-6">
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" flex-1 pr-4">
-            <FormField
-              control={form.control}
-              name="search"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Digite o nome do cliente" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-        <Button variant={"outlinePrimary"}>Busca avançada</Button>
-      </div>
-      <div className=" py-4">
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
-            <FormField
-              control={form.control}
-              name="CPF"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>CPF</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite aqui seu CPF" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="number"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nº da OS</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Numero da OS" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" grid items-center grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
-            <div className="space-y-2">
-              <FormLabel>Data de início</FormLabel>
-              <Popover >
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "flex w-full justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="space-y-2">
-              <FormLabel>Status do pedido</FormLabel>
-              <Select>
-
-                <SelectTrigger className="flex w-full text-left font-normal">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Status"></SelectItem>
-                  <SelectItem value="Recebido">Recebido</SelectItem>
-                  <SelectItem value="Em Reparo">Em Reparo</SelectItem>
-                  <SelectItem value="Finalizado">Finalizado</SelectItem>
-                  <SelectItem value="Entregue">Entregue</SelectItem>
-                </SelectContent>
-              </Select>
-
-            </div>
-          </form>
-        </Form>
-
-
-
-        <div className='flex gap-4 justify-end pt-3'>
-          <div>
-            <Button variant={"outlinePrimary"}>Fechar</Button>
-          </div>
+      <div className="  px-4 sm:px-6 lg:px-16">
+        <div >
           <div >
-            <Button variant={"outlinePrimary"}>buscar</Button>
-          </div>
-        </div>
-      </div>
-      <div >
-        <div className="mt-4">
-          <div className=" w-full">
-            <div className="py-2 align-middle ">
-              <div className=" bg-white m-w-full py-6">
-                <table className=" w-full lg:table block" >
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                      >
-                        Nº OS
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Cliente
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Início
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Fim
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Atraso
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Aparelho
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Status
-                      </th>
-                      <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className=" bg-white">
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.id} className='border-b border-gray-200'>
-                        <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                          {transaction.id}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                          {transaction.company}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                        <td className="">
-                        <Badge variant="destructive">{transaction.netAmount}</Badge>
-                        </td>
-                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
-                            <span className="material-symbols-outlined">
-                              visibility
-                            </span>
-                          </a>
-                          <a href="#" className="text-gray-400 hover:text-indigo-900">
-                            <span className="material-symbols-outlined">
-                              delete
-                            </span><span className="sr-only">, {transaction.id}</span>
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+            <div className="flex items-end px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+              <Form {...form}>
+                <form onSubmit={() => { }} className=" flex-1 pr-4">
+                  <FormField
+                    control={form.control}
+                    name="search"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cliente</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Digite o nome do cliente" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </form>
+              </Form>
+              <Button variant={"outlinePrimary"}>Novo cliente</Button>
+            </div>
+            <div className=" ">
+              <Form {...form}>
+                <form onSubmit={() => { }} className=" grid grid-cols-1 sm:grid-cols-3 sm:gap-x-4">
+                  <div className='col-span-2'>
+                    <FormField
+                      control={form.control}
+                      name="text"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Produto</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Digite aqui seu CPF" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Posição na Colméia</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Digite aqui" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </form>
+              </Form>
+              <Form {...form}>
+                <form onSubmit={() => { }} className=" grid items-center grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4 pt-6">
+                  <div className='col-span-2'>
+                    <div className='flex items-center space-x-2'>
+                      <div className='flex-1'>
+                        <FormField
+                          control={form.control}
+                          name="number"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Serial</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Digite aqui" {...field} />
 
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="flex items-center space-x-2 pt-7 px-8">
+                        <Checkbox id="terms" />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Garantia
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <FormLabel>Data de abertura</FormLabel>
+                    <Popover >
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "flex w-full justify-start text-left font-normal",
+                            !date && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon />
+                          {date ? format(date, "PPP") : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={setDate}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </form>
+              </Form>
+              <div className="px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+                <Form {...form}>
+                  <form onSubmit={() => { }} >
+                    <FormField
+                      control={form.control}
+                      name="search"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Acessórios</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Digite aqui" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </form>
+                </Form>
 
-                </table>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div className="pt-3">
+          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+            Observações
+          </label>
+          <Textarea />
+        </div>
+        <div className="pt-3">
+          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+            Relato do problema
+          </label>
+          <Textarea />
+        </div>
+        <div className="pt-3 w-48">
+          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+            Assinatura do cliente
+          </label>
+          <Button variant={"outlinePrimary"}>Adicionar assinatura</Button>
+        </div>
+        <div className='pb-10'>
+          <div className="   mt-8">
+            <div className='flex items-center justify-between'>
+              <h2>
+                Fotos do aparelho
+              </h2>
+              <div className="ml-4 mt-2 flex">
 
-      <div className='py-4'>
-        <button
-          type="button"
-          className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-        >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-        >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
+                <Button variant={'primary'}><span className="material-symbols-outlined mr-2">
+                  add_a_photo
+                </span> Nova foto</Button>
+              </div>
+            </div>
+            <div className='flex gap-4'>
+              <div className='relative bg-img-add w-32 h-32'>
+                <button>
+                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                    delete
+                  </span>
+                </button>
+              </div>
+              <div className='relative bg-img-add w-32 h-32'>
+                <button>
+                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                    delete
+                  </span>
+                </button>
+              </div>
+              <div className='relative bg-img-add w-32 h-32'>
+                <button>
+                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                    delete
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </PageContent>
   </>

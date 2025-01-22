@@ -18,7 +18,6 @@ const Lojas = () => {
         </ HeaderPage>
         <PageContent>
 
-
             <div className=" py-6">
                 <table className=" w-full">
                     <thead className="bg-gray-50">
@@ -36,7 +35,6 @@ const Lojas = () => {
                                 Whatsapp
                             </th>
                             <th>
-
                             </th>
                         </tr>
                     </thead>

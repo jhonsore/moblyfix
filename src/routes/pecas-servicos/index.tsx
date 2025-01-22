@@ -1,50 +1,73 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { Button } from "../../components/ui/button"
+
+
 
 const transactions = [
   {
-    id: 'Jhonnatan Soares Rebuli',
-    commission: '(xx) xxxxx-xxxx',
+    id: 'Peça 1',
+    company: 'R$xx.xx',
+    share: 'R$xx.xx',
+    commission: 'R$xx.xx',
 
   },
 
 ]
 
-const Usuarios = () => {
+
+
+const PecasServico = () => {
   return <>
-    <HeaderPage title="usuários" />
+    <HeaderPage title="Peças/serviços">
+      <Button variant={"primary"}>Novo item</Button>
+    </ HeaderPage>
     <PageContent>
+
 
       <div className=" m-w-full py-6">
         <table className=" w-full">
-          <thead>
-            <tr className="bg-gray-50">
+          <thead className="bg-gray-50">
+            <tr>
               <th
                 scope="col"
-                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
               >
-                Nome
+                Peça/serviço
               </th>
               <th
                 scope="col"
                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Whatsapp
+                Preço de custo
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+              >
+                Venda à vista
               </th>
               <th
                 scope="col"
                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
+                Venda à prazo
+              </th>
+              <th>
               </th>
             </tr>
           </thead>
           <tbody className=" bg-white">
             {transactions.map((transaction) => (
               <tr key={transaction.id} className='border-b border-gray-200'>
-                <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-900">
+                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
                   {transaction.id}
                 </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
+                  {transaction.company}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
                 <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
@@ -63,25 +86,25 @@ const Usuarios = () => {
           </tbody>
         </table>
       </div>
-
       <div className='py-4'>
         <button
           type="button"
-          className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
+          className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
         >
           <span className="sr-only">Previous</span>
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         </button>
         <button
           type="button"
-          className=" ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
+          className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
         >
           <span className="sr-only">Next</span>
           <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
 
+
     </PageContent>
   </>
 }
-export default Usuarios
+export default PecasServico
