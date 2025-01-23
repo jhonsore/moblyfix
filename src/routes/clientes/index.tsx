@@ -43,75 +43,67 @@ const Clientes = () => {
         </Form>
         <Button variant={"outlinePrimary"}>Busca avançada</Button>
       </div>
-      <div>
-        <div className="mt-4">
-          <div className=" w-full">
-            <div>
-              <div className=" bg-white m-w-full py-6">
-                <table className=" w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Cliente
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Email
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Cpf
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Whatsapp
-                      </th>
+      <div className=" bg-white m-w-full py-6">
+        <table className=" w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Cliente
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+              >
+                Email
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Cpf
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Whatsapp
+              </th>
 
-                      <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className=" bg-white">
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.id} className='border-b border-gray-200'>
-                        <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900">
-                          {transaction.id}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                          {transaction.company}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
-                            <span className="material-symbols-outlined">
-                              edit
-                            </span>
-                          </a>
-                          <a href="#" className="text-gray-400 hover:text-indigo-900">
-                            <span className="material-symbols-outlined">
-                              delete
-                            </span><span className="sr-only">, {transaction.id}</span>
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+              <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
+                <span className="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" bg-white">
+            {transactions.map((transaction) => (
+              <tr key={transaction.id} className='border-b border-gray-200'>
+                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900">
+                  {transaction.id}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
+                  {transaction.company}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                    <span className="material-symbols-outlined">
+                      edit
+                    </span>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-indigo-900">
+                    <span className="material-symbols-outlined">
+                      delete
+                    </span><span className="sr-only">, {transaction.id}</span>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className='py-4'>
         <button

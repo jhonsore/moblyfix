@@ -45,7 +45,6 @@ const Agendamentos = () => {
     <HeaderPage title="Agendamentos" />
     <PageContent>
 
-
       <Form {...form}>
         <form onSubmit={() => { }} >
           <div className="flex justify-betwee items-center pt-6">

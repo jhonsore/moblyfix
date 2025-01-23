@@ -4,6 +4,11 @@ import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
 import { lazy } from "react"
 import Components from './components'
+import Agendamentoavulso from "@/pages/modals/agendamentoavulso"
+
+
+
+
 
 
 const Agendamentos = lazy(() => import('./agendamentos'))
@@ -20,8 +25,9 @@ const AnaliseTecnicaPage = lazy(() => import('./ordem-servico/analiseTecnicaPage
 const InicioReparoPage = lazy(() => import('./ordem-servico/inicioReparoPage'))
 const FinalizarReparoPage = lazy(() => import('./ordem-servico/finalizarReparoPage'))
 const ReabrirReparoPage = lazy(() => import('./ordem-servico/reabrirReparoPage'))
+const CondicoesServicosPage = lazy(() => import('./ordem-servico/condicoesServicosPage'))
 const PecasServicos = lazy(() => import('./pecas-servicos'))
-
+const Atendentes = lazy(() => import('./atendentes'))
 
 
 
@@ -43,14 +49,16 @@ const App = () => {
             <Route path="ordem-servico/inicio-reparo" element={<InicioReparoPage />} />
             <Route path="ordem-servico/finalizar-reparo" element={<FinalizarReparoPage />} />
             <Route path="ordem-servico/reabrir-reparo" element={<ReabrirReparoPage />} />
+            <Route path="ordem-servico/condicoes-servicos" element={<CondicoesServicosPage />} />
             <Route path="pecas-servicos" element={<PecasServicos />} />
+            <Route path="atendentes" element={<Atendentes />} />
             
 
 
             
 
         </Route>
-        <Route path="teste" element={<Dashboard />} />
+        <Route path="teste" element={<Agendamentoavulso />} />
         <Route path="___components" element={<Components />} />
         
     </Routes>

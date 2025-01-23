@@ -13,19 +13,16 @@ import {
 import Dashboard from './pages/dashboard';
 import RecuperarSenha from './pages/recuperarsenha';
 import Modals from './pages/modals';
-import DadosCliente from './pages/modals/dadocliente';
 import Atendimentoiniciado from './pages/modals/atendimentoiniciado';
 import Enviarwhatsapp from './pages/modals/enviarwhatsapp';
 import Relatotecnico from './pages/modals/relatotecnico';
 import Pecaservico from './pages/modals/pecaservico';
-import Adicionarpecaservico from './pages/modals/adicionarpecaservico';
 import Relatofinalizacaoservico from './pages/modals/relatofinalizacaoservico';
 import Motivoreaberturaservico from './pages/modals/motivoreaberturaservico';
 import Finalizarvenda from './pages/modals/finalizarvenda';
-import Condicoesdeservicos from './pages/Condiçoes de serviços';
+import Condicoesdeservicos from './pages/condicoes-de-servicos';
 import Dadosdousuario from './pages/modals/dadosdousuario';
 import Dadosdaloja from './pages/modals/dadosdaloja';
-import Dadosdalojapecas from './pages/modals/dadosdalojapecas';
 import Condicoes from './pages/modals/condicoes';
 import Agendamentoavulso from './pages/modals/agendamentoavulso';
 import App from './routes';
@@ -47,10 +44,7 @@ const router = createBrowserRouter([
     path: "/modals",
     element: <Modals />
   },
-  {
-    path: "/modals/dadocliente",
-    element: <DadosCliente />
-  },
+ 
   {
     path: "/modals/atendimentoiniciado",
     element: <Atendimentoiniciado />
@@ -67,10 +61,7 @@ const router = createBrowserRouter([
     path: "/modals/pecaservico",
     element: <Pecaservico />
   },
-  {
-    path: "/modals/adicionarpecaservico",
-    element: <Adicionarpecaservico />
-  },
+ 
   {
     path: "/modals/relatofinalizacaoservico",
     element: <Relatofinalizacaoservico />
@@ -91,10 +82,7 @@ const router = createBrowserRouter([
     path: "/modals/dadosdaloja",
     element: <Dadosdaloja />
   },
-  {
-    path: "/modals/dadosdalojapecas",
-    element: <Dadosdalojapecas />
-  },
+ 
   {
     path: "/modals/condicoes",
     element: <Condicoes />

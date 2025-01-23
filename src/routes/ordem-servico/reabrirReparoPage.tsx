@@ -43,7 +43,7 @@ const ReabrirReparo = () => {
                     </SelectContent>
                 </Select>
                 <Button variant={"destructive"}>Cancelar </Button>
-                <Button variant={"primary"}>Reabrir Reparo</Button>
+                <Button variant={"primary"}>Finalizar</Button>
             </div>
         </HeaderPage>
         <PageContent>

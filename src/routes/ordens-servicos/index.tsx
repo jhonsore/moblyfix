@@ -37,9 +37,9 @@ const transactions = [
     price: '10 dias',
     quantity: 'Iphone X',
     netAmount: 'Finalizado',
-   
+
   },
-  
+
 
 ]
 
@@ -49,20 +49,20 @@ const OrdensServicos = () => {
   return <>
     <HeaderPage title="Ordens de Serviços">
       <Link to={'/dashboard/ordem-servico/criar'}>
-      <Button variant={"primary"}>Nova OS</Button>
-      </Link> 
+        <Button variant={"primary"}>Nova OS</Button>
+      </Link>
     </HeaderPage>
     <PageContent>
 
 
-      <div className="flex justify-betwee items-center pt-6">
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" flex-1 pr-4">
+      <Form {...form}>
+        <form onSubmit={() => { }} >
+          <div className=" flex pr-4 pt-6">
             <FormField
               control={form.control}
               name="search"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1 mr-6">
                   <FormControl>
                     <Input placeholder="Digite o nome do cliente" {...field} />
                   </FormControl>
@@ -70,13 +70,9 @@ const OrdensServicos = () => {
                 </FormItem>
               )}
             />
-          </form>
-        </Form>
-        <Button variant={"outlinePrimary"}>Busca avançada</Button>
-      </div>
-      <div className=" py-4">
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+            <Button variant={"outlinePrimary"}>Busca avançada</Button>
+          </div>
+          <div className=" py-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
             <FormField
               control={form.control}
               name="CPF"
@@ -103,10 +99,6 @@ const OrdensServicos = () => {
                 </FormItem>
               )}
             />
-          </form>
-        </Form>
-        <Form {...form}>
-          <form onSubmit={() => { }} className=" grid items-center grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
             <div className="space-y-2">
               <FormLabel>Data de início</FormLabel>
               <Popover >
@@ -135,7 +127,6 @@ const OrdensServicos = () => {
             <div className="space-y-2">
               <FormLabel>Status do pedido</FormLabel>
               <Select>
-
                 <SelectTrigger className="flex w-full text-left font-normal">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
@@ -147,117 +138,103 @@ const OrdensServicos = () => {
                   <SelectItem value="Entregue">Entregue</SelectItem>
                 </SelectContent>
               </Select>
-
             </div>
-          </form>
-        </Form>
-
-
-
-        <div className='flex gap-4 justify-end pt-3'>
-          <div>
-            <Button variant={"outlinePrimary"}>Fechar</Button>
           </div>
-          <div >
-            <Button variant={"outlinePrimary"}>buscar</Button>
-          </div>
+        </form>
+      </Form>
+      <div className='flex gap-4 justify-end pt-3'>
+        <div>
+          <Button variant={"outlinePrimary"}>Fechar</Button>
         </div>
-      </div>
-      <div >
-        <div className="mt-4">
-          <div className=" w-full">
-            <div className="py-2 align-middle ">
-              <div className=" bg-white m-w-full py-6">
-                <table className=" w-full lg:table block" >
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                      >
-                        Nº OS
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Cliente
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Início
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Fim
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Atraso
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Aparelho
-                      </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Status
-                      </th>
-                      <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className=" bg-white">
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.id} className='border-b border-gray-200'>
-                        <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                          {transaction.id}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                          {transaction.company}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
-                        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                        <td className="">
-                        <Badge variant="destructive">{transaction.netAmount}</Badge>
-                        </td>
-                        <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
-                            <span className="material-symbols-outlined">
-                              visibility
-                            </span>
-                          </a>
-                          <a href="#" className="text-gray-400 hover:text-indigo-900">
-                            <span className="material-symbols-outlined">
-                              delete
-                            </span><span className="sr-only">, {transaction.id}</span>
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-
-
-                </table>
-              </div>
-            </div>
-          </div>
+        <div >
+          <Button variant={"outlinePrimary"}>buscar</Button>
         </div>
       </div>
 
+      <div className=" pt-6">
+        <table className=" w-full lg:table block" >
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+              >
+                Nº OS
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Cliente
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+              >
+                Início
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Fim
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Atraso
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Aparelho
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Status
+              </th>
+              <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
+                <span className="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" bg-white">
+            {transactions.map((transaction) => (
+              <tr key={transaction.id} className='border-b border-gray-200'>
+                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+                  {transaction.id}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
+                  {transaction.company}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
+                <td className="">
+                  <Badge variant="destructive">{transaction.netAmount}</Badge>
+                </td>
+                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                    <span className="material-symbols-outlined">
+                      visibility
+                    </span>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-indigo-900">
+                    <span className="material-symbols-outlined">
+                      delete
+                    </span><span className="sr-only">, {transaction.id}</span>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className='py-4'>
         <button
           type="button"
