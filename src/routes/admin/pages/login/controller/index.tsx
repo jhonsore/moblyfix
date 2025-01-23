@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import FormSchema from "../schemas/form"
 import { useState } from "react"
-import { Users } from "../../../functions/users"
-import { useFirebaseContext } from "../../../providers/firebase/useFirebaseContext"
+import { Users } from "../../../../../functions/users"
+import { useFirebaseContext } from "../../../../../providers/firebase/useFirebaseContext"
 import { useNavigate } from "react-router"
 
 const controller = () => {
@@ -25,7 +25,7 @@ const controller = () => {
     Users.login({ ...data, auth })
       .then(() => {
         setStatusLoading(false)
-        navigate('/dashboard/')
+        navigate('/admin/')
       })
       .catch((error) => {
         const errorCode = error.code;

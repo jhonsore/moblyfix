@@ -36,3 +36,9 @@ Componentes do tailwind
 https://tailwindui.com/components
 
 
+
+============================
+
+# Iniciando o emulador
+
+- $ firebase emulators:start
