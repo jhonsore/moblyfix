@@ -10,35 +10,41 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { User, UserCircle } from 'lucide-react'
 import {
     AdjustmentsHorizontalIcon,
     ArrowRightStartOnRectangleIcon,
-    CalendarIcon,
+    // CalendarIcon,
     ChartBarIcon,
+    CurrencyDollarIcon,
     HomeIcon,
+    ListBulletIcon,
     UserGroupIcon,
     UsersIcon,
     WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline'
 import { Link } from "react-router"
+import { Users } from "../../functions/users"
+import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
+import { ChartArea } from "lucide-react"
 
 
 //https://ui.shadcn.com/docs/components/sidebar
 const items = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
+    { title: 'Relatórios', href: '', icon: ChartArea, current: true },
     { title: 'Ordens de serviço', href: 'ordens-servico', icon: AdjustmentsHorizontalIcon, current: false },
+    { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
-    { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
+    // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
     { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
-    { title: 'Técnicos', href: 'tecnicos', icon: User, current: false },
-    { title: 'Atendentes', href: 'atendentes', icon: UserCircle, current: false },
-    { title: 'Peças/Serviços', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
+    { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
+    { title: 'Condições de serviço', href: 'agendamentos', icon: ListBulletIcon, current: false },
 ]
 
 export function AppSidebar() {
     const { open } = useSidebar()
+    const { auth } = useFirebaseContext()
     return (
         <Sidebar collapsible='icon'>
             <SidebarHeader>
@@ -81,7 +87,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <div className="cursor-pointer">
+                            <div className="cursor-pointer" onClick={() => Users.logout({ auth })}>
                                 <ArrowRightStartOnRectangleIcon className="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300" />
                                 Sair
                             </div>
