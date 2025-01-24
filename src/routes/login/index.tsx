@@ -89,7 +89,7 @@ function Login() {
             <div className="text-sm text-right">
               <Link to={'/recuperar-senha'} className="font-medium text-indigo-600 hover:text-indigo-500"> Esqueceu sua senha?</Link>
             </div>
-            <Button type="submit" className="w-full">Entrar</Button>
+            <Button type="submit" variant={'primary'} className="w-full">Entrar</Button>
           </form>
         </Form>
       </div>
