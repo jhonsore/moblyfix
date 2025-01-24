@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
-import TermsAndConditions from "../../functions/termsAndContidions"
+import TermsAndConditions from "../../functions/serviceConditions"
 import { TypeTermsAndConditions } from "../../types/TermsAndConditions"
 
 const Dashboard = () => {

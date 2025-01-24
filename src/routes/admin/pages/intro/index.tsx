@@ -22,7 +22,6 @@ export const IntroPage = () => {
         } catch (error) {
             console.error('Failed to create user:', error);
         }
-
     }
 
     return <div className="mx-auto max-w-screen-md flex">
