@@ -20,16 +20,18 @@ import { Link, useNavigate } from "react-router"
 import BlockPageLoading from "../../components/loadings/BlockPageLoading"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import { useEffect } from "react"
+import { useLocation } from "react-router"
 
 function Login() {
   const navigate = useNavigate()
   const { user } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
+  const location = useLocation()
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard
     if (user) {
-      navigate('/dashboard/')
+      navigate(location?.state?.from || '/dashboard/')
     }
   }, [user])
 
