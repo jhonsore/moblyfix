@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/popover"
 import { Checkbox } from "../../components/ui/checkbox"
 import { Link } from "react-router"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 
 const NovaOs = () => {
@@ -24,13 +25,32 @@ const NovaOs = () => {
   const [date, setDate] = useState<Date>()
   return <>
     <HeaderPage title="Nova OS">
-      <Link to={'/dashboard/ordem-servico/dados'}>
-        <Button variant={"primary"}>Salvar</Button>
-      </Link>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="primary">Salvar</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>OS nº 000005 criada</DialogTitle>
+            <DialogDescription className="pt-4 text-center text-black">
+              O que deseja fazer agora?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4 px-14">
+            <Button variant={"outlinePrimary"}>Imprimir</Button>
+            <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+            <Button variant={"outlinePrimary"}>Nova OS</Button>
+            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
+            <Link to={'/dashboard/ordem-servico/dados'}>
+              <Button className="w-full" variant={"outlinePrimary"}>Iniciar análise técnica</Button>
+            </Link>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </HeaderPage>
     <PageContent>
-
-
 
       <Form {...form}>
         <form onSubmit={() => { }} >
@@ -58,7 +78,7 @@ const NovaOs = () => {
                   <FormItem>
                     <FormLabel>Produto</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite aqui seu CPF" {...field} />
+                      <Input placeholder="Digite aqui" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -122,7 +142,7 @@ const NovaOs = () => {
                     )}
                   >
                     <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    {date ? format(date, "PPP") : <span>data</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">

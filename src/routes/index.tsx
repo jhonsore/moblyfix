@@ -11,6 +11,7 @@ import Agendamentoavulso from "@/pages/modals/agendamentoavulso"
 
 
 
+
 const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
 const Clientes = lazy(() => import('./clientes'))
@@ -25,9 +26,12 @@ const AnaliseTecnicaPage = lazy(() => import('./ordem-servico/analiseTecnicaPage
 const InicioReparoPage = lazy(() => import('./ordem-servico/inicioReparoPage'))
 const FinalizarReparoPage = lazy(() => import('./ordem-servico/finalizarReparoPage'))
 const ReabrirReparoPage = lazy(() => import('./ordem-servico/reabrirReparoPage'))
-const CondicoesServicosPage = lazy(() => import('./ordem-servico/condicoesServicosPage'))
+const CondicoesServicosPage = lazy(() => import('./condicoesServicosPage'))
 const PecasServicos = lazy(() => import('./pecas-servicos'))
 const Atendentes = lazy(() => import('./atendentes'))
+const DadosDoUsuario = lazy(() => import('./dados-do-usuario'))
+const DadosDoCliente = lazy(() => import('./dados-do-cliente'))
+const DadosDaLoja = lazy(() => import('./dados-da-loja'))
 
 
 
@@ -49,9 +53,12 @@ const App = () => {
             <Route path="ordem-servico/inicio-reparo" element={<InicioReparoPage />} />
             <Route path="ordem-servico/finalizar-reparo" element={<FinalizarReparoPage />} />
             <Route path="ordem-servico/reabrir-reparo" element={<ReabrirReparoPage />} />
-            <Route path="ordem-servico/condicoes-servicos" element={<CondicoesServicosPage />} />
+            <Route path="condicoes-de-servicos" element={<CondicoesServicosPage />} />
             <Route path="pecas-servicos" element={<PecasServicos />} />
             <Route path="atendentes" element={<Atendentes />} />
+            <Route path="dados-do-usuario" element={<DadosDoUsuario />} />
+            <Route path="dados-do-cliente" element={<DadosDoCliente />} />
+            <Route path="dados-da-loja" element={<DadosDaLoja />} />
             
 
 

@@ -35,6 +35,7 @@ const items = [
     { title: 'Técnicos', href: 'tecnicos', icon: User, current: false },
     { title: 'Atendentes', href: 'atendentes', icon: UserCircle, current: false },
     { title: 'Peças/Serviços', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
+    { title: 'Condições de Serviços', href: 'condicoes-de-servicos', icon: WrenchScrewdriverIcon, current: false },
 ]
 
 export function AppSidebar() {

@@ -69,7 +69,7 @@ const Dados = () => {
                         <FormItem>
                             <FormLabel>Produto</FormLabel>
                             <FormControl>
-                                <Input placeholder="Digite aqui seu CPF" {...field} />
+                                <Input placeholder="Digite aqui" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

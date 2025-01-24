@@ -1,4 +1,4 @@
-import { XMarkIcon as XIcon, } from '@heroicons/react/24/solid'
+
 import PageContent from "../../components/layout/pageContent"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
@@ -21,13 +21,7 @@ const DadosDoUsuario = () => {
                 <h1 className="font-bold text-xl ">
                     Dados do usuário
                 </h1>
-                <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                >
-                    <span className="sr-only">Close</span>
-                    <XIcon className="w-5 text-black hover:text-gray-500 " aria-hidden="true" />
-                </button>
+
             </div>
             <Form {...form}>
                 <form onSubmit={() => { }} className="pb-4">
@@ -57,7 +51,7 @@ const DadosDoUsuario = () => {
                         </Select>
                     </div>
                     <div className='grid grid-cols-3 gap-4'>
-                    <FormField
+                        <FormField
                             control={form.control}
                             name="username"
                             render={({ field }) => (
@@ -287,7 +281,7 @@ const DadosDoUsuario = () => {
             <div className='py-6 flex justify-end'>
                 <Button variant={'primary'}>Salvar</Button>
             </div>
-            
+
         </PageContent>
     </>
 }

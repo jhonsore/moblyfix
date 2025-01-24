@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
+import { Link } from "react-router"
 
 
 const transactions = [
@@ -21,7 +22,13 @@ const transactions = [
 const Clientes = () => {
   const form = useForm()
   return <>
-    <HeaderPage title="Clientes" />
+
+    <HeaderPage title="Clientes">
+      <Link to={'/dashboard/dados-do-cliente'}>
+        <Button variant={"primary"}>Novo item</Button>
+      </Link>
+    </HeaderPage>
+
     <PageContent>
 
       <div className="flex justify-betwee items-center pt-6">
@@ -105,7 +112,7 @@ const Clientes = () => {
           </tbody>
         </table>
       </div>
-      <div className='py-4'>
+      <div className='py-4 flex justify-end'>
         <button
           type="button"
           className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"

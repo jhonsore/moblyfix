@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Badge } from "../../components/ui/badge"
+import { Link } from "react-router"
 
 const transactions = [
   {
@@ -42,7 +43,11 @@ const Agendamentos = () => {
   const [date, setDate] = useState<Date>()
 
   return <>
-    <HeaderPage title="Agendamentos" />
+    <HeaderPage title="Clientes">
+      <Link to={'/dashboard/ordem-servico/dados'}>
+        <Button variant={"primary"}>Novo item</Button>
+      </Link>
+    </HeaderPage>
     <PageContent>
 
       <Form {...form}>
@@ -185,7 +190,7 @@ const Agendamentos = () => {
           ))}
         </tbody>
       </table>
-      <div className='pt-12 py-4'>
+      <div className='pt-12 py-4 flex justify-end'>
         <button
           type="button"
           className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"

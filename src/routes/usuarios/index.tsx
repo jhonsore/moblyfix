@@ -1,6 +1,8 @@
+import { Link } from "react-router"
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { Button } from "@/components/ui/button"
 
 const transactions = [
   {
@@ -13,7 +15,11 @@ const transactions = [
 
 const Usuarios = () => {
   return <>
-    <HeaderPage title="usuários" />
+    <HeaderPage title="Usuários">
+      <Link to={'/dashboard/dados-do-usuario'}>
+        <Button variant={"primary"}>Novo item</Button>
+      </Link>
+    </HeaderPage>
     <PageContent>
 
       <div className=" m-w-full py-6">
@@ -64,7 +70,7 @@ const Usuarios = () => {
         </table>
       </div>
 
-      <div className='py-4'>
+      <div className='py-4 flex justify-end'>
         <button
           type="button"
           className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
