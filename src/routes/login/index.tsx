@@ -21,17 +21,19 @@ import BlockPageLoading from "../../components/loadings/BlockPageLoading"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
+import TYPE_USERS from "../../consts/TYPE_USERS"
 
 function Login() {
   const navigate = useNavigate()
-  const { user } = useAuthContext()
+  const { user, claims } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
   const location = useLocation()
+  const isAdmin = claims?.type === TYPE_USERS.admin
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard
     if (user) {
-      navigate(location?.state?.from || '/dashboard/')
+      navigate(location?.state?.from || (!isAdmin ? '/dashboard/' : '/admin/'))
     }
   }, [user])
 

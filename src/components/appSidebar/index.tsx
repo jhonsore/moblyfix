@@ -26,10 +26,11 @@ import { Link } from "react-router"
 import { Users } from "../../functions/users"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { ChartArea } from "lucide-react"
-
+import { useAuthContext } from "../../providers/auth/useAuthContext"
+import TYPE_USERS from "../../consts/TYPE_USERS"
 
 //https://ui.shadcn.com/docs/components/sidebar
-const items = [
+const USERS = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
     { title: 'Relatórios', href: '', icon: ChartArea, current: true },
     { title: 'Ordens de serviço', href: 'ordens-servico', icon: AdjustmentsHorizontalIcon, current: false },
@@ -42,9 +43,15 @@ const items = [
     { title: 'Condições de serviço', href: 'agendamentos', icon: ListBulletIcon, current: false },
 ]
 
+const ADMIN = [
+    { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
+]
+
 export function AppSidebar() {
     const { open } = useSidebar()
     const { auth } = useFirebaseContext()
+    const { claims } = useAuthContext()
+    const items = claims?.type === TYPE_USERS.admin ? ADMIN : USERS
     return (
         <Sidebar collapsible='icon'>
             <SidebarHeader>

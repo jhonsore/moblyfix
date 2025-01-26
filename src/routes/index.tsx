@@ -12,9 +12,6 @@ const Clientes = lazy(() => import('./clientes'))
 const OrdensServicos = lazy(() => import('./os'))
 const IntroPage = lazy(() => import('./admin/pages/intro'))
 
-//
-const AdminPage = lazy(() => import('./admin'))
-
 const App = () => {
     return <Routes>
         <Route path="/" element={<Login />} />
@@ -28,10 +25,7 @@ const App = () => {
         <Route path="___components" element={<Components />} />
 
 
-
-
-        <Route path="______admin______" element={<AdminPage />} />
-        <Route path="admin" element={<RequireAuth><Outlet /></RequireAuth>}>
+        <Route path="admin" element={<RequireAuth><Layout /></RequireAuth>}>
             <Route index element={<IntroPage />} />
         </Route>
     </Routes>

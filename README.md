@@ -1,7 +1,14 @@
 
 # Tipos de usuários
 
+
 Master
+_
+
+Usuário de controle do sistema
+
+
+Admin
 - 
 
 - Acesso a todos os itens do menu, é o primeiro usuário a ser criado com o headquarter
