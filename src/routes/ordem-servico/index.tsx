@@ -23,6 +23,7 @@ import {
 import { Checkbox } from "../../components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 
 const tabs = [
@@ -44,7 +45,32 @@ const OrdemServico = () => {
     <HeaderPage title="OS - 123456">
       <Badge variant="orange">Aguardando atendimento</Badge>
       <Button variant={"destructive"}>Cancelar OS </Button>
-      <Button variant={"primary"}>Finalizar</Button>
+      
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="primary">Finalizar</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Relato de finalização de serviço</DialogTitle>
+            <DialogDescription>
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={() => { }} className="">
+              <div className="pt-3 pb-6 space-y-2">
+                <FormLabel>Relato</FormLabel>
+                <Textarea placeholder="Digite a mensagem" />
+              </div>
+              <div className="text-right">
+                <Button variant={"outlinePrimary"}>Enviar</Button>
+              </div>
+            </form>
+          </Form>
+          <DialogFooter>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </HeaderPage>
 
 
@@ -152,7 +178,7 @@ const OrdemServico = () => {
             <div>
               <Sheet>
                 <SheetTrigger asChild>
-                <Button variant={"outlinePrimary"}>Visualizar dados</Button>
+                  <Button variant={"outlinePrimary"}>Visualizar dados</Button>
                 </SheetTrigger>
                 <SheetContent>
                   <SheetHeader>

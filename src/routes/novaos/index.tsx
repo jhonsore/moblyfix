@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/popover"
 import { Checkbox } from "../../components/ui/checkbox"
 import { Link } from "react-router"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 
 const NovaOs = () => {
@@ -39,7 +39,49 @@ const NovaOs = () => {
           </DialogHeader>
           <div className="grid gap-4 py-4 px-14">
             <Button variant={"outlinePrimary"}>Imprimir</Button>
-            <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+
+            
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Enviar whatsapp</DialogTitle>
+                    <DialogDescription className="pt-4 text-center text-black">
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Form {...form}>
+                    <form onSubmit={() => { }} className="">
+                      <FormField
+                        control={form.control}
+                        name="telefone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Whatsapp</FormLabel>
+                            <FormControl>
+                              <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="pt-3 pb-6">
+                        <FormLabel>Mensagem</FormLabel>
+                        <Textarea placeholder="Digite a mensagem" />
+                      </div>
+                      <div className="text-right">
+                        <Button variant={"outlinePrimary"}>Enviar</Button>
+                      </div>
+                    </form>
+                  </Form>
+                  <DialogFooter>
+
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
+            
             <Button variant={"outlinePrimary"}>Nova OS</Button>
             <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
             <Link to={'/dashboard/ordem-servico/dados'}>
