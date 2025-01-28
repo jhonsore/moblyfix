@@ -43,7 +43,7 @@ const Agendamentos = () => {
   const [date, setDate] = useState<Date>()
 
   return <>
-    <HeaderPage title="Clientes">
+    <HeaderPage title="Agendamentos">
       <Button variant={"outlinePrimary"}>Página de agendamentos</Button>
       <Link to={'/dashboard/agendamento-avulso'}>
         <Button variant={"primary"}>Novo agendamento</Button>
