@@ -32,6 +32,9 @@ const Atendentes = lazy(() => import('./atendentes'))
 const DadosDoUsuario = lazy(() => import('./dados-do-usuario'))
 const DadosDoCliente = lazy(() => import('./dados-do-cliente'))
 const DadosDaLoja = lazy(() => import('./dados-da-loja'))
+const AgendamentoAvulso = lazy(() => import('./agendamento-avulso'))
+const DadosDaVenda = lazy(() => import('./dados-da-venda'))
+const Condicoes = lazy(() => import('./condicoes'))
 
 
 
@@ -59,6 +62,9 @@ const App = () => {
             <Route path="dados-do-usuario" element={<DadosDoUsuario />} />
             <Route path="dados-do-cliente" element={<DadosDoCliente />} />
             <Route path="dados-da-loja" element={<DadosDaLoja />} />
+            <Route path="agendamento-avulso" element={<AgendamentoAvulso />} />
+            <Route path="dados-da-venda" element={<DadosDaVenda />} />
+            <Route path="condicoes" element={<Condicoes />} />
             
 
 

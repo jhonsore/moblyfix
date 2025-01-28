@@ -10,21 +10,20 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import HeaderPage from "@/components/headerPage"
+
 
 
 const DadosDoCliente = () => {
     const form = useForm()
     return <>
         <PageContent>
-        <Sheet>
-            <SheetTrigger>Open</SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <SheetTitle>Dados do cliente</SheetTitle>
-                    <SheetDescription>
-                    <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+
+            <HeaderPage title="Novo cliente">
+            </HeaderPage>
+
+            <Form {...form}>
+                <form onSubmit={() => { }} className="py-4">
                     <FormField
                         control={form.control}
                         name="search"
@@ -240,12 +239,9 @@ const DadosDoCliente = () => {
             <div className='py- flex justify-end'>
                 <Button variant={'primary'}>Salvar</Button>
             </div>
-                    </SheetDescription>
-                </SheetHeader>
-            </SheetContent>
-        </Sheet>
-            
-            
+
+
+
         </PageContent>
     </>
 }

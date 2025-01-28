@@ -40,53 +40,50 @@ const NovaOs = () => {
           <div className="grid gap-4 py-4 px-14">
             <Button variant={"outlinePrimary"}>Imprimir</Button>
 
-            
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Enviar whatsapp</DialogTitle>
-                    <DialogDescription className="pt-4 text-center text-black">
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Form {...form}>
-                    <form onSubmit={() => { }} className="">
-                      <FormField
-                        control={form.control}
-                        name="telefone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Whatsapp</FormLabel>
-                            <FormControl>
-                              <Input placeholder="(xx) xxxxx-xxxx" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="pt-3 pb-6">
-                        <FormLabel>Mensagem</FormLabel>
-                        <Textarea placeholder="Digite a mensagem" />
-                      </div>
-                      <div className="text-right">
-                        <Button variant={"outlinePrimary"}>Enviar</Button>
-                      </div>
-                    </form>
-                  </Form>
-                  <DialogFooter>
 
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Enviar whatsapp</DialogTitle>
+                  <DialogDescription className="pt-4 text-center text-black">
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form onSubmit={() => { }} className="">
+                    <FormField
+                      control={form.control}
+                      name="telefone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Whatsapp</FormLabel>
+                          <FormControl>
+                            <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="pt-3 pb-6">
+                      <FormLabel>Mensagem</FormLabel>
+                      <Textarea placeholder="Digite a mensagem" />
+                    </div>
+                    <div className="text-right">
+                      <Button variant={"outlinePrimary"}>Enviar</Button>
+                    </div>
+                  </form>
+                </Form>
+                <DialogFooter>
 
-            
-            <Button variant={"outlinePrimary"}>Nova OS</Button>
-            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
-            <Link to={'/dashboard/ordem-servico/dados'}>
-              <Button className="w-full" variant={"outlinePrimary"}>Iniciar análise técnica</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <Link to={'/dashboard/ordem-servico/criar'}>
+              <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
             </Link>
+            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -109,7 +106,9 @@ const NovaOs = () => {
                 </FormItem>
               )}
             />
-            <Button variant={"outlinePrimary"}>Novo cliente</Button>
+            <Link to={'/dashboard/dados-do-cliente'}>
+              <Button variant={"outlinePrimary"}>Novo cliente</Button>
+            </Link>
           </div>
           <div className=" grid grid-cols-1 sm:grid-cols-3 sm:gap-x-4">
             <div className='col-span-2'>

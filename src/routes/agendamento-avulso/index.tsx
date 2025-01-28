@@ -23,6 +23,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
+import HeaderPage from "@/components/headerPage"
 
 
 
@@ -33,11 +34,9 @@ const AgendamentoAvulso = () => {
     const [date, setDate] = useState<Date>()
     return <>
         <PageContent>
-            <div className='flex justify-between items-center py-7'>
-                <h1 className="font-bold text-xl ">
-                Adicionar peça/serviço
-                </h1>
-            </div>
+        <HeaderPage title="Agendamento avulso">
+        </HeaderPage>
+            
             <Form {...form}>
                 <form onSubmit={() => { }} >
                     <FormField

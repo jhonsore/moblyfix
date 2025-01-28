@@ -44,8 +44,9 @@ const Agendamentos = () => {
 
   return <>
     <HeaderPage title="Clientes">
-      <Link to={'/dashboard/ordem-servico/dados'}>
-        <Button variant={"primary"}>Novo item</Button>
+      <Button variant={"outlinePrimary"}>Página de agendamentos</Button>
+      <Link to={'/dashboard/agendamento-avulso'}>
+        <Button variant={"primary"}>Novo agendamento</Button>
       </Link>
     </HeaderPage>
     <PageContent>
@@ -129,7 +130,7 @@ const Agendamentos = () => {
               <Button variant={"outlinePrimary"}>Fechar</Button>
             </div>
             <div >
-              <Button variant={"outlinePrimary"}>buscar</Button>
+              <Button variant={"primary"}>buscar</Button>
             </div>
           </div>
         </form>

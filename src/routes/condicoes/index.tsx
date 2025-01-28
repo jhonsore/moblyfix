@@ -5,25 +5,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import { Textarea } from "../../components/ui/textarea"
+import HeaderPage from '@/components/headerPage'
 
 const Condicoes = () => {
     const form = useForm()
     return <>
         <PageContent>
-            <div className='flex justify-between items-center py-7'>
-                <h1 className="font-bold text-xl ">
-                    Condições
-                </h1>
-                <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                >
-                    <span className="sr-only">Close</span>
-                    <XIcon className="w-5 text-black hover:text-gray-500 " aria-hidden="true" />
-                </button>
-            </div>
+            <HeaderPage title="Condições">
+            </HeaderPage>
+
             <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+                <form onSubmit={() => { }} className="py-4">
                     <FormField
                         control={form.control}
                         name="search"
@@ -41,19 +33,6 @@ const Condicoes = () => {
                         <FormLabel>Condição</FormLabel>
                         <Textarea />
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="endereco"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Endereço</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="End:" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
                 </form>
             </Form>
             <div className='py-6 flex justify-end'>

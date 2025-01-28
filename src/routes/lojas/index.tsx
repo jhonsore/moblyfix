@@ -15,10 +15,10 @@ const transactions = [
 const Lojas = () => {
     return <>
         <HeaderPage title="Lojas">
-        <Link to={'/dashboard/dados-da-loja'}>
-        <Button variant={"primary"}>Novo item</Button>
-      </Link>
-        
+            <Link to={'/dashboard/dados-da-loja'}>
+                <Button variant={"primary"}>Novo item</Button>
+            </Link>
+
         </ HeaderPage>
         <PageContent>
 

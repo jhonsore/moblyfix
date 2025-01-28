@@ -2,6 +2,7 @@ import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
+import { Link } from "react-router"
 
 const transactions = [
     {
@@ -14,11 +15,14 @@ const transactions = [
 const CondicoesServicos = () => {
     return <>
         <HeaderPage title="Condições de serviços">
+        <Link to={'/dashboard/condicoes'}>
         <Button variant={"primary"}>Novo item</Button>
+      </Link>
+        
         </ HeaderPage>
         <PageContent>
 
-        <div className=" bg-white m-w-full py-6 px-4">
+        <div className=" m-w-full py-6">
           <table className=" w-full">
             <thead className="bg-gray-50">
               <tr>

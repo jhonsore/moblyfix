@@ -2,7 +2,7 @@ import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
-
+import { Link } from "react-router"
 
 
 const transactions = [
@@ -21,12 +21,14 @@ const transactions = [
 const PecasServico = () => {
   return <>
     <HeaderPage title="Peças/serviços">
-      <Button variant={"primary"}>Novo item</Button>
+      <Link to={'/dashboard/dados-da-venda'}>
+        <Button variant={"primary"}>Novo item</Button>
+      </Link>
     </ HeaderPage>
     <PageContent>
 
 
-      <div className=" m-w-full py-6">
+      <div className="py-6">
         <table className=" w-full">
           <thead className="bg-gray-50">
             <tr>

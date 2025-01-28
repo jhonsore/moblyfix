@@ -11,20 +11,19 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
+import HeaderPage from "@/components/headerPage"
 
 
 const DadosDoUsuario = () => {
     const form = useForm()
     return <>
         <PageContent>
-            <div className='flex justify-between items-center py-7'>
-                <h1 className="font-bold text-xl ">
-                    Dados do usuário
-                </h1>
 
-            </div>
+            <HeaderPage title="Novo usuário">
+            </HeaderPage>
+            
             <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+                <form onSubmit={() => { }} className="py-4">
                     <FormField
                         control={form.control}
                         name="search"
