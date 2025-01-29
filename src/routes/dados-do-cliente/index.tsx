@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
 import HeaderPage from "@/components/headerPage"
-
+import { Textarea } from "@/components/ui/textarea"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Link } from "react-router"
 
 
 const DadosDoCliente = () => {
@@ -20,6 +22,67 @@ const DadosDoCliente = () => {
         <PageContent>
 
             <HeaderPage title="Novo cliente">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="primary">Salvar</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>OS nº 000005 criada</DialogTitle>
+                            <DialogDescription className="pt-4 text-center text-black">
+                                O que deseja fazer agora?
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4 px-14">
+                            <Button variant={"outlinePrimary"}>Imprimir</Button>
+
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Enviar whatsapp</DialogTitle>
+                                        <DialogDescription className="pt-4 text-center text-black">
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <Form {...form}>
+                                        <form onSubmit={() => { }} className="">
+                                            <FormField
+                                                control={form.control}
+                                                name="telefone"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Whatsapp</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <div className="pt-3 pb-6">
+                                                <FormLabel>Mensagem</FormLabel>
+                                                <Textarea placeholder="Digite a mensagem" />
+                                            </div>
+                                            <div className="text-right">
+                                                <Button variant={"outlinePrimary"}>Enviar</Button>
+                                            </div>
+                                        </form>
+                                    </Form>
+                                    <DialogFooter>
+
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <Link to={'/dashboard/ordem-servico/criar'}>
+                                <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
+                            </Link>
+                            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </HeaderPage>
 
             <Form {...form}>
@@ -236,11 +299,6 @@ const DadosDoCliente = () => {
                     </div>
                 </form>
             </Form>
-            <div className='py- flex justify-end'>
-                <Button variant={'primary'}>Salvar</Button>
-            </div>
-
-
 
         </PageContent>
     </>

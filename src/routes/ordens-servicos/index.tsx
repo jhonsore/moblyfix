@@ -219,11 +219,12 @@ const OrdensServicos = () => {
                   <Badge variant="destructive">{transaction.netAmount}</Badge>
                 </td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
-                    <span className="material-symbols-outlined">
+                  <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                       visibility
                     </span>
-                  </a>
+                  </Link>
+
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
                     <span className="material-symbols-outlined">
                       delete
