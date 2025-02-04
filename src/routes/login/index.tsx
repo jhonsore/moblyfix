@@ -28,12 +28,15 @@ function Login() {
   const { user, claims } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
   const location = useLocation()
-  const isAdmin = claims?.type === TYPE_USERS.admin
+  const isMaster = claims?.type === TYPE_USERS.master
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard
     if (user) {
-      navigate(location?.state?.from || (!isAdmin ? '/dashboard/' : '/admin/'))
+      const newPage =
+        String(location?.state?.from?.pathname).includes('admin') && !isMaster ? '/dashboard/' :
+          (String(location?.state?.from?.pathname).includes('dashboard') && isMaster ? '/admin/' : location?.state?.from)
+      navigate(newPage || (!isMaster ? '/dashboard/' : '/admin/'))
     }
   }, [user])
 

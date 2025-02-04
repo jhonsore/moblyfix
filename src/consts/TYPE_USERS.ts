@@ -1,5 +1,5 @@
 const TYPE_USERS = {
-    admin: 'admin'
+    master: 'master'
 }
 
 export default TYPE_USERS
