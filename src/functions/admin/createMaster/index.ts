@@ -1,22 +1,21 @@
 import axios, { AxiosResponse } from 'axios';
 
 // Interface para representar os dados que vamos enviar no corpo da requisição
-export interface CreateHeadQuarterRequest {
+export interface CreateMasterRequest {
     userName: string;
     email: string;
     password: string;
-    companyName: string;
 }
 
 // Interface para o tipo de resposta que esperamos da API
-export interface CreateHeadquarterResponse {
+export interface CreateMasterResponse {
     status: boolean;
 }
 
 // Função que faz a requisição POST
-const createMaster = async (token: string, userData: CreateHeadQuarterRequest): Promise<CreateHeadquarterResponse> => {
+const createMaster = async (token: string, userData: CreateMasterRequest): Promise<CreateMasterResponse> => {
     try {
-        const response: AxiosResponse<CreateHeadquarterResponse> = await axios.post(
+        const response: AxiosResponse<CreateMasterResponse> = await axios.post(
             'https://createmaster-ete7sjbqeq-uc.a.run.app', // URL da API
             userData, // Dados enviados no corpo da requisição
             {

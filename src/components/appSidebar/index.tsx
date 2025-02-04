@@ -45,13 +45,15 @@ const USERS = [
 
 const ADMIN = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
+    { title: 'Novo headquarter', href: 'new-headquarter', icon: ChartBarIcon },
+    { title: 'Novo master', href: 'new-master', icon: ChartBarIcon },
 ]
 
 export function AppSidebar() {
     const { open } = useSidebar()
     const { auth } = useFirebaseContext()
     const { claims } = useAuthContext()
-    const items = claims?.type === TYPE_USERS.admin ? ADMIN : USERS
+    const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
     return (
         <Sidebar collapsible='icon'>
             <SidebarHeader>
