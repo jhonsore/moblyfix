@@ -6,16 +6,11 @@ import { lazy } from "react"
 import Components from './components'
 import Agendamentoavulso from "@/pages/modals/agendamentoavulso"
 
-
-
-
-
-
-
 const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
 const Clientes = lazy(() => import('./clientes'))
 const OrdensServicos = lazy(() => import('./ordens-servicos'))
+
 const Usuarios = lazy(() => import('./usuarios'))
 const Lojas = lazy(() => import('./lojas'))
 const NovaOs = lazy(() => import('./novaos'))
@@ -36,7 +31,10 @@ const AgendamentoAvulso = lazy(() => import('./agendamento-avulso'))
 const DadosDaVenda = lazy(() => import('./dados-da-venda'))
 const Condicoes = lazy(() => import('./condicoes'))
 
-
+// ADMIN PAGES
+const IntroPage = lazy(() => import('./admin/pages/intro'))
+const NewHeadquarter = lazy(() => import("./admin/pages/newHeadquarter"))
+const NewMaster = lazy(() => import("./admin/pages/newMaster"))
 
 const App = () => {
     return <Routes>
@@ -45,7 +43,7 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path="agendamentos" element={<Agendamentos />} />
             <Route path="clientes" element={<Clientes />} />
-            <Route path="ordens-servicos" element={<OrdensServicos />} />
+            <Route path="ordens-servicoss" element={<OrdensServicos />} />
             <Route path="usuarios" element={<Usuarios />} />
             <Route path="lojas" element={<Lojas />} />
             <Route path="ordem-servico/criar" element={<NovaOs />} />
@@ -65,15 +63,15 @@ const App = () => {
             <Route path="agendamento-avulso" element={<AgendamentoAvulso />} />
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
             <Route path="condicoes" element={<Condicoes />} />
-            
-
-
-            
-
         </Route>
         <Route path="teste" element={<Agendamentoavulso />} />
         <Route path="___components" element={<Components />} />
-        
+
+        <Route path="admin" element={<RequireAuth><Layout /></RequireAuth>}>
+            <Route index element={<IntroPage />} />
+            <Route path="new-headquarter" element={<NewHeadquarter />} />
+            <Route path="new-master" element={<NewMaster />} />
+        </Route>
     </Routes>
 }
 export default App
