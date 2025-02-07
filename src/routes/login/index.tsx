@@ -20,16 +20,23 @@ import { Link, useNavigate } from "react-router"
 import BlockPageLoading from "../../components/loadings/BlockPageLoading"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import { useEffect } from "react"
+import { useLocation } from "react-router"
+import TYPE_USERS from "../../consts/TYPE_USERS"
 
 function Login() {
   const navigate = useNavigate()
-  const { user } = useAuthContext()
+  const { user, claims } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
+  const location = useLocation()
+  const isMaster = claims?.type === TYPE_USERS.master
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard
     if (user) {
-      navigate('/dashboard/')
+      const newPage =
+        String(location?.state?.from?.pathname).includes('admin') && !isMaster ? '/dashboard/' :
+          (String(location?.state?.from?.pathname).includes('dashboard') && isMaster ? '/admin/' : location?.state?.from)
+      navigate(newPage || (!isMaster ? '/dashboard/' : '/admin/'))
     }
   }, [user])
 
@@ -87,7 +94,7 @@ function Login() {
             <div className="text-sm text-right">
               <Link to={'/recuperar-senha'} className="font-medium text-indigo-600 hover:text-indigo-500"> Esqueceu sua senha?</Link>
             </div>
-            <Button type="submit" className="w-full">Entrar</Button>
+            <Button type="submit" variant={'primary'} className="w-full">Entrar</Button>
           </form>
         </Form>
       </div>
