@@ -10,7 +10,6 @@ const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
 const Clientes = lazy(() => import('./clientes'))
 const OrdensServicos = lazy(() => import('./ordens-servicos'))
-
 const Usuarios = lazy(() => import('./usuarios'))
 const Lojas = lazy(() => import('./lojas'))
 const NovaOs = lazy(() => import('./novaos'))

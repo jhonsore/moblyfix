@@ -35,6 +35,7 @@ const USERS = [
     { title: 'Relatórios', href: '', icon: ChartArea, current: true },
     { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
+    { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
     // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
@@ -47,7 +48,6 @@ const ADMIN = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
     { title: 'Novo headquarter', href: 'new-headquarter', icon: ChartBarIcon },
     { title: 'Novo master', href: 'new-master', icon: ChartBarIcon },
-    { title: 'Condições de Serviços', href: 'condicoes-de-servicos', icon: WrenchScrewdriverIcon, current: false },
     { title: 'Condições de Serviços', href: 'condicoes-de-servicos', icon: WrenchScrewdriverIcon, current: false },
 ]
 
