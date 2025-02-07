@@ -33,14 +33,14 @@ import TYPE_USERS from "../../consts/TYPE_USERS"
 const USERS = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
     { title: 'Relatórios', href: '', icon: ChartArea, current: true },
-    { title: 'Ordens de serviço', href: 'ordens-servico', icon: AdjustmentsHorizontalIcon, current: false },
+    { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
     // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
     { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
     { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
-    { title: 'Condições de serviço', href: 'agendamentos', icon: ListBulletIcon, current: false },
+    { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
 ]
 
 const ADMIN = [

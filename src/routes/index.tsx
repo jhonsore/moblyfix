@@ -6,12 +6,6 @@ import { lazy } from "react"
 import Components from './components'
 import Agendamentoavulso from "@/pages/modals/agendamentoavulso"
 
-
-
-
-
-
-
 const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
 const Clientes = lazy(() => import('./clientes'))
@@ -70,11 +64,6 @@ const App = () => {
             <Route path="agendamento-avulso" element={<AgendamentoAvulso />} />
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
             <Route path="condicoes" element={<Condicoes />} />
-
-
-
-
-
         </Route>
         <Route path="teste" element={<Agendamentoavulso />} />
         <Route path="___components" element={<Components />} />
