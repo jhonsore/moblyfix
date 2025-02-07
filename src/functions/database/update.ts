@@ -1,7 +1,7 @@
 import { collection as _collection, doc, Firestore, updateDoc } from "@firebase/firestore";
 import { CollectionsNames, TypeCollections } from "../../types/Collections";
 
-const update = async ({ db, id, data, collection }: { id: string, collection: typeof CollectionsNames, db: Firestore, data: Partial<TypeCollections> }) => {
+const update = async ({ db, id, data, collection }: { id: string, collection: CollectionsNames, db: Firestore, data: Partial<TypeCollections> }) => {
     const ref = doc(db, collection, id)
     try {
         await updateDoc(ref, data)

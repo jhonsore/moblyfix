@@ -21,14 +21,14 @@ import BlockPageLoading from "../../components/loadings/BlockPageLoading"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
-import TYPE_USERS from "../../consts/TYPE_USERS"
+import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
 function Login() {
   const navigate = useNavigate()
   const { user, claims } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
   const location = useLocation()
-  const isMaster = claims?.type === TYPE_USERS.master
+  const isMaster = claims?.type === TYPE_OF_USERS.master
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard

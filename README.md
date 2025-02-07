@@ -87,3 +87,36 @@ master@moblyfix.com.br
 admin@moblyfix.com.br
 123456Abc
 
+============================
+
+# Coleções
+
+Para a criação de novas coleções basta ir no arquivo src/types/Collections.ts e inserir na constante COLLECTIONS o nome da nova coleção
+
+# Criando tipagem
+
+- vai em src/types 
+- cria um novo arquivo com o nome da tipagem, por ex.: Products
+- seguir o padrão para os types criados
+
+#  Adicionando coleções
+
+- no arquivo src/types/Collections.ts
+- na linha 4 na constante COLLECTIONS inserir o nome da nova coleção, por ex.: nomeDaColecao:'nomeDaColecao', em que a chave tem que ser o mesmo valor
+- no type TypeCollections inserir a nova tipage criada, por ex.: | TypeProducts
+
+# Criando funções
+
+- na pasta src/functions criar a pasta com o nome da coleção, por ex.: users/
+- copiar todos os arquivos de uma pasta qualquer para dentro da pasta users/
+- mudar o nome da constante em index.ts para o nome da coleção, por ex.: Users
+- dentro dos arquivos create, read, remove e update mudar o valor da constante COLLECTIONS para o da coleção criada. por ex.: COLLECTIONS.users
+- na parte em que está: 
+ 
+ data: PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'
+
+ Inserir os campos obrigatórios de acordo com cada coleção.
+
+
+
+
