@@ -1,7 +1,7 @@
 import { collection as _collection, doc, Firestore, getDoc } from "@firebase/firestore";
 import { CollectionsNames } from "../../types/Collections";
 
-const read = async ({ db, id, collection }: { id: string, collection: typeof CollectionsNames, db: Firestore }) => {
+const read = async ({ db, id, collection }: { id: string, collection: CollectionsNames, db: Firestore }) => {
     const ref = doc(db, collection, id)
     try {
         const data = await getDoc(ref)

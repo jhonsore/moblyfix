@@ -35,6 +35,7 @@ const USERS = [
     { title: 'Relatórios', href: '', icon: ChartArea, current: true },
     { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
+    { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
     // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },

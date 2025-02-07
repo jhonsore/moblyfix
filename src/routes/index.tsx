@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router"
+import { Route, Routes } from "react-router"
 import Login from "./login"
 import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
@@ -10,11 +10,6 @@ const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
 const Clientes = lazy(() => import('./clientes'))
 const OrdensServicos = lazy(() => import('./ordens-servicos'))
-
-// ADMIN PAGES
-const IntroPage = lazy(() => import('./admin/pages/intro'))
-const NewHeadquarter = lazy(() => import("./admin/pages/newHeadquarter"))
-const NewMaster = lazy(() => import("./admin/pages/newMaster"))
 const Usuarios = lazy(() => import('./usuarios'))
 const Lojas = lazy(() => import('./lojas'))
 const NovaOs = lazy(() => import('./novaos'))
@@ -35,7 +30,10 @@ const AgendamentoAvulso = lazy(() => import('./agendamento-avulso'))
 const DadosDaVenda = lazy(() => import('./dados-da-venda'))
 const Condicoes = lazy(() => import('./condicoes'))
 
-
+// ADMIN PAGES
+const IntroPage = lazy(() => import('./admin/pages/intro'))
+const NewHeadquarter = lazy(() => import("./admin/pages/newHeadquarter"))
+const NewMaster = lazy(() => import("./admin/pages/newMaster"))
 
 const App = () => {
     return <Routes>
