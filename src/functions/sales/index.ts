@@ -4,11 +4,11 @@ import read from "./read"
 import remove from "./remove"
 import update from "./update"
 
-const ServiceConditions = {
+const Sales = {
     create,
     update,
     read,
     delete: remove,
     list
 }
-export default ServiceConditions
+export default Sales

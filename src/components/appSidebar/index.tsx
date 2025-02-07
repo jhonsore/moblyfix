@@ -27,7 +27,7 @@ import { Users } from "../../functions/users"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { ChartArea } from "lucide-react"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
-import TYPE_USERS from "../../consts/TYPE_USERS"
+import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
 //https://ui.shadcn.com/docs/components/sidebar
 const USERS = [
@@ -53,7 +53,7 @@ export function AppSidebar() {
     const { open } = useSidebar()
     const { auth } = useFirebaseContext()
     const { claims } = useAuthContext()
-    const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
+    const items = claims?.type === TYPE_OF_USERS.master ? ADMIN : USERS
     return (
         <Sidebar collapsible='icon'>
             <SidebarHeader>

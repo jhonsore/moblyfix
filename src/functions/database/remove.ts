@@ -1,7 +1,7 @@
 import { collection as _collection, doc, Firestore, deleteDoc } from "@firebase/firestore";
 import { CollectionsNames } from "../../types/Collections";
 
-const remove = async ({ db, id, collection }: { id: string, collection: typeof CollectionsNames, db: Firestore }) => {
+const remove = async ({ db, id, collection }: { id: string, collection: CollectionsNames, db: Firestore }) => {
     const ref = doc(db, collection, id)
     try {
         await deleteDoc(ref);
