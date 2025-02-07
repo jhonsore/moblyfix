@@ -151,8 +151,8 @@ const OrdensServicos = () => {
         </div>
       </div>
 
-      <div className=" pt-6">
-        <table className=" w-full lg:table block" >
+      <div className=" pt-6 hidden lg:block">
+        <table className=" w-full lg:table " >
           <thead className="bg-gray-50">
             <tr>
               <th
@@ -224,7 +224,6 @@ const OrdensServicos = () => {
                       visibility
                     </span>
                   </Link>
-
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
                     <span className="material-symbols-outlined">
                       delete
@@ -234,6 +233,97 @@ const OrdensServicos = () => {
               </tr>
             ))}
           </tbody>
+        </table>
+      </div>
+      <div className=" bg-white m-w-full py-6 lg:hidden">
+        <table className=" w-full">
+
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-y border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Nº OS
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                {transaction.id}
+              </td>
+
+              <td rowSpan={7} className="text-center border">
+                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
+                    visibility
+                  </span>
+                </Link>
+              </td>
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Cliente
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.company}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Início
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+              {transaction.share}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Fim
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+              {transaction.commission}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Atraso
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+              {transaction.price}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Aparelho
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+              {transaction.quantity}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Status
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3">
+              <Badge variant="destructive">{transaction.netAmount}</Badge>
+              </td>
+
+            </tr>
+          ))}
+
+
         </table>
       </div>
       <div className='py-4 flex justify-end'>

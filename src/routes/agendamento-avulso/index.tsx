@@ -53,7 +53,7 @@ const AgendamentoAvulso = () => {
                         )}
                     />
 
-                    <div className='grid grid-cols-3 gap-4 mt-4'>
+                    <div className='grid grid-cols-1  md:grid-cols-3 gap-4 mt-4'>
                         <FormField
                             control={form.control}
                             name="cpf"
@@ -163,7 +163,7 @@ const AgendamentoAvulso = () => {
                             <Button variant={"ghost"}>Ver menos dados</Button>
                         </div>
                     </div>
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="telefone"
@@ -280,7 +280,7 @@ const AgendamentoAvulso = () => {
                             </FormItem>
                         )}
                     />
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="cep"

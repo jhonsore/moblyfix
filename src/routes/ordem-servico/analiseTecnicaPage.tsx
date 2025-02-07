@@ -111,13 +111,13 @@ const AnaliseTecnica = () => {
                                                 <Button variant={"outlinePrimary"}>Novo item</Button>
                                             </div>
                                             <div className="space-y-2">
-                                            <FormLabel>Peça/serviço</FormLabel>
+                                                <FormLabel>Peça/serviço</FormLabel>
                                                 <FormField
                                                     control={form.control}
                                                     name="search"
                                                     render={({ field }) => (
                                                         <FormItem>
-                                                            
+
                                                             <FormControl>
                                                                 <Input placeholder="Digite aqui" {...field} />
                                                             </FormControl>
@@ -128,13 +128,13 @@ const AnaliseTecnica = () => {
                                             </div>
                                             <div className='grid grid-cols-2 gap-4 mt-4'>
                                                 <div className="space-y-2">
-                                                <FormLabel>Venda à vista</FormLabel>
+                                                    <FormLabel>Venda à vista</FormLabel>
                                                     <FormField
                                                         control={form.control}
                                                         name="number"
                                                         render={({ field }) => (
                                                             <FormItem>
-                                                                
+
                                                                 <FormControl>
                                                                     <Input placeholder="R$" {...field} />
                                                                 </FormControl>
@@ -144,13 +144,13 @@ const AnaliseTecnica = () => {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                <FormLabel>Venda à prazo</FormLabel>
+                                                    <FormLabel>Venda à prazo</FormLabel>
                                                     <FormField
                                                         control={form.control}
                                                         name="number"
                                                         render={({ field }) => (
                                                             <FormItem>
-                                                                
+
                                                                 <FormControl>
                                                                     <Input placeholder="R$" {...field} />
                                                                 </FormControl>
@@ -165,13 +165,13 @@ const AnaliseTecnica = () => {
                                                 <Button variant={"primary"}>Adicionar</Button>
                                             </div>
                                             <div className="space-y-2">
-                                            <FormLabel>Quantidade</FormLabel>
+                                                <FormLabel>Quantidade</FormLabel>
                                                 <FormField
                                                     control={form.control}
                                                     name="number"
                                                     render={({ field }) => (
                                                         <FormItem>
-                                                            
+
                                                             <FormControl className="w-2/12">
                                                                 <Input placeholder="Digite aqui" {...field} />
                                                             </FormControl>

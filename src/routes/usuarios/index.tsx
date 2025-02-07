@@ -22,7 +22,7 @@ const Usuarios = () => {
     </HeaderPage>
     <PageContent>
 
-      <div className=" m-w-full py-6">
+      <div className=" m-w-full py-6 hidden lg:block">
         <table className=" w-full">
           <thead>
             <tr className="bg-gray-50">
@@ -69,7 +69,43 @@ const Usuarios = () => {
           </tbody>
         </table>
       </div>
+      <div className=" bg-white m-w-full py-6 lg:hidden">
+        <table className=" w-full">
 
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-y border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+              Nome
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                {transaction.id}
+              </td>
+
+              <td rowSpan={2} className="text-center border">
+                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
+                    visibility
+                  </span>
+                </Link>
+              </td>
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+              Whatsapp
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+              {transaction.commission}
+              </td>
+
+            </tr>
+          ))}
+          
+
+
+        </table>
+      </div>
       <div className='py-4 flex justify-end'>
         <button
           type="button"

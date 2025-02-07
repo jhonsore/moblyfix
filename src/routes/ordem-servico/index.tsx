@@ -141,7 +141,7 @@ const OrdemServico = () => {
       <Form {...form}>
         <form onSubmit={() => { }} className="">
           <div className="border-b border-gray-200 py-4">
-            <div className="w-2/4">
+            <div className="w-3/4 md:w-2/4">
               <FormField
                 control={form.control}
                 name="search"
@@ -160,7 +160,7 @@ const OrdemServico = () => {
               />
             </div>
           </div>
-          <div className="flex items-end px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+          <div className="flex items-end py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
 
             <FormField
               control={form.control}
@@ -479,7 +479,7 @@ const OrdemServico = () => {
             </div>
           </div>
 
-          <div className="px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+          <div className="py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <FormField
               control={form.control}
               name="search"

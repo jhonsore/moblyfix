@@ -288,6 +288,115 @@ const Dashboard = () => {
                         </SheetHeader>
                     </SheetContent>
                 </Sheet>
+                <Sheet>
+                                        <SheetTrigger>
+                                            <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
+                                        </SheetTrigger>
+                                        <SheetContent>
+                                            <SheetHeader>
+                                                <SheetTitle>Adicionar peça/serviço</SheetTitle>
+                                                <SheetDescription>
+                
+                                                    <Form {...form}>
+                                                        <form onSubmit={() => { }} >
+                                                            <div className="flex justify-betwee items-end pb-4 pt-6">
+                                                                <div className="space-y-2 flex-1 mr-10">
+                                                                    <FormLabel>Peça/serviço</FormLabel>
+                                                                    <FormField
+                                                                        control={form.control}
+                                                                        name="search"
+                                                                        render={({ field }) => (
+                                                                            <FormItem>
+                                                                                <FormControl className="w-full">
+                                                                                    <Input placeholder="Digite aqui" {...field} />
+                                                                                </FormControl>
+                                                                                <FormMessage />
+                                                                            </FormItem>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                                <Button variant={"outlinePrimary"}>Novo item</Button>
+                                                            </div>
+                                                            <div className="space-y-2">
+                                                            <FormLabel>Peça/serviço</FormLabel>
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="search"
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            
+                                                                            <FormControl>
+                                                                                <Input placeholder="Digite aqui" {...field} />
+                                                                            </FormControl>
+                                                                            <FormMessage />
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                            <div className='grid grid-cols-2 gap-4 mt-4'>
+                                                                <div className="space-y-2">
+                                                                <FormLabel>Venda à vista</FormLabel>
+                                                                    <FormField
+                                                                        control={form.control}
+                                                                        name="number"
+                                                                        render={({ field }) => (
+                                                                            <FormItem>
+                                                                                
+                                                                                <FormControl>
+                                                                                    <Input placeholder="R$" {...field} />
+                                                                                </FormControl>
+                                                                                <FormMessage />
+                                                                            </FormItem>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                <FormLabel>Venda à prazo</FormLabel>
+                                                                    <FormField
+                                                                        control={form.control}
+                                                                        name="number"
+                                                                        render={({ field }) => (
+                                                                            <FormItem>
+                                                                                
+                                                                                <FormControl>
+                                                                                    <Input placeholder="R$" {...field} />
+                                                                                </FormControl>
+                                                                                <FormMessage />
+                                                                            </FormItem>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex justify-end gap-4 pt-6">
+                                                                <Button variant={"outlinePrimary"}>Fechar</Button>
+                                                                <Button variant={"primary"}>Adicionar</Button>
+                                                            </div>
+                                                            <div className="space-y-2">
+                                                            <FormLabel>Quantidade</FormLabel>
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="number"
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            
+                                                                            <FormControl className="w-2/12">
+                                                                                <Input placeholder="Digite aqui" {...field} />
+                                                                            </FormControl>
+                                                                            <FormMessage />
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                        </form>
+                                                    </Form>
+                                                    <div className='py-6 flex justify-end'>
+                                                        <Button variant={'primary'}>Salvar</Button>
+                                                    </div>
+                
+                                                </SheetDescription>
+                                            </SheetHeader>
+                                        </SheetContent>
+                                    </Sheet>
             </div>
         </PageContent>
     </>

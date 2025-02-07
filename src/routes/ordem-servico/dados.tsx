@@ -30,7 +30,7 @@ const Dados = () => {
                         name="search"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Posição na Colméia</FormLabel>
+                                <FormLabel>Posição na</FormLabel>
                                 <div className="flex items-center justify-around">
                                     <FormControl className="mr-5">
                                         <Input placeholder="Digite aqui" {...field} />
@@ -43,14 +43,14 @@ const Dados = () => {
                     />
                 </div>
             </div>
-            <div className="flex items-end px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+            <div className="flex items-end py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
 
                 <FormField
                     control={form.control}
                     name="search"
                     render={({ field }) => (
                         <FormItem className="flex-1 pr-6">
-                            <FormLabel>Cliente</FormLabel>
+                            <FormLabel>Client</FormLabel>
                             <FormControl>
                                 <Input placeholder="Digite o nome do cliente" {...field} />
                             </FormControl>

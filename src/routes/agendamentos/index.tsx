@@ -135,62 +135,177 @@ const Agendamentos = () => {
           </div>
         </form>
       </Form>
-      <table className=" w-full bg-gray-50 mt-7">
-        <thead>
-          <tr>
-            <th
-              scope="col"
-              className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-            >
-              Cliente
-            </th>
-            <th
-              scope="col"
-              className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-            >
-              Produto/ Relato
-            </th>
-            <th
-              scope="col"
-              className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
-            >
-              Data
-            </th>
-            <th
-              scope="col"
-              className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-            >
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody className=" bg-white">
+      <div className=" bg-white m-w-full py-6 hidden lg:block">
+        <table className=" w-full bg-gray-50 mt-7">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+              >
+                Cliente
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Produto/ Relato
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+              >
+                Data
+              </th>
+              <th
+                scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" bg-white">
+            {transactions.map((transaction) => (
+              <tr key={transaction.id} className='border-b border-gray-200'>
+                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+                  {transaction.id}
+                </td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.company}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
+                <td className="">
+                  <Badge variant="destructive">{transaction.commission}</Badge>
+                </td>
+                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
+                    <span className="material-symbols-outlined">
+                      visibility
+                    </span>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-indigo-900">
+                    <span className="material-symbols-outlined">
+                      delete
+                    </span><span className="sr-only">, {transaction.id}</span>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className=" bg-white m-w-full py-6 lg:hidden">
+        <table className=" w-full">
+
           {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
+            <tr key={transaction.id} className='border-y border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Cliente
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
                 {transaction.id}
               </td>
-              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.company}</td>
-              <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-              <td className="">
-                <Badge variant="destructive">{transaction.commission}</Badge>
-              </td>
-              <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                <a href="#" className="text-gray-400 hover:text-indigo-900 mr-2">
-                  <span className="material-symbols-outlined">
+
+              <td rowSpan={4} className="text-center border">
+                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                     visibility
                   </span>
-                </a>
-                <a href="#" className="text-gray-400 hover:text-indigo-900">
-                  <span className="material-symbols-outlined">
-                    delete
-                  </span><span className="sr-only">, {transaction.id}</span>
-                </a>
+                </Link>
               </td>
             </tr>
           ))}
-        </tbody>
-      </table>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Email
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.company}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Cpf
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.share}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Whatsapp
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.commission}
+              </td>
+
+            </tr>
+          ))}
+
+
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-y border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Cliente
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                {transaction.id}
+              </td>
+
+              <td rowSpan={4} className="text-center border">
+                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
+                    visibility
+                  </span>
+                </Link>
+              </td>
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Email
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.company}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Cpf
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.share}
+              </td>
+
+            </tr>
+          ))}
+          {transactions.map((transaction) => (
+            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                Whatsapp
+              </td>
+              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
+                {transaction.commission}
+              </td>
+
+            </tr>
+          ))}
+
+
+        </table>
+      </div>
+
       <div className='pt-12 py-4 flex justify-end'>
         <button
           type="button"

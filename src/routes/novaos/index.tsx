@@ -28,67 +28,66 @@ const NovaOs = () => {
   return <>
     <HeaderPage title="Nova OS">
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="primary">Salvar</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>OS nº 000005 criada</DialogTitle>
-            <DialogDescription className="pt-4 text-center text-black">
-              O que deseja fazer agora?
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4 px-14">
-            <Button variant={"outlinePrimary"}>Imprimir</Button>
-
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Enviar whatsapp</DialogTitle>
-                  <DialogDescription className="pt-4 text-center text-black">
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={() => { }} className="">
-                    <FormField
-                      control={form.control}
-                      name="telefone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Whatsapp</FormLabel>
-                          <FormControl>
-                            <Input placeholder="(xx) xxxxx-xxxx" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="pt-3 pb-6">
-                      <FormLabel>Mensagem</FormLabel>
-                      <Textarea placeholder="Digite a mensagem" />
-                    </div>
-                    <div className="text-right">
-                      <Button variant={"outlinePrimary"}>Enviar</Button>
-                    </div>
-                  </form>
-                </Form>
-                <DialogFooter>
-
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Link to={'/dashboard/ordem-servico/criar'}>
-              <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
-            </Link>
-            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="primary">Salvar</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>OS nº 000005 criada</DialogTitle>
+              <DialogDescription className="pt-4 text-center text-black">
+                O que deseja fazer agora?
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4 px-14">
+              <Button variant={"outlinePrimary"}>Imprimir</Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Enviar whatsapp</DialogTitle>
+                    <DialogDescription className="pt-4 text-center text-black">
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Form {...form}>
+                    <form onSubmit={() => { }} className="">
+                      <FormField
+                        control={form.control}
+                        name="telefone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Whatsapp</FormLabel>
+                            <FormControl>
+                              <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="pt-3 pb-6">
+                        <FormLabel>Mensagem</FormLabel>
+                        <Textarea placeholder="Digite a mensagem" />
+                      </div>
+                      <div className="text-right">
+                        <Button variant={"outlinePrimary"}>Enviar</Button>
+                      </div>
+                    </form>
+                  </Form>
+                  <DialogFooter>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Link to={'/dashboard/ordem-servico/criar'}>
+                <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
+              </Link>
+              <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      
 
     </HeaderPage>
     <PageContent>
@@ -339,7 +338,7 @@ const NovaOs = () => {
             </Sheet>
 
           </div>
-          <div className=" grid grid-cols-1 sm:grid-cols-3 sm:gap-x-4">
+          <div className=" grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-x-4">
             <div className='col-span-2'>
               <FormField
                 control={form.control}
@@ -426,7 +425,7 @@ const NovaOs = () => {
               </Popover>
             </div>
           </div>
-          <div className="px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+          <div className=" py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <FormField
               control={form.control}
               name="search"
@@ -461,10 +460,10 @@ const NovaOs = () => {
         <h2>
           Fotos do aparelho
         </h2>
-        <div className="ml-4 mt-2 flex">
-          <Button variant={'primary'}><span className="material-symbols-outlined mr-2">
+        <div className=" ml-4 pb-4 md:mt-2 flex">
+          <Button variant={'primary'}><span className="material-symbols-outlined sm:mr-2">
             add_a_photo
-          </span> Nova foto</Button>
+          </span> <span className="hidden sm:block">Nova foto</span></Button>
         </div>
       </div>
       <div className='flex gap-4'>

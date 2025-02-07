@@ -36,7 +36,7 @@ const DadosDaLoja = () => {
                             </FormItem>
                         )}
                     />
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="cpf"
@@ -193,7 +193,7 @@ const DadosDaLoja = () => {
                             </FormItem>
                         )}
                     />
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="cep"

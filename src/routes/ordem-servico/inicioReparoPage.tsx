@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/select"
 
 import { Badge } from "../../components/ui/badge"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Input } from "@/components/ui/input"
+import { useForm } from "react-hook-form"
 
 
 const tabs = [
@@ -29,6 +35,7 @@ function classNames(...classes: string[]) {
 
 
 const InicioReparo = () => {
+    const form = useForm()
     return <>
         <HeaderPage title="OS - 123456">
         <Badge variant="cyan">Em atendimento</Badge>
@@ -48,9 +55,143 @@ const InicioReparo = () => {
         </HeaderPage>
         <PageContent>
             <div className='flex justify-between items-center pt-7'>
-                <div className='flex gap-4'>
-                    <Button variant={"outlinePrimary"}>Adicionar relato técnico</Button>
-                    <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
+            <div className='flex gap-4'>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant={"outlinePrimary"}>Adicionar relato técnico</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Relato técnico</DialogTitle>
+                                <DialogDescription>
+                                </DialogDescription>
+                            </DialogHeader>
+                            <Form {...form}>
+                                <form onSubmit={() => { }} className="">
+                                    <div className="pt-3 pb-6 space-y-2">
+                                        <FormLabel>Relato</FormLabel>
+                                        <Textarea placeholder="Digite a mensagem" />
+                                    </div>
+                                    <div className="text-right">
+                                        <Button variant={"outlinePrimary"}>Enviar</Button>
+                                    </div>
+                                </form>
+                            </Form>
+                            <DialogFooter>
+
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                    <Sheet>
+                        <SheetTrigger>
+                            <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
+                        </SheetTrigger>
+                        <SheetContent>
+                            <SheetHeader>
+                                <SheetTitle>Adicionar peça/serviço</SheetTitle>
+                                <SheetDescription>
+
+                                    <Form {...form}>
+                                        <form onSubmit={() => { }} >
+                                            <div className="flex justify-betwee items-end pb-4 pt-6">
+                                                <div className="space-y-2 flex-1 mr-10">
+                                                    <FormLabel>Peça/serviço</FormLabel>
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="search"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormControl className="w-full">
+                                                                    <Input placeholder="Digite aqui" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
+                                                <Button variant={"outlinePrimary"}>Novo item</Button>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <FormLabel>Peça/serviço</FormLabel>
+                                                <FormField
+                                                    control={form.control}
+                                                    name="search"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+
+                                                            <FormControl>
+                                                                <Input placeholder="Digite aqui" {...field} />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className='grid grid-cols-2 gap-4 mt-4'>
+                                                <div className="space-y-2">
+                                                    <FormLabel>Venda à vista</FormLabel>
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="number"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+
+                                                                <FormControl>
+                                                                    <Input placeholder="R$" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <FormLabel>Venda à prazo</FormLabel>
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="number"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+
+                                                                <FormControl>
+                                                                    <Input placeholder="R$" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-end gap-4 pt-6">
+                                                <Button variant={"outlinePrimary"}>Fechar</Button>
+                                                <Button variant={"primary"}>Adicionar</Button>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <FormLabel>Quantidade</FormLabel>
+                                                <FormField
+                                                    control={form.control}
+                                                    name="number"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+
+                                                            <FormControl className="w-2/12">
+                                                                <Input placeholder="Digite aqui" {...field} />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+                                        </form>
+                                    </Form>
+                                    <div className='py-6 flex justify-end'>
+                                        <Button variant={'primary'}>Salvar</Button>
+                                    </div>
+
+                                </SheetDescription>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
+
                 </div>
                 <div className='flex justify-end items-center'>
                     <span className="text-sm text-gray-500 pr-3">Aberto em: 10/10/2024</span>
