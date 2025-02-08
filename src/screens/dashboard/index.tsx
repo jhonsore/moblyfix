@@ -2,7 +2,7 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 
-const Dashboard = () => {
+const PageDashboard = () => {
 
     return <>
         <HeaderPage title="Dashboard" />
@@ -12,4 +12,4 @@ const Dashboard = () => {
         </PageContent>
     </>
 }
-export default Dashboard
+export default PageDashboard

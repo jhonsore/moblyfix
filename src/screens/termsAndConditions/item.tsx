@@ -1,4 +1,3 @@
-import { XMarkIcon as XIcon, } from '@heroicons/react/24/solid'
 import PageContent from "../../components/layout/pageContent"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
@@ -7,7 +6,7 @@ import { Button } from "../../components/ui/button"
 import { Textarea } from "../../components/ui/textarea"
 import HeaderPage from '@/components/headerPage'
 
-const Condicoes = () => {
+const PageTermAndCondition = () => {
     const form = useForm()
     return <>
         <PageContent>
@@ -43,4 +42,4 @@ const Condicoes = () => {
     </>
 }
 
-export default Condicoes
+export default PageTermAndCondition

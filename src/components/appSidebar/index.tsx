@@ -32,7 +32,7 @@ import TYPE_USERS from "../../consts/TYPE_USERS"
 //https://ui.shadcn.com/docs/components/sidebar
 const USERS = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
-    { title: 'Relatórios', href: '', icon: ChartArea, current: true },
+    { title: 'Relatórios', href: 'relatorios', icon: ChartArea, current: true },
     { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
