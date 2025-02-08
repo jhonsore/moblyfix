@@ -1,5 +1,5 @@
 import { Firestore } from "@firebase/firestore"
-import Database from "../database"
+import Database from "../_database"
 import { COLLECTIONS } from "../../types/Collections"
 import { TypeStores } from "../../types/Stores"
 

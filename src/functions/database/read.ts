@@ -1,16 +1,15 @@
-import { collection as _collection, doc, Firestore, getDoc } from "@firebase/firestore";
-import { CollectionsNames } from "../../types/Collections";
+import { doc, DocumentData, Firestore, getDoc } from "firebase/firestore"
+import { CollectionsNames } from "../../types/Collections"
+import { TypeDbResponse } from "./TypeDbResponse"
 
-const read = async ({ db, id, collection }: { id: string, collection: CollectionsNames, db: Firestore }) => {
-    const ref = doc(db, collection, id)
-    try {
-        const data = await getDoc(ref)
-        return { status: true, data: data.data() }
-    } catch (error) {
-        const _e = error as { message: string }
-        return { status: false, error: _e }
-    }
-
-}
-
-export default read
+export const read = <TDoc extends DocumentData>(collection: CollectionsNames) => (
+    async ({ id, db }: { id: string, db: Firestore }): Promise<TypeDbResponse<TDoc>> => {
+        const ref = doc(db, collection, id)
+        try {
+            const data = await getDoc(ref)
+            return { status: true, doc: data.data() as TDoc }
+        } catch (error) {
+            const _e = error as { message: string }
+            return { status: false, error: _e }
+        }
+    })

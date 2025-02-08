@@ -1,27 +1,23 @@
-import { collection as _collection, DocumentData, Firestore, getDocs, limit, orderBy, OrderByDirection, query, QueryConstraint, QueryDocumentSnapshot, QuerySnapshot, startAfter, where, WhereFilterOp } from "firebase/firestore";
-import { CollectionsNames } from "../../types/Collections";
-import { TypeUsers } from "../../types/Users";
+import { DocumentData, Firestore, collection as _collection, startAfter, limit as _limit, where as _where, OrderByDirection, QueryConstraint, WhereFilterOp, orderBy as _orderBy, QueryDocumentSnapshot, query, QuerySnapshot, getDocs } from "firebase/firestore"
+import { CollectionsNames } from "../../types/Collections"
 
-//wheres: [['title', '==', 'teste']]
-//order: [['title', 'asc']]
-const list = async ({ db, lastDoc, pageSize, collection, wheres, order }: { collection: CollectionsNames, order?: [string, OrderByDirection][], wheres?: [string, WhereFilterOp, any][], db: Firestore, search?: string, pageSize?: number, lastDoc?: QueryDocumentSnapshot<DocumentData> | undefined }) => {
-    const queryConstraints: QueryConstraint[] = [orderBy("createdAt", 'desc')]
+export const list = <TDoc extends DocumentData>(collection: CollectionsNames) => (
+    async ({ wheres, limit, orderBy, lastDocument, db }: { db: Firestore, wheres?: [string, WhereFilterOp, any][], limit?: number, orderBy?: [string, OrderByDirection][], lastDocument?: QueryDocumentSnapshot<DocumentData> | undefined }) => {
+        const queryConstraints: QueryConstraint[] = [_orderBy("createdAt", 'desc')]
 
-    if (pageSize) queryConstraints.push(limit(pageSize))
-    if (lastDoc) queryConstraints.push(startAfter(lastDoc));
-    if (wheres) wheres.map(item => queryConstraints.push(where(...item)))
-    if (order) order.map(item => queryConstraints.push(orderBy(...item)))
+        if (limit) queryConstraints.push(_limit(limit))
+        if (lastDocument) queryConstraints.push(startAfter(lastDocument));
+        if (wheres) wheres.map(item => queryConstraints.push(_where(...item)))
+        if (orderBy) orderBy.map(item => queryConstraints.push(_orderBy(...item)))
 
-    const first = query(_collection(db, collection), ...queryConstraints);
-    const documentSnapshots: QuerySnapshot<DocumentData> = await getDocs(first);
-    const docs: { [id: string]: TypeUsers } = {}
-    documentSnapshots.forEach((doc) => {
-        docs[doc.id] = { ...doc.data() as TypeUsers }
-    });
-    return {
-        docs,
-        lastDoc: documentSnapshots.docs[documentSnapshots.docs.length - 1]
-    }
-}
-
-export default list
+        const first = query(_collection(db, collection), ...queryConstraints);
+        const documentSnapshots: QuerySnapshot<DocumentData> = await getDocs(first);
+        const docs: { [id: string]: TDoc } = {}
+        documentSnapshots.forEach((doc) => {
+            docs[doc.id] = { ...doc.data() } as TDoc
+        });
+        return {
+            docs,
+            lastDoc: documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        }
+    })
