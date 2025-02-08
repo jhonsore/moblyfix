@@ -1,16 +1,17 @@
-import { collection as _collection, doc, Firestore, updateDoc } from "@firebase/firestore";
-import { CollectionsNames, TypeCollections } from "../../types/Collections";
+import { doc, DocumentData, Firestore, updateDoc, WithFieldValue } from "firebase/firestore"
+import { CollectionsNames } from "../../types/Collections"
+import { TypeDbResponse } from "./TypeDbResponse"
 
-const update = async ({ db, id, data, collection }: { id: string, collection: CollectionsNames, db: Firestore, data: Partial<TypeCollections> }) => {
-    const ref = doc(db, collection, id)
-    try {
-        await updateDoc(ref, data)
-        return { status: true }
-    } catch (error) {
-        const _e = error as { message: string }
-        return { status: false, error: _e }
-    }
+export const update = <TDoc extends DocumentData>(collection: CollectionsNames) => (
+    async ({ id, data, db }: { db: Firestore, id: string, data: Partial<TDoc> }): Promise<TypeDbResponse<TDoc>> => {
+        const ref = doc(db, collection, id)
+        console.log(collection, id)
+        try {
+            await updateDoc(ref, data as WithFieldValue<DocumentData>)
+            return { status: true }
+        } catch (error) {
+            const _e = error as { message: string }
+            return { status: false, error: _e }
+        }
 
-}
-
-export default update
+    })

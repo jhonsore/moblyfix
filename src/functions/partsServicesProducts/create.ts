@@ -1,5 +1,5 @@
 import { Firestore } from "@firebase/firestore"
-import Database from "../database"
+import Database from "../_database"
 import { PartialWithRequired } from "../../types/Commons"
 import { TypePartsServicesProducts } from "../../types/PartsServicesProducts"
 import { COLLECTIONS } from "../../types/Collections"

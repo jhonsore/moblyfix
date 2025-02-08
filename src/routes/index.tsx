@@ -4,7 +4,6 @@ import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
 import { lazy } from "react"
 import Components from './components'
-import Agendamentoavulso from "@/pages/modals/agendamentoavulso"
 
 const Agendamentos = lazy(() => import('./agendamentos'))
 const Dashboard = lazy(() => import('./dashboard'))
@@ -63,9 +62,7 @@ const App = () => {
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
             <Route path="condicoes" element={<Condicoes />} />
         </Route>
-        <Route path="teste" element={<Agendamentoavulso />} />
         <Route path="___components" element={<Components />} />
-
         <Route path="admin" element={<RequireAuth><Layout /></RequireAuth>}>
             <Route index element={<IntroPage />} />
             <Route path="new-headquarter" element={<NewHeadquarter />} />
