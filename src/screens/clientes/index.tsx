@@ -6,21 +6,50 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Link } from "react-router"
+import { LoadingPage } from "@/components/loadingPage"
+import { ErrorPage } from "@/components/errorPage"
+import { useEffect, useState } from "react"
+import { TypeCustomers } from "@/types/Customers"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { TypePageStatus } from "@/types/PageStatus"
+import { DB } from "@/functions/database"
 
 
-const transactions = [
-  {
-    id: 'Jhonnatan Soares Rebuli',
-    company: 'jhonnatan@gmail.com',
-    share: 'xxx.xxx.xxx-xx',
-    commission: '(xx) xxxxx-xxxx',
-
-  },
-
-]
 
 const Clientes = () => {
   const form = useForm()
+  const { db } = useFirebaseContext()
+  const [pageData, setPageData] = useState<TypeCustomers[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.customers.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
+    }
+    load()
+  }, [])
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
+
+
   return <>
 
     <HeaderPage title="Clientes">
@@ -85,16 +114,16 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
+            {pageData.map((data) => (
+              <tr key={data._id} className='border-b border-gray-200'>
                 <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900">
-                  {transaction.id}
+                  {data.name}
                 </td>
                 <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                  {transaction.company}
+                  {data.email}
                 </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data.cpfCnpj}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data.whatsapp}</td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <Link to={'/dashboard/clientes/1'}>
                     <span className="text-gray-400 hover:text-indigo-900 mr-2">
@@ -106,7 +135,7 @@ const Clientes = () => {
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
                     <span className="material-symbols-outlined">
                       delete
-                    </span><span className="sr-only">, {transaction.id}</span>
+                    </span><span className="sr-only">, {data._id}</span>
                   </a>
                 </td>
               </tr>
@@ -114,16 +143,18 @@ const Clientes = () => {
           </tbody>
         </table>
       </div>
+
+
+
       <div className=" bg-white m-w-full py-6 lg:hidden">
         <table className=" w-full">
-
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-y border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-y border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Cliente
+              Cliente
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {transaction.id}
+                {data.name}
               </td>
 
               <td rowSpan={4} className="text-center border">
@@ -135,35 +166,34 @@ const Clientes = () => {
               </td>
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Email
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.company}
+                {data.email}
               </td>
 
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Cpf
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.share}
+                {data.cpfCnpj}
               </td>
-
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b-4 border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Whatsapp
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.commission}
+                {data.whatsapp}
               </td>
 
             </tr>
