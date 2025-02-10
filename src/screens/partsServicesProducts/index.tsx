@@ -3,22 +3,50 @@ import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { TypePageStatus } from "@/types/PageStatus"
+import { useEffect, useState } from "react"
+import { DB } from "@/functions/database"
+import { LoadingPage } from "@/components/loadingPage"
+import { ErrorPage } from "@/components/errorPage"
+import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
 
 
-const transactions = [
-  {
-    id: 'Peça 1',
-    company: 'R$xx.xx',
-    share: 'R$xx.xx',
-    commission: 'R$xx.xx',
 
-  },
-
-]
 
 
 
 const PagePartsServicesProducts = () => {
+  const { db } = useFirebaseContext()
+    const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
+    const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+  
+    useEffect(() => {
+      if (!db) return
+      const load = async () => {
+        const result = await DB.views.partsServicesProducts.list({ db })
+        let status: typeof pageStatus = 'success'
+        if (!result.status) {
+          status = 'error'
+          return
+        }
+  
+        setPageStatus(status)
+        if (result.docs) {
+          setPageData(Object.values(result.docs))
+        }
+  
+      }
+      load()
+    }, [])
+  
+    if (pageStatus === 'loading') {
+      return <LoadingPage />
+    }
+  
+    if (pageStatus === 'error') {
+      return <ErrorPage />
+    }
   return <>
     <HeaderPage title="Peças/serviços/produtos">
       <Link to={'/dashboard/pecas-servicos/novo'}>
@@ -61,16 +89,16 @@ const PagePartsServicesProducts = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
+            {pageData.map((data) => (
+              <tr key={data._id} className='border-b border-gray-200'>
                 <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                  {transaction.id}
+                  {data.name}
                 </td>
                 <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                  {transaction.company}
+                  {data.costPrice}
                 </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data.cashPrice}</td>
+                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data.installmentPrice}</td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <Link to={'/dashboard/pecas-servicos/1'}>
                     <span className="text-gray-400 hover:text-indigo-900 mr-2">
@@ -83,7 +111,7 @@ const PagePartsServicesProducts = () => {
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
                     <span className="material-symbols-outlined">
                       delete
-                    </span><span className="sr-only">, {transaction.id}</span>
+                    </span><span className="sr-only">, {data._id}</span>
                   </a>
                 </td>
               </tr>
@@ -95,13 +123,13 @@ const PagePartsServicesProducts = () => {
       <div className=" bg-white m-w-full py-6 lg:hidden">
         <table className=" w-full">
 
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-y border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-y border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Peça/serviço
+                Nome
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {transaction.id}
+                {data.name}
               </td>
 
               <td rowSpan={4} className="text-center border">
@@ -113,35 +141,35 @@ const PagePartsServicesProducts = () => {
               </td>
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Preço de custo
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.company}
+                {data.costPrice}
               </td>
 
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Venda à vista
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.share}
+                {data.cashPrice}
               </td>
 
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b-4 border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Venda à prazo
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.commission}
+                {data.installmentPrice}
               </td>
 
             </tr>
