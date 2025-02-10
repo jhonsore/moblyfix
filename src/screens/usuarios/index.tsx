@@ -3,17 +3,47 @@ import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "@/components/ui/button"
+import { DB } from "@/functions/database"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { useEffect, useState } from "react"
+import { TypePageStatus } from "@/types/PageStatus"
+import { LoadingPage } from "@/components/loadingPage"
+import { ErrorPage } from "@/components/errorPage"
+import { TypeUsers } from "@/types/Users"
 
-const transactions = [
-  {
-    id: 'Jhonnatan Soares Rebuli',
-    commission: '(xx) xxxxx-xxxx',
 
-  },
-
-]
 
 const Usuarios = () => {
+  const { db } = useFirebaseContext()
+  const [pageData, setPageData] = useState<TypeUsers[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.users.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
+    }
+    load()
+  }, [])
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
   return <>
     <HeaderPage title="Usuários">
       <Link to={'/dashboard/usuarios/novo'}>
@@ -47,10 +77,10 @@ const Usuarios = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
+            {pageData.map((data) => (
+              <tr key={data._id} className='border-b border-gray-200'>
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-900">
-                  {transaction.id}
+                  {data.name}
                 </td>
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-900">
                   Atendende
@@ -66,7 +96,7 @@ const Usuarios = () => {
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
                     <span className="material-symbols-outlined">
                       delete
-                    </span><span className="sr-only">, {transaction.id}</span>
+                    </span><span className="sr-only">, {data._id}</span>
                   </a>
                 </td>
               </tr>
@@ -74,19 +104,21 @@ const Usuarios = () => {
           </tbody>
         </table>
       </div>
+
       <div className=" bg-white m-w-full py-6 lg:hidden">
         <table className=" w-full">
 
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-y border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-y border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Nome
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {transaction.id}
+                {data.name}
+
               </td>
 
-              <td rowSpan={2} className="text-center border">
+              <td rowSpan={1} className="text-center border">
                 <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
                   <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                     visibility
@@ -95,13 +127,13 @@ const Usuarios = () => {
               </td>
             </tr>
           ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b-4 border-gray-200'>
+          {pageData.map((data) => (
+            <tr key={data._id} className='border-b-4 border-gray-200'>
               <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
                 Whatsapp
               </td>
               <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.commission}
+                {data.whatsapp}
               </td>
 
             </tr>
