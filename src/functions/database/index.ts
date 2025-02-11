@@ -28,12 +28,12 @@ const generateDBView = <TDoc extends DocumentData>(collection: CollectionsViewsN
 })
 export const DB = {
     termsAndConditions: generateDB<PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'>>(COLLECTIONS.termsAndConditions),
-    customers: generateDB<Omit<TypeCustomers, '_id' | 'createdAt'>>(COLLECTIONS.customers),
-    os: generateDB<PartialWithRequired<TypeOs, 'devices' | '_headquarterId' | '_storeId'>>(COLLECTIONS.os),
-    partsServicesProducts: generateDB<PartialWithRequired<TypePartsServicesProducts, 'name' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
-    sales: generateDB<Omit<TypeSales, '_id' | 'createdAt'>>(COLLECTIONS.sales),
-    stores: generateDB<Omit<TypeStores, '_id' | 'createdAt'>>(COLLECTIONS.stores),
-    users: generateDB<Omit<TypeUsers, '_id' | 'createdAt'>>(COLLECTIONS.users),
+    customers: generateDB<TypeCustomers>(COLLECTIONS.customers),
+    os: generateDB<TypeOs>(COLLECTIONS.os),
+    partsServicesProducts: generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),
+    sales: generateDB<TypeSales>(COLLECTIONS.sales),
+    stores: generateDB<TypeStores>(COLLECTIONS.stores),
+    users: generateDB<TypeUsers>(COLLECTIONS.users),
     views: {
         termsAndConditions: generateDBView<TypeTermsAndConditions>(COLLECTIONS_VIEWS._viewTermsAndConditionsList),
         customers: generateDBView<TypeCustomers>(COLLECTIONS_VIEWS._viewCustomersList),
@@ -41,5 +41,6 @@ export const DB = {
         partsServicesProducts: generateDBView<TypePartsServicesProducts>(COLLECTIONS_VIEWS._viewPartsServicesProductsList),
         sales: generateDBView<TypeSales>(COLLECTIONS_VIEWS._viewSalesList),
         users: generateDBView<TypeUsers>(COLLECTIONS_VIEWS._viewUsersList),
+        stores: generateDBView<TypeStores>(COLLECTIONS_VIEWS._viewStoresList),
     }
 }
