@@ -18,35 +18,35 @@ import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
 
 const PagePartsServicesProducts = () => {
   const { db } = useFirebaseContext()
-    const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
-    const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
-  
-    useEffect(() => {
-      if (!db) return
-      const load = async () => {
-        const result = await DB.views.partsServicesProducts.list({ db })
-        let status: typeof pageStatus = 'success'
-        if (!result.status) {
-          status = 'error'
-          return
-        }
-  
-        setPageStatus(status)
-        if (result.docs) {
-          setPageData(Object.values(result.docs))
-        }
-  
+  const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.partsServicesProducts.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
       }
-      load()
-    }, [])
-  
-    if (pageStatus === 'loading') {
-      return <LoadingPage />
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
     }
-  
-    if (pageStatus === 'error') {
-      return <ErrorPage />
-    }
+    load()
+  }, [])
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
   return <>
     <HeaderPage title="Peças/serviços/produtos">
       <Link to={'/dashboard/pecas-servicos/novo'}>
@@ -120,62 +120,50 @@ const PagePartsServicesProducts = () => {
         </table>
       </div>
 
+
+
       <div className=" bg-white m-w-full py-6 lg:hidden">
-        <table className=" w-full">
 
-          {pageData.map((data) => (
-            <tr key={data._id} className='border-y border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Nome
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {data.name}
-              </td>
 
-              <td rowSpan={4} className="text-center border">
+
+        <div>
+
+          {pageData.map((data) => (<div>
+            <div key={'123'} className='border-y border-gray-200'>
+              <div>
+                <div>
+                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                    Nome
+                  </div>
+                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                    {data.name}
+                  </div>
+                </div>
+<div>
+                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                    Nome
+                  </div>
+                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                    {data.name}
+                  </div>
+                </div>
+              </div>
+              <div className="text-center border">
                 <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
                   <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                     visibility
                   </span>
                 </Link>
-              </td>
-            </tr>
-          ))}
-          {pageData.map((data) => (
-            <tr key={data._id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Preço de custo
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {data.costPrice}
-              </td>
+              </div>
+            </div>
 
-            </tr>
-          ))}
-          {pageData.map((data) => (
-            <tr key={data._id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Venda à vista
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {data.cashPrice}
-              </td>
+          </div>))
+          }
 
-            </tr>
-          ))}
-          {pageData.map((data) => (
-            <tr key={data._id} className='border-b-4 border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Venda à prazo
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {data.installmentPrice}
-              </td>
 
-            </tr>
-          ))}
 
-        </table>
+
+        </div>
       </div>
 
       <div className='py-4 flex justify-end'>
