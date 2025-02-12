@@ -1,21 +1,15 @@
-
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { useForm } from "react-hook-form"
-import { Button } from "../../components/ui/button"
 
 
 
-const PageDashboard = () => {
-    
+
+const PecaServicoPage = () => {
+
     return <>
-        <HeaderPage title="Dashboard" />
+
+        <HeaderPage title="Peça/Serviço" />
         <PageContent>
-            <HeaderPage title="Finalizar venda">
-                <Button variant={"primary"}>Salvar</Button>
-            </ HeaderPage>
-
-
             <div className="pb-6">
                 <table className="w-full">
                     <thead className="bg-gray-50 border-b-4 border-gray-300">
@@ -40,12 +34,12 @@ const PageDashboard = () => {
                                 className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
                                 Venda á vista<br /> (débito/dinheiro)
                             </th>
-                            
-                            <th colSpan = {2} 
+
+                            <th colSpan={2}
                                 className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
                                 Venda á prazo
                             </th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -60,10 +54,10 @@ const PageDashboard = () => {
                                 R$1000,00
                             </td>
                             <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            R$3000,00
+                                R$3000,00
                             </td>
                             <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            R$2300,00
+                                R$2300,00
                             </td>
                             <td className="text-center">
                                 <span className="material-symbols-outlined cursor-pointer text-red-400 hover:text-indigo-900 mr-2 text-sm">
@@ -92,9 +86,9 @@ const PageDashboard = () => {
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </PageContent>
     </>
 }
-export default PageDashboard
+export default PecaServicoPage
