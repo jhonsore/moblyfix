@@ -28,6 +28,7 @@ const DadosDaLoja = lazy(() => import('./dados-da-loja'))
 const AgendamentoAvulso = lazy(() => import('./agendamento-avulso'))
 const DadosDaVenda = lazy(() => import('./dados-da-venda'))
 const Condicoes = lazy(() => import('./condicoes'))
+const RelatosTecnicosPage = lazy(() => import('./ordem-servico/relatosTecnicosPage'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -61,6 +62,7 @@ const App = () => {
             <Route path="agendamento-avulso" element={<AgendamentoAvulso />} />
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
             <Route path="condicoes" element={<Condicoes />} />
+            <Route path="ordem-servico/relatos-tecnicos" element={<RelatosTecnicosPage />} />
         </Route>
         <Route path="___components" element={<Components />} />
         <Route path="admin" element={<RequireAuth><Layout /></RequireAuth>}>
