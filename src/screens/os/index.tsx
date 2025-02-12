@@ -48,7 +48,7 @@ const OrdensServicos = () => {
   const [date, setDate] = useState<Date>()
   return <>
     <HeaderPage title="Ordens de Serviços">
-      <Link to={'/dashboard/ordem-servico/novo'}>
+      <Link to={'/dashboard/ordens-servicos/novo'}>
         <Button variant={"primary"}>Nova OS</Button>
       </Link>
     </HeaderPage>
@@ -219,7 +219,7 @@ const OrdensServicos = () => {
                   <Badge variant="destructive">{transaction.netAmount}</Badge>
                 </td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <Link to={`/dashboard/ordens-servicos/${transaction.id}`}>
                     <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                       visibility
                     </span>

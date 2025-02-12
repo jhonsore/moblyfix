@@ -1,8 +1,8 @@
-import { Textarea } from "../../components/ui/textarea"
-import { Button } from "../../components/ui/button"
+import { Textarea } from "../../../components/ui/textarea"
+import { Button } from "../../../components/ui/button"
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
-import { Input } from "../../components/ui/input"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form"
+import { Input } from "../../../components/ui/input"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, } from "lucide-react"
@@ -13,11 +13,11 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { Checkbox } from "../../components/ui/checkbox"
+import { Checkbox } from "../../../components/ui/checkbox"
 
 
 
-const Dados = () => {
+const OSRelatosTecnicos = () => {
     const form = useForm()
     const [date, setDate] = useState<Date>()
 
@@ -151,60 +151,60 @@ const Dados = () => {
             </div>
         </form>
         <div className="pt-3">
-          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
-            Observações
-          </label>
-          <Textarea />
+            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+                Observações
+            </label>
+            <Textarea />
         </div>
         <div className="pt-3">
-          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
-            Relato do problema
-          </label>
-          <Textarea />
+            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+                Relato do problema
+            </label>
+            <Textarea />
         </div>
         <div className="pt-3 w-48">
-          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
-            Assinatura do cliente
-          </label>
-          <Button variant={"outlinePrimary"}>Adicionar assinatura</Button>
-          <Textarea className="mt-3" />
+            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 pb-2">
+                Assinatura do cliente
+            </label>
+            <Button variant={"outlinePrimary"}>Adicionar assinatura</Button>
+            <Textarea className="mt-3" />
         </div>
         <div className='pb-10'>
-          <div className="   mt-8">
-            <div className='flex items-center justify-between'>
-              <h2>
-                Fotos do aparelho
-              </h2>
+            <div className="   mt-8">
+                <div className='flex items-center justify-between'>
+                    <h2>
+                        Fotos do aparelho
+                    </h2>
 
+                </div>
+                <div className='flex gap-4'>
+                    <div className='relative bg-img-add w-32 h-32'>
+                        <button>
+                            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+                    <div className='relative bg-img-add w-32 h-32'>
+                        <button>
+                            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+                    <div className='relative bg-img-add w-32 h-32'>
+                        <button>
+                            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className='flex gap-4'>
-              <div className='relative bg-img-add w-32 h-32'>
-                <button>
-                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                    delete
-                  </span>
-                </button>
-              </div>
-              <div className='relative bg-img-add w-32 h-32'>
-                <button>
-                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                    delete
-                  </span>
-                </button>
-              </div>
-              <div className='relative bg-img-add w-32 h-32'>
-                <button>
-                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                    delete
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
     </Form>
-   
+
 
 }
 
-export default Dados
+export default OSRelatosTecnicos
