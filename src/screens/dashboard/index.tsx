@@ -1,6 +1,6 @@
-
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
+
 
 const PageDashboard = () => {
 
