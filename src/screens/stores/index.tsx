@@ -78,7 +78,7 @@ const PageStores = () => {
                     <tbody className=" bg-white">
                         {pageData.map((data) => (
                             <tr key={data._id} className='lg:border-b border-gray-200 '>
-                                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0">
+                                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
                                     <div className="flex justify-between">
                                         <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
                                             Nome
@@ -88,7 +88,7 @@ const PageStores = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="whitespace-nowrap text-sm text-gray-900 block lg:table-cell p-0">
+                                <td className="whitespace-nowrap text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
                                     <div className="flex justify-between">
                                         <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900">
                                             Whatsapp
