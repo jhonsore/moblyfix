@@ -30,12 +30,12 @@ const OSDados = () => {
                         name="search"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Posição na</FormLabel>
+                                <FormLabel>Posição na colméia</FormLabel>
                                 <div className="flex items-center justify-around">
                                     <FormControl className="mr-5">
                                         <Input placeholder="Digite aqui" {...field} />
                                     </FormControl>
-                                    <Button variant={"outlinePrimary"}>Salvar</Button>
+                                    <Button type="button" variant={"outlinePrimary"}>Salvar</Button>
                                 </div>
                                 <FormMessage />
                             </FormItem>
@@ -50,7 +50,7 @@ const OSDados = () => {
                     name="search"
                     render={({ field }) => (
                         <FormItem className="flex-1 pr-6">
-                            <FormLabel>Client</FormLabel>
+                            <FormLabel>Cliente</FormLabel>
                             <FormControl>
                                 <Input placeholder="Digite o nome do cliente" {...field} />
                             </FormControl>
@@ -59,7 +59,7 @@ const OSDados = () => {
                     )}
                 />
 
-                <Button variant={"outlinePrimary"}>Visualizar dados</Button>
+                <Button type="button" variant={"outlinePrimary"} >Visualizar dados</Button>
             </div>
             <div className='w-8/12'>
                 <FormField
