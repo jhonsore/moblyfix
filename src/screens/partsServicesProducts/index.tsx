@@ -3,22 +3,46 @@ import PageContent from "../../components/layout/pageContent"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
-
-
-const transactions = [
-  {
-    id: 'Peça 1',
-    company: 'R$xx.xx',
-    share: 'R$xx.xx',
-    commission: 'R$xx.xx',
-
-  },
-
-]
-
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { TypePageStatus } from "@/types/PageStatus"
+import { useEffect, useState } from "react"
+import { DB } from "@/functions/database"
+import { LoadingPage } from "@/components/loadingPage"
+import { ErrorPage } from "@/components/errorPage"
+import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
 
 
 const PagePartsServicesProducts = () => {
+  const { db } = useFirebaseContext()
+  const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.partsServicesProducts.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
+    }
+    load()
+  }, [])
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
   return <>
     <HeaderPage title="Peças/serviços/produtos">
       <Link to={'/dashboard/pecas-servicos/novo'}>
@@ -28,13 +52,13 @@ const PagePartsServicesProducts = () => {
     <PageContent>
 
 
-      <div className="py-6 hidden lg:block">
+      <div className="py-6">
         <table className=" w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 hidden lg:table-header-group w-full">
             <tr>
               <th
                 scope="col"
-                className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Nome
               </th>
@@ -46,44 +70,75 @@ const PagePartsServicesProducts = () => {
               </th>
               <th
                 scope="col"
-                className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Venda à vista
               </th>
               <th
-                scope="col"
+                colSpan={2}
                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Venda à prazo
               </th>
-              <th>
-              </th>
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
-                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                  {transaction.id}
+            {pageData.map((data) => (
+              <tr key={data._id} className='lg:border-b border-gray-200'>
+                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200">
+                  <div className="flex justify-between">
+                    <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                      Nome
+                    </div>
+                    <div className="text-sm text-gray-900 p-4 lg:p-0">
+                      {data.name}
+                    </div>
+                  </div>
                 </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                  {transaction.company}
+                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200">
+                  <div className="flex justify-between">
+                    <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                      Preço de custo
+                    </div>
+                    <div className="text-sm text-gray-900 p-4 lg:p-0">
+                      {data.costPrice}
+                    </div>
+                  </div>
                 </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200">
+                  <div className="flex justify-between">
+                    <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                      Venda à vista
+                    </div>
+                    <div className="text-sm text-gray-900 p-4 lg:p-0">
+                      {data.cashPrice}
+                    </div>
+                  </div>
+                </td>
+                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
+                  <div className="flex justify-between">
+                    <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                      Venda à prazo
+                    </div>
+                    <div className="text-sm text-gray-900 p-4 lg:p-0">
+                      {data.installmentPrice}
+                    </div>
+                  </div>
+                </td>
+                <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6 ">
                   <Link to={'/dashboard/pecas-servicos/1'}>
-                    <span className="text-gray-400 hover:text-indigo-900 mr-2">
-                      <span className="material-symbols-outlined">
-                        edit
-                      </span>
+                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
+                      edit
+                    </span>
+                    <span className="text-gray-400 hover:text-indigo-900 lg:hidden flex justify-center ">
+                      <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                     </span>
                   </Link>
 
                   <a href="#" className="text-gray-400 hover:text-indigo-900">
-                    <span className="material-symbols-outlined">
+                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                       delete
-                    </span><span className="sr-only">, {transaction.id}</span>
+                    </span><span className="sr-only">, {data._id}</span>
                   </a>
                 </td>
               </tr>
@@ -92,63 +147,51 @@ const PagePartsServicesProducts = () => {
         </table>
       </div>
 
-      <div className=" bg-white m-w-full py-6 lg:hidden">
-        <table className=" w-full">
 
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-y border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Peça/serviço
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {transaction.id}
-              </td>
 
-              <td rowSpan={4} className="text-center border">
+      {/* <div className=" bg-white m-w-full py-6 lg:hidden">
+
+
+
+        <div>
+
+          {pageData.map((data) => (<div>
+            <div key={'123'} className='border-y border-gray-200'>
+              <div>
+                <div>
+                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                    Nome
+                  </div>
+                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                    {data.name}
+                  </div>
+                </div>
+                <div>
+                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
+                    Nome
+                  </div>
+                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
+                    {data.name}
+                  </div>
+                </div>
+              </div>
+              <div className="text-center border">
                 <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
                   <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                     visibility
                   </span>
                 </Link>
-              </td>
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Preço de custo
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.company}
-              </td>
+              </div>
+            </div>
 
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Venda à vista
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.share}
-              </td>
+          </div>))
+          }
 
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b-4 border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Venda à prazo
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.commission}
-              </td>
 
-            </tr>
-          ))}
 
-        </table>
-      </div>
+
+        </div>
+      </div> */}
 
       <div className='py-4 flex justify-end'>
         <button
