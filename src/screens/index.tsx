@@ -21,6 +21,7 @@ const Clientes = lazy(() => import('./clientes'))
 const Sales = lazy(() => import('./sales'))
 const DadosDaVenda = lazy(() => import('./sales/item'))
 const Appointments = lazy(() => import('./appointments'))
+const NewSchedule = lazy(() => import('./appointments/item'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -59,7 +60,7 @@ const App = () => {
             <Route path="usuarios/:id" element={<DadosDoUsuario />} />
 
             <Route path="agendamentos" element={<Appointments />} />
-            <Route path="usuarios/novo" element={<DadosDoUsuario />} />
+            <Route path="agendamentos/novo" element={<NewSchedule />} />
             <Route path="usuarios/:id" element={<DadosDoUsuario />} />
 
             <Route path="clientes" element={<Clientes />} />

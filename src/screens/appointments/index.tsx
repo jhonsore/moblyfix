@@ -80,7 +80,7 @@ const Appointments = () => {
   return <>
     <HeaderPage title="Agendamentos">
       <Button variant={"outlinePrimary"}>Página de agendamentos</Button>
-      <Link to={'/dashboard/agendamento-avulso'}>
+      <Link to={'/dashboard/agendamentos/novo'}>
         <Button variant={"primary"}>Novo agendamento</Button>
       </Link>
     </HeaderPage>
