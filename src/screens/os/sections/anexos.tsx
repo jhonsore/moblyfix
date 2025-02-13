@@ -1,8 +1,8 @@
-import { Button } from "../../components/ui/button"
+import { Button } from "../../../components/ui/button"
 
 
 
-const Anexos = () => {
+const OSAnexos = () => {
     return <div>
         <div className='flex gap-4 pb-4  mt-8 border-b border-[#EFF4FB]'>
             <div className='relative bg-img-add w-32 h-32'>
@@ -34,4 +34,4 @@ const Anexos = () => {
 
 }
 
-export default Anexos
+export default OSAnexos

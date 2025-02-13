@@ -12,14 +12,16 @@ import {
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
 import HeaderPage from "@/components/headerPage"
+import { useParams } from "react-router"
 
 
 const DadosDoUsuario = () => {
     const form = useForm()
+    const { id } = useParams()
     return <>
         <PageContent>
 
-            <HeaderPage title="Novo usuário">
+            <HeaderPage title={id ? "Editar" : "Novo item"}>
             </HeaderPage>
 
             <Form {...form}>

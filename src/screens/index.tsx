@@ -9,7 +9,8 @@ const Dashboard = lazy(() => import('./dashboard'))
 const PageCondicoesServicos = lazy(() => import('./termsAndConditions'))
 const PageCondicoes = lazy(() => import('./termsAndConditions/item'))
 const PageReports = lazy(() => import('./reports'))
-const NovaOs = lazy(() => import('./novaos'))
+const NovaOs = lazy(() => import('./os/item'))
+const PageOs = lazy(() => import('./os/os'))
 const PagePartsServicesProducts = lazy(() => import('./partsServicesProducts'))
 const DadosDaVenda = lazy(() => import('./sales/item'))
 const DadosDaLoja = lazy(() => import('./stores/item'))
@@ -35,8 +36,10 @@ const App = () => {
             <Route path="condicoes-de-servicos/:id" element={<PageCondicoes />} />
             <Route path="condicoes-de-servicos/novo" element={<PageCondicoes />} />
             <Route path="relatorios" element={<PageReports />} />
+
             <Route path="ordens-servicos" element={<OrdensServicos />} />
-            <Route path="ordem-servico/novo" element={<NovaOs />} />
+            <Route path="ordens-servicos/novo" element={<NovaOs />} />
+            <Route path="ordens-servicos/:id" element={<PageOs />} />
 
             <Route path="pecas-servicos" element={<PagePartsServicesProducts />} />
             <Route path="pecas-servicos/novo" element={<DadosDaVenda />} />
@@ -52,7 +55,7 @@ const App = () => {
 
             <Route path="usuarios" element={<Usuarios />} />
             <Route path="usuarios/novo" element={<DadosDoUsuario />} />
-            <Route path="usuarios/1" element={<DadosDoUsuario />} />
+            <Route path="usuarios/:id" element={<DadosDoUsuario />} />
 
             <Route path="clientes" element={<Clientes />} />
             <Route path="clientes/novo" element={<DadosDoCliente />} />
