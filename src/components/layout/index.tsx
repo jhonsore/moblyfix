@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/appSidebar"
 const Layout = () => {
     return <SidebarProvider>
         <AppSidebar />
-        <main className="w-full bg-[#F1F5F9]">
+        <main className="w-full bg-[#F1F5F9] pt-20">
             <Outlet />
         </main>
     </SidebarProvider>

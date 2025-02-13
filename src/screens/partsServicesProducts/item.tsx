@@ -4,23 +4,25 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import HeaderPage from '@/components/headerPage'
+import { useParams } from "react-router"
 
 
 const DadosDaVenda = () => {
     const form = useForm()
+    const { id } = useParams()
     return <>
         <PageContent>
-            <HeaderPage title="Dados da Venda">
-            </HeaderPage>
+            <HeaderPage title={id ? "Editar" : "Novo item"} />
+
 
             <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+                <form onSubmit={() => { }} className="pb-4 pt-4">
                     <FormField
                         control={form.control}
                         name="search"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Peça/serviço</FormLabel>
+                                <FormLabel>Nome</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Digite aqui" {...field} />
                                 </FormControl>

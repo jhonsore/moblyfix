@@ -5,12 +5,15 @@ import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import { Textarea } from "../../components/ui/textarea"
 import HeaderPage from '@/components/headerPage'
+import { useParams } from "react-router"
 
 const PageTermAndCondition = () => {
     const form = useForm()
+    const { id } = useParams()
+
     return <>
         <PageContent>
-            <HeaderPage title="Condições">
+            <HeaderPage title={id ? "Editar" : "Novo item"}>
             </HeaderPage>
 
             <Form {...form}>

@@ -11,18 +11,20 @@ import {
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
 import HeaderPage from '@/components/headerPage'
+import { useParams } from "react-router"
 
 
 const DadosDaLoja = () => {
     const form = useForm()
+    const { id } = useParams()
     return <>
         <PageContent>
 
-            <HeaderPage title="Loja">
+            <HeaderPage title={id ? "Editar" : "Novo item"}>
             </HeaderPage>
 
             <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+                <form onSubmit={() => { }} className="pb-4 pt-4">
                     <FormField
                         control={form.control}
                         name="search"

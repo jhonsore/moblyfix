@@ -14,14 +14,16 @@ import HeaderPage from "@/components/headerPage"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Link } from "react-router"
+import { useParams } from "react-router"
 
 
 const DadosDoCliente = () => {
     const form = useForm()
+    const { id } = useParams()
     return <>
         <PageContent>
 
-            <HeaderPage title="Cliente">
+            <HeaderPage title={id ? "Editar" : 'Novo item'}>
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button variant="primary">Salvar</Button>

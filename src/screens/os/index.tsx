@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../components/ui/input"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
-import { CalendarIcon, } from "lucide-react"
+import { CalendarIcon, Search, } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import {
@@ -46,15 +46,15 @@ const transactions = [
 const OrdensServicos = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
+  const [searchStatus, setSearchStatus] = useState(false)
+
   return <>
     <HeaderPage title="Ordens de Serviços">
-      <Link to={'/dashboard/ordem-servico/novo'}>
+      <Link to={'/dashboard/ordens-servicos/novo'}>
         <Button variant={"primary"}>Nova OS</Button>
       </Link>
     </HeaderPage>
     <PageContent>
-
-
       <Form {...form}>
         <form onSubmit={() => { }} >
           <div className=" flex pr-4 pt-6">
@@ -70,9 +70,10 @@ const OrdensServicos = () => {
                 </FormItem>
               )}
             />
-            <Button variant={"outlinePrimary"}>Busca avançada</Button>
+            <Button type="button" variant={"outlinePrimary"}><Search /></Button>
+            <Button className="ml-4" type="button" onClick={() => setSearchStatus(!searchStatus)} variant={"outlinePrimary"}>Busca avançada</Button>
           </div>
-          <div className=" py-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
+          {searchStatus && <div> <div className=" py-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 pt-6">
             <FormField
               control={form.control}
               name="CPF"
@@ -99,30 +100,57 @@ const OrdensServicos = () => {
                 </FormItem>
               )}
             />
-            <div className="space-y-2">
-              <FormLabel>Data de início</FormLabel>
-              <Popover >
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "flex w-full justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>data</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+            <div className="flex  gap-4">
+              <div className="flex-1 space-y-2">
+                <FormLabel>Data de início</FormLabel>
+                <Popover >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "flex w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date ? format(date, "PPP") : <span>data</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="flex-1 space-y-2">
+                <FormLabel>Data fim</FormLabel>
+                <Popover >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "flex w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date ? format(date, "PPP") : <span>data</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
             <div className="space-y-2">
               <FormLabel>Status do pedido</FormLabel>
@@ -139,17 +167,21 @@ const OrdensServicos = () => {
                 </SelectContent>
               </Select>
             </div>
+
           </div>
+            <div className='flex gap-4 justify-end pt-3 w-full'>
+              <div>
+                <Button variant={"outlinePrimary"}>Fechar</Button>
+              </div>
+              <div >
+                <Button variant={"outlinePrimary"}>buscar</Button>
+              </div>
+            </div>
+          </div>
+          }
         </form>
       </Form>
-      <div className='flex gap-4 justify-end pt-3'>
-        <div>
-          <Button variant={"outlinePrimary"}>Fechar</Button>
-        </div>
-        <div >
-          <Button variant={"outlinePrimary"}>buscar</Button>
-        </div>
-      </div>
+
 
       <div className=" pt-6 hidden lg:block">
         <table className=" w-full lg:table " >
@@ -219,7 +251,7 @@ const OrdensServicos = () => {
                   <Badge variant="destructive">{transaction.netAmount}</Badge>
                 </td>
                 <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
+                  <Link to={`/dashboard/ordens-servicos/${transaction.id}`}>
                     <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
                       visibility
                     </span>
