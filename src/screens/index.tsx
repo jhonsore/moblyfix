@@ -12,7 +12,6 @@ const PageReports = lazy(() => import('./reports'))
 const NovaOs = lazy(() => import('./os/item'))
 const PageOs = lazy(() => import('./os/os'))
 const PagePartsServicesProducts = lazy(() => import('./partsServicesProducts'))
-const DadosDaVenda = lazy(() => import('./sales/item'))
 const DadosDaLoja = lazy(() => import('./stores/item'))
 const Lojas = lazy(() => import('./stores'))
 const DadosDoUsuario = lazy(() => import('./usuarios/item'))
@@ -20,6 +19,8 @@ const Usuarios = lazy(() => import('./usuarios'))
 const DadosDoCliente = lazy(() => import('./clientes/item'))
 const Clientes = lazy(() => import('./clientes'))
 const Sales = lazy(() => import('./sales'))
+const DadosDaVenda = lazy(() => import('./sales/item'))
+const Appointments = lazy(() => import('./appointments'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -54,6 +55,10 @@ const App = () => {
             <Route path="vendas/:id" element={<DadosDaVenda />} />
 
             <Route path="usuarios" element={<Usuarios />} />
+            <Route path="usuarios/novo" element={<DadosDoUsuario />} />
+            <Route path="usuarios/:id" element={<DadosDoUsuario />} />
+
+            <Route path="agendamentos" element={<Appointments />} />
             <Route path="usuarios/novo" element={<DadosDoUsuario />} />
             <Route path="usuarios/:id" element={<DadosDoUsuario />} />
 

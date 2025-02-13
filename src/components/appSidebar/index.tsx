@@ -13,6 +13,7 @@ import {
 import {
     AdjustmentsHorizontalIcon,
     ArrowRightStartOnRectangleIcon,
+    CalendarIcon,
     // CalendarIcon,
     ChartBarIcon,
     CurrencyDollarIcon,
@@ -37,7 +38,7 @@ const USERS = [
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
-    // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
+    { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
     { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
     { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
     { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
