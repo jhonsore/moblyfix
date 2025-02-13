@@ -14,7 +14,7 @@ const DadosDaVenda = () => {
             </HeaderPage>
 
             <Form {...form}>
-                <form onSubmit={() => { }} className="pb-4">
+                <form onSubmit={() => { }} className="pb-4 pt-4">
                     <FormField
                         control={form.control}
                         name="search"

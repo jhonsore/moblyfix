@@ -12,13 +12,14 @@ const PageReports = lazy(() => import('./reports'))
 const NovaOs = lazy(() => import('./os/item'))
 const PageOs = lazy(() => import('./os/os'))
 const PagePartsServicesProducts = lazy(() => import('./partsServicesProducts'))
-const DadosDaVenda = lazy(() => import('./partsServicesProducts/item'))
+const DadosDaVenda = lazy(() => import('./sales/item'))
 const DadosDaLoja = lazy(() => import('./stores/item'))
 const Lojas = lazy(() => import('./stores'))
 const DadosDoUsuario = lazy(() => import('./usuarios/item'))
 const Usuarios = lazy(() => import('./usuarios'))
 const DadosDoCliente = lazy(() => import('./clientes/item'))
 const Clientes = lazy(() => import('./clientes'))
+const Sales = lazy(() => import('./sales'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -47,6 +48,10 @@ const App = () => {
             <Route path="lojas" element={<Lojas />} />
             <Route path="lojas/novo" element={<DadosDaLoja />} />
             <Route path="lojas/:id" element={<DadosDaLoja />} />
+
+            <Route path="vendas" element={<Sales />} />
+            <Route path="vendas/novo" element={<DadosDaVenda />} />
+            <Route path="vendas/:id" element={<DadosDaVenda />} />
 
             <Route path="usuarios" element={<Usuarios />} />
             <Route path="usuarios/novo" element={<DadosDoUsuario />} />
