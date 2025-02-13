@@ -28,6 +28,7 @@ import OSPecasServicos from "./sections/pecasServicos"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../../components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "../../components/ui/label"
+import WhatsappButton from "../../components/screens/os/whatsappButton"
 
 const tabs = [
     { name: 'Dados da OS', href: 'about', current: true, section: <OSDados /> },
@@ -114,7 +115,7 @@ const PageOs = () => {
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
                                                         <SelectTrigger>
-                                                            <SelectValue placeholder="Select a verified email to display" />
+                                                            <SelectValue placeholder="Selecione o técnico responsável" />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
@@ -204,18 +205,7 @@ const PageOs = () => {
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <button>
-                                        <span className='img-whts inline-block ' />
-                                    </button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Enviar entrada por whatsapp</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                        <WhatsappButton />
 
                     </div>
                 </div>
