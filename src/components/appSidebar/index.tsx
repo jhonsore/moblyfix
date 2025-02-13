@@ -41,6 +41,7 @@ const USERS = [
     { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
     { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
     { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
+    { title: 'Estoque', href: 'estoque', icon: ListBulletIcon, current: false },
 ]
 
 const ADMIN = [
