@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useForm } from "react-hook-form"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@headlessui/react"
-import { JSX, useState } from "react"
+import { useState } from "react"
 import OSDados from "./sections/dados"
 import OSAnexos from "./sections/anexos"
 import OSAcompanhamentos from "./sections/acompanhamentos"
@@ -35,8 +35,6 @@ const tabs = [
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
-
-
 
 const PageOs = () => {
     const form = useForm()
