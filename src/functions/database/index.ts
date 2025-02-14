@@ -27,7 +27,10 @@ const generateDBView = <TDoc extends DocumentData>(collection: CollectionsViewsN
     list: listView<TDoc>(collection)
 })
 export const DB = {
-    termsAndConditions: generateDB<PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'>>(COLLECTIONS.termsAndConditions),
+    termsAndConditions: {
+        ...generateDB<TypeTermsAndConditions>(COLLECTIONS.termsAndConditions),
+        create: create<PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'>>(COLLECTIONS.termsAndConditions),
+    },
     customers: generateDB<TypeCustomers>(COLLECTIONS.customers),
     os: generateDB<TypeOs>(COLLECTIONS.os),
     partsServicesProducts: generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),

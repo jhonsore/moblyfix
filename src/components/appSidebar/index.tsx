@@ -28,6 +28,9 @@ import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { ChartArea } from "lucide-react"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import TYPE_USERS from "../../consts/TYPE_USERS"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
+import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
 //https://ui.shadcn.com/docs/components/sidebar
 const USERS = [
@@ -54,7 +57,10 @@ export function AppSidebar() {
     const { open } = useSidebar()
     const { auth } = useFirebaseContext()
     const { claims } = useAuthContext()
+    const { stores, store } = useStoresContext()
     const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
+    const showSelectStores = stores && claims && (claims.type === TYPE_OF_USERS.financial1 || claims.type === TYPE_OF_USERS.admin) && store && Object.keys(stores).length
+
     return (
         <Sidebar collapsible='icon' className="z-30">
             <SidebarHeader>
@@ -77,6 +83,16 @@ export function AppSidebar() {
 
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            {showSelectStores && <Select defaultValue={store._id}>
+                                <SelectTrigger className="mb-4 bg-white text-black">
+                                    <SelectValue placeholder="Selecione uma loja" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {Object.values(stores).map(store => <SelectItem key={store._id} value={store._id}>{store.name}</SelectItem>)}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>}
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>

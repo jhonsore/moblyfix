@@ -10,16 +10,19 @@ import { TypePageStatus } from "../../types/PageStatus"
 import { LoadingPage } from "../../components/loadingPage"
 import { ErrorPage } from "../../components/errorPage"
 import { EmptData } from "../../components/emptyData"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
+import { ItemList } from "../../components/screens/termsAndConditions/itemList"
 
 const PageTermsandConditions = () => {
   const { db } = useFirebaseContext()
+  const { store } = useStoresContext()
   const [termsAndConditions, setTermsAndConditions] = useState<TypeTermsAndConditions[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
 
   useEffect(() => {
-    if (!db) return
+    if (!db || !store || termsAndConditions.length > 0) return
     const load = async () => {
-      const result = await DB.views.termsAndConditions.list({ db })
+      const result = await DB.views.termsAndConditions.list({ db, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -33,7 +36,7 @@ const PageTermsandConditions = () => {
 
     }
     load()
-  }, [])
+  }, [store])
 
   if (pageStatus === 'loading') {
     return <LoadingPage />
@@ -50,9 +53,7 @@ const PageTermsandConditions = () => {
       </Link>
     </ HeaderPage>
     <PageContent>
-
       <div className=" m-w-full py-6">
-
         {termsAndConditions.length === 0 && <EmptData />}
         {termsAndConditions.length > 0 && <table className=" w-full">
           <thead className="bg-gray-50">
@@ -67,28 +68,7 @@ const PageTermsandConditions = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-
-            {termsAndConditions.map((transaction) => (
-              <tr key={transaction._id} className='border-b border-gray-200'>
-                <td className="whitespace-nowrap py-4 pl-2 pr-2 text-sm text-gray-900 ">
-                  {transaction.title}
-                </td>
-                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium ">
-                  <Link to={`/dashboard/condicoes-de-servicos/${transaction._id}`}>
-                    <span className="text-gray-400 hover:text-indigo-900 mr-2">
-                      <span className="material-symbols-outlined">
-                        edit
-                      </span>
-                    </span>
-                  </Link>
-                  <a href="#" className="text-gray-400 hover:text-indigo-900">
-                    <span className="material-symbols-outlined">
-                      delete
-                    </span><span className="sr-only">, {transaction._id}</span>
-                  </a>
-                </td>
-              </tr>
-            ))}
+            {termsAndConditions.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>}
       </div>
