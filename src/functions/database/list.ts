@@ -6,7 +6,7 @@ export const list = <TDoc extends DocumentData>(collection: CollectionsNames) =>
     async ({ wheres, limit, orderBy, lastDocument, db }: { db: Firestore, wheres?: [string, WhereFilterOp, any][], limit?: number, orderBy?: [string, OrderByDirection][], lastDocument?: QueryDocumentSnapshot<DocumentData> | undefined }): Promise<TypeDbResponse<TDoc>> => {
 
         try {
-            const queryConstraints: QueryConstraint[] = [_orderBy("createdAt", 'desc')]
+            const queryConstraints: QueryConstraint[] = []//_orderBy("createdAt", 'desc')
 
             if (limit) queryConstraints.push(_limit(limit))
             if (lastDocument) queryConstraints.push(startAfter(lastDocument));
