@@ -107,9 +107,8 @@ const PageTermAndCondition = () => {
 
     return <>
         <PageContent>
+            <HeaderPage title={id ? "Editar" : "Novo item"}></HeaderPage>
             {statusLoading && <Loading />}
-            <HeaderPage title={id ? "Editar" : "Novo item"}>
-            </HeaderPage>
             <StoreNotFoundAlert open={statusStore} />
             <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
             <Form {...form}>

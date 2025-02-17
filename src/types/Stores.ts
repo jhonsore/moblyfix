@@ -7,12 +7,12 @@ export type TypeStores = {
     createdAt: Timestamp
 
     name: string
-    cnpj: string
+    cpfCnpj: string
     email: string
     whatsapp: string
-    telefone: string
-    telefone2: string
-    telefone3: string
+    phone: string
+    phone2: string
+    phone3: string
     state: string
     city: string
     neighborhood: string
@@ -20,6 +20,7 @@ export type TypeStores = {
     zipcode: string
     number: string
     complement: string
+
     lastOsNumber: number
     lastSaleNumber: number
 }
