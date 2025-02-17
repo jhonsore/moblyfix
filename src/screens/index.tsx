@@ -21,6 +21,8 @@ const DadosDoCliente = lazy(() => import('./clientes/item'))
 const Clientes = lazy(() => import('./clientes'))
 const Sales = lazy(() => import('./sales'))
 const PartsServicesProductsItem = lazy(() => import('./partsServicesProducts/item'))
+const Stock = lazy(() => import('./stock'))
+const EstoqueItens = lazy(() => import('./stock/item'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -60,6 +62,10 @@ const App = () => {
 
             <Route path="clientes" element={<Clientes />} />
             <Route path="clientes/novo" element={<DadosDoCliente />} />
+            <Route path="clientes/1" element={<DadosDoCliente />} />
+
+            <Route path="estoque" element={<Stock />} />
+            <Route path="estoque/item" element={<EstoqueItens />} />
             <Route path="clientes/1" element={<DadosDoCliente />} />
 
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
