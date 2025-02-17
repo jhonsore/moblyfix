@@ -28,7 +28,7 @@ function Login() {
   const { user, claims } = useAuthContext()
   const { form, onSubmit, errorLogin, statusLoading } = controller()
   const location = useLocation()
-  const isMaster = claims?.type === TYPE_OF_USERS.master
+  const isMaster = claims?.type === TYPE_OF_USERS.master._id
 
   useEffect(() => {
     // check if user is logged, if so, navigate to dashboard

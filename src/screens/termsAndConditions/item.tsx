@@ -17,7 +17,6 @@ import { ItemCreatedAlert } from "../../components/itemCreatedAlert"
 import { TypePageStatus } from "../../types/PageStatus"
 import { LoadingPage } from "../../components/loadingPage"
 import { ErrorPage } from "../../components/errorPage"
-import { TypeTermsAndConditions } from "../../types/TermsAndConditions"
 import { Loading } from "../../components/loading"
 
 const FormSchema = z.object({

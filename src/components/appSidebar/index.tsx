@@ -59,7 +59,7 @@ export function AppSidebar() {
     const { claims } = useAuthContext()
     const { stores, store } = useStoresContext()
     const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
-    const showSelectStores = stores && claims && (claims.type === TYPE_OF_USERS.financial1 || claims.type === TYPE_OF_USERS.admin) && store && Object.keys(stores).length
+    const showSelectStores = stores && claims && (claims.type === TYPE_OF_USERS.financial1._id || claims.type === TYPE_OF_USERS.admin._id) && store && Object.keys(stores).length
 
     return (
         <Sidebar collapsible='icon' className="z-30">

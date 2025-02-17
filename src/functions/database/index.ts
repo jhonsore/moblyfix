@@ -33,7 +33,10 @@ export const DB = {
     },
     customers: generateDB<TypeCustomers>(COLLECTIONS.customers),
     os: generateDB<TypeOs>(COLLECTIONS.os),
-    partsServicesProducts: generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),
+    partsServicesProducts: {
+        ...generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),
+        create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
+    },
     sales: generateDB<TypeSales>(COLLECTIONS.sales),
     stores: generateDB<TypeStores>(COLLECTIONS.stores),
     users: generateDB<TypeUsers>(COLLECTIONS.users),

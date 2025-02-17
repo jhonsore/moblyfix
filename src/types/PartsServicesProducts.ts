@@ -9,5 +9,5 @@ export type TypePartsServicesProducts = {
     _headquarterId: string
     _storeId: string
     createdAt: Timestamp
-    isProduct: boolean// define se o item é um produto
+    type: 'part' | 'service' | 'product'// define se o item é um produto
 }

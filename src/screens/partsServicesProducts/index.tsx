@@ -10,17 +10,21 @@ import { DB } from "@/functions/database"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
 import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
+import { formatCurrency } from "../../functions/utils/formatCurrency"
 
 
 const PagePartsServicesProducts = () => {
   const { db } = useFirebaseContext()
   const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+  const { store } = useStoresContext()
 
   useEffect(() => {
-    if (!db) return
+    if (!db || !store || pageData.length > 0) return
+
     const load = async () => {
-      const result = await DB.views.partsServicesProducts.list({ db })
+      const result = await DB.views.partsServicesProducts.list({ db, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -34,7 +38,7 @@ const PagePartsServicesProducts = () => {
 
     }
     load()
-  }, [])
+  }, [store])
 
   if (pageStatus === 'loading') {
     return <LoadingPage />
@@ -101,7 +105,7 @@ const PagePartsServicesProducts = () => {
                       Preço de custo
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.costPrice}
+                      {formatCurrency(data.costPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
@@ -111,7 +115,7 @@ const PagePartsServicesProducts = () => {
                       Venda à vista
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.cashPrice}
+                      {formatCurrency(data.cashPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
@@ -121,12 +125,12 @@ const PagePartsServicesProducts = () => {
                       Venda à prazo
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.installmentPrice}
+                      {formatCurrency(data.installmentPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
                 <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6 ">
-                  <Link to={'/dashboard/pecas-servicos/1'}>
+                  <Link to={`/dashboard/pecas-servicos/${data._id}`}>
                     <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                       edit
                     </span>
