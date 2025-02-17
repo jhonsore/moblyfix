@@ -11,6 +11,8 @@ export type TypeStores = {
     email: string
     whatsapp: string
     telefone: string
+    telefone2: string
+    telefone3: string
     state: string
     city: string
     neighborhood: string

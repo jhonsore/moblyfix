@@ -13,6 +13,7 @@ import {
 import { Button } from "../../components/ui/button"
 import HeaderPage from "@/components/headerPage"
 import { useParams } from "react-router"
+import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
 
 const DadosDoUsuario = () => {
@@ -34,20 +35,12 @@ const DadosDoUsuario = () => {
                                 <SelectValue placeholder="Selecione a loja" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="AC">Loja 1</SelectItem>
-                                <SelectItem value="AL">Loja 2</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="space-y-2 py-4">
-                        <FormLabel>Loja</FormLabel>
-                        <Select>
-                            <SelectTrigger className="flex w-full text-left font-normal">
-                                <SelectValue placeholder="Selecione a loja" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="AC">Loja 1</SelectItem>
-                                <SelectItem value="AL">Loja 2</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.admin._id}>{TYPE_OF_USERS.admin.label}</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.attendant._id}>{TYPE_OF_USERS.attendant.label}</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.financial1._id}>{TYPE_OF_USERS.financial1.label}</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.financial2._id}>{TYPE_OF_USERS.financial2.label}</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.manager._id}>{TYPE_OF_USERS.manager.label}</SelectItem>
+                                <SelectItem value={TYPE_OF_USERS.technical._id}>{TYPE_OF_USERS.technical.label}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

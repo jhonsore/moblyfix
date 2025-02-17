@@ -11,15 +11,17 @@ import {
 import App from '@/screens/';
 import { AuthProvider } from './providers/auth/AuthProvider';
 import FirebaseProvider from './providers/firebase/FirebaseProvider';
+import { StoresProvider } from './providers/stores/StoresProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <FirebaseProvider>
       <AuthProvider>
-        {/* <RouterProvider router={router} /> */}
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <StoresProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </StoresProvider>
       </AuthProvider>
     </FirebaseProvider>
     <Toaster />
