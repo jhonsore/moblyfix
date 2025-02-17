@@ -14,11 +14,8 @@ export const AuthProvider: FC<{ children?: React.ReactNode }> = ({ children }) =
     unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       const idToken = await auth.currentUser?.getIdToken()
 
-      auth.currentUser?.getIdTokenResult()
-        .then((idTokenResult) => {
-          setClaims(idTokenResult.claims)
-        })
-
+      const idTokenResult = await auth.currentUser?.getIdTokenResult()
+      if (idTokenResult) setClaims(idTokenResult.claims)
       if (idToken) setIdToken(idToken)
       if (currentUser) setUser(currentUser)
       else { setUser(null) }

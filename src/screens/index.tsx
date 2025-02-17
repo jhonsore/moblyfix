@@ -19,6 +19,9 @@ const Usuarios = lazy(() => import('./usuarios'))
 const DadosDoCliente = lazy(() => import('./clientes/item'))
 const Clientes = lazy(() => import('./clientes'))
 const Sales = lazy(() => import('./sales'))
+const PartsServicesProductsItem = lazy(() => import('./partsServicesProducts/item'))
+const Stock = lazy(() => import('./stock'))
+const EstoqueItens = lazy(() => import('./stock/item'))
 const DadosDaVenda = lazy(() => import('./sales/item'))
 const Appointments = lazy(() => import('./appointments'))
 const NewSchedule = lazy(() => import('./appointments/item'))
@@ -44,8 +47,8 @@ const App = () => {
             <Route path="ordens-servicos/:id" element={<PageOs />} />
 
             <Route path="pecas-servicos" element={<PagePartsServicesProducts />} />
-            <Route path="pecas-servicos/novo" element={<DadosDaVenda />} />
-            <Route path="pecas-servicos/:id" element={<DadosDaVenda />} />
+            <Route path="pecas-servicos/novo" element={<PartsServicesProductsItem />} />
+            <Route path="pecas-servicos/:id" element={<PartsServicesProductsItem />} />
 
             <Route path="lojas" element={<Lojas />} />
             <Route path="lojas/novo" element={<DadosDaLoja />} />
@@ -65,6 +68,10 @@ const App = () => {
 
             <Route path="clientes" element={<Clientes />} />
             <Route path="clientes/novo" element={<DadosDoCliente />} />
+            <Route path="clientes/1" element={<DadosDoCliente />} />
+
+            <Route path="estoque" element={<Stock />} />
+            <Route path="estoque/item" element={<EstoqueItens />} />
             <Route path="clientes/1" element={<DadosDoCliente />} />
 
             <Route path="dados-da-venda" element={<DadosDaVenda />} />
