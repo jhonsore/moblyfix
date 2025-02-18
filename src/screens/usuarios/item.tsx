@@ -12,13 +12,107 @@ import {
 } from "@/components/ui/select"
 import { Button } from "../../components/ui/button"
 import HeaderPage from "@/components/headerPage"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import TYPE_OF_USERS from "../../consts/TYPE_USERS"
+import { LoadingPage } from "@/components/loadingPage"
+import { ErrorPage } from "@/components/errorPage"
+import { DB } from "@/functions/database"
+import { useEffect, useState } from "react"
+import { TypePageStatus } from "@/types/PageStatus"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
+
+
+const FormSchema = z.object({
+    title: z
+        .string().min(1, {
+            message: "Preencha o título da Condição",
+        }),
+    text: z
+        .string().min(1, {
+            message: "Preencha o texto da Condição",
+        }),
+})
 
 const DadosDoUsuario = () => {
-    const form = useForm()
+    const { db } = useFirebaseContext()
+    const { store } = useStoresContext()
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            title: "",
+            text: ""
+        },
+    })
     const { id } = useParams()
+    const [statusStore, setStatusStore] = useState(false)
+    const [statusCreated, setStatusCreated] = useState(false)
+    const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
+    const navigate = useNavigate()
+    const [statusLoading, setStatusLoading] = useState(false)
+
+    useEffect(() => {
+        if (!id) return
+        const load = async () => {
+            const result = await DB.dadosDoUsuario.read({ db, id })
+            let status: typeof pageStatus = 'success'
+            if (!result.status) {
+                status = 'error'
+                return
+            }
+
+            setPageStatus(status)
+            const { doc } = result
+            if (doc) {
+                form.setValue('text', doc.text)
+                form.setValue('title', doc.title)
+            }
+        }
+        load()
+    }, [id])
+
+    async function onSubmit(values: z.infer<typeof FormSchema>) {
+        if (!store) {
+            setStatusStore(true)
+            return
+        }
+        setStatusLoading(true)
+        const { name, text } = values
+        const result = !id ?
+            await DB.termsAndConditions.create({
+                db,
+                data: { name, text, _headquarterId: store._headquarterId, _storeId: store._id }
+            }) :
+            await DB.dadosDoUsuario.update({
+                db,
+                id,
+                data: { name, text }
+            })
+        if (result.status) {
+            setStatusCreated(true)
+        }
+        setStatusLoading(false)
+    }
+
+    const onCreateHandler = () => {
+        setStatusCreated(false)
+        form.reset()
+        if (id) navigate('/dashboard/condicoes-de-servicos/novo')
+
+    }
+
+    if (pageStatus === 'loading') {
+        return <LoadingPage />
+    }
+
+    if (pageStatus === 'error') {
+        return <ErrorPage />
+    }
+    
+
     return <>
         <PageContent>
 
@@ -47,7 +141,7 @@ const DadosDoUsuario = () => {
                     <div className="space-y-2 py-4">
                         <FormField
                             control={form.control}
-                            name="search"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Nome</FormLabel>
@@ -286,11 +380,12 @@ const DadosDoUsuario = () => {
                             )}
                         />
                     </div>
+                    <div className='py-6 flex justify-end'>
+                        <Button type="submit" variant={'primary'}>Salvar</Button>
+                    </div>
                 </form>
             </Form>
-            <div className='py-6 flex justify-end'>
-                <Button variant={'primary'}>Salvar</Button>
-            </div>
+            
 
         </PageContent>
     </>
