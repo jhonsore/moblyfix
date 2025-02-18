@@ -38,7 +38,11 @@ export const DB = {
         create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
     },
     sales: generateDB<TypeSales>(COLLECTIONS.sales),
-    stores: generateDB<TypeStores>(COLLECTIONS.stores),
+    stores: {
+        ... generateDB<TypeStores>(COLLECTIONS.stores),
+        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
+    },
+        
     users: generateDB<TypeUsers>(COLLECTIONS.users),
     views: {
         termsAndConditions: generateDBView<TypeTermsAndConditions>(COLLECTIONS_VIEWS._viewTermsAndConditionsList),
