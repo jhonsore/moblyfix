@@ -21,3 +21,12 @@ export type TypeUsers = {
     complement: string
     password: string
 }
+
+export type TypeUsersViewList = {
+    _id: TypeUsers
+    name: TypeUsers['name']
+    _headquarterId: TypeUsers['_headquarterId']
+    _storeId: TypeUsers['_storeId']
+    createdAt: TypeUsers['createdAt']
+    query: { [id: string]: boolean }
+}

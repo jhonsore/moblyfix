@@ -7,7 +7,7 @@ import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { useEffect, useState } from "react"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
-import { TypeStores } from "@/types/Stores"
+import { TypeStoresViewList } from "@/types/Stores"
 import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
 
@@ -17,7 +17,7 @@ import { DB } from "@/functions/database"
 
 const PageStores = () => {
     const { db } = useFirebaseContext()
-    const [pageData, setPageData] = useState<TypeStores[]>([])
+    const [pageData, setPageData] = useState<TypeStoresViewList[]>([])
     const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
 
     useEffect(() => {
@@ -67,12 +67,7 @@ const PageStores = () => {
                             >
                                 Nome
                             </th>
-                            <th
-                                colSpan={2}
-                                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                            >
-                                Whatsapp
-                            </th>
+
                         </tr>
                     </thead>
                     <tbody className=" bg-white">
@@ -88,16 +83,7 @@ const PageStores = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="whitespace-nowrap text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
-                                    <div className="flex justify-between">
-                                        <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900">
-                                            Whatsapp
-                                        </div>
-                                        <div className="text-sm text-gray-900 p-4">
-                                            {data.name}
-                                        </div>
-                                    </div>
-                                </td>
+
                                 <td className=" whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
                                     <Link to={'/dashboard/lojas/1'}>
                                         <span className="text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
@@ -123,24 +109,6 @@ const PageStores = () => {
                     </tbody>
                 </table>
             </div>
-
-            <div className='py-4 flex justify-end'>
-                <button
-                    type="button"
-                    className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-                >
-                    <span className="sr-only">Previous</span>
-                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-                <button
-                    type="button"
-                    className=" ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-                >
-                    <span className="sr-only">Next</span>
-                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-            </div>
-
         </PageContent>
     </>
 }
