@@ -29,7 +29,7 @@ import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { ChartArea } from "lucide-react"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import TYPE_USERS from "../../consts/TYPE_USERS"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
 import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
@@ -41,7 +41,7 @@ const USERS = [
     { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
     { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
     { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
-    { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
+    // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
     { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
     { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
     { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
