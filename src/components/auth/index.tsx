@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router";
 import { useAuthContext } from "../../providers/auth/useAuthContext";
 import { ReactNode, Suspense } from "react";
+import { LoadingPage } from "../loadingPage";
 
 function RequireAuth({ children }: { children: ReactNode }) {
     const auth = useAuthContext();
@@ -14,7 +15,7 @@ function RequireAuth({ children }: { children: ReactNode }) {
         return <Navigate to="/" state={{ from: location }} replace />;
     }
 
-    return <Suspense fallback={<div>Carregando página</div>}>{children}</Suspense>;
+    return <Suspense fallback={<LoadingPage />}>{children}</Suspense>;
 }
 
 export default RequireAuth

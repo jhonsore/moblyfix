@@ -19,3 +19,15 @@ export type TypeCustomers = {
     number: string
     complement: string
 }
+
+export type TypeCustomersViewList = {
+    _id: TypeCustomers['_id']
+    name: TypeCustomers['name']
+    email: TypeCustomers['email']
+    cpfCnpj: TypeCustomers['cpfCnpj']
+    whatsapp: TypeCustomers['whatsapp']
+    _headquarterId: TypeCustomers['_headquarterId']
+    _storeId: TypeCustomers['_storeId']
+    createdAt: TypeCustomers['createdAt']
+    query: { [id: string]: boolean }
+}

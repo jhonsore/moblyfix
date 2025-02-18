@@ -8,8 +8,8 @@ export type TypeSales = {
     _osId?: string
     createdAt: Timestamp
 
-    items: Omit<TypePartsServicesProducts, '_id' | 'createdAt' | '_headquarterId' | '_storeId'>[]
-    paymentType: 'cash' | 'card' | 'free' | 'pix'
+    items: Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'>[]
+    paymentType: 'cash' | 'card' | 'free' | 'pix' | 'picpay'
     discountType: 'cash' | 'percentage'
     signFile: string
     observations: string
