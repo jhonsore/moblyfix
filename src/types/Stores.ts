@@ -24,3 +24,12 @@ export type TypeStores = {
     lastOsNumber: number
     lastSaleNumber: number
 }
+
+
+export type TypeStoresViewList = {
+    _id: TypeStores['_id']
+    name: TypeStores['name']
+    _headquarterId: TypeStores['_headquarterId']
+    createdAt: TypeStores['createdAt']
+    query: { [id: string]: boolean }
+}

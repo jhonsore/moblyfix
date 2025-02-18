@@ -62,3 +62,19 @@ export type TypeOs = {
     completionReport: string// Relato de finalização de serviço
     reasonForReopening: string// Motivo de reabertura de serviço
 }
+
+export type TypeOsViewList =
+    {
+        _headquarterId: TypeOs['_headquarterId']
+        _storeId: TypeOs['_storeId']
+        _id: TypeOs['_id']
+        number: TypeOs['number']
+        createdAt: TypeOs['createdAt']
+        devices: TypeOs['devices']
+        finishedAt: TypeOs['finishedAt']
+        status: TypeOs['status']
+        substatus: TypeOs['substatus']
+        customer: TypeOs['customer']
+        query: { [id: string]: boolean }
+
+    }
