@@ -55,11 +55,11 @@ const Atendentes = () => {
                             </th>
                             <th scope="col"
                                 className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
-                                Venda á vista R$ <br /> (débito/dinheiro)
+                                Venda a vista R$ <br /> (débito/dinheiro)
                             </th>
                             <th scope="col"
                                 className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
-                                Venda á prazo (R$)
+                                Venda a prazo (R$)
                             </th>
                             <th></th>
                         </tr>
@@ -84,15 +84,15 @@ const Atendentes = () => {
                 <div>
                     <div className="py-4 text-base font-bold text-gray-900 border-b border-gray-200 flex justify-between">
                         <h2>
-                        Total á prazo
+                            Total á prazo
                         </h2>
                         <span>
                             R$ 00,00
                         </span>
                     </div>
                     <div className="py-4 text-base font-bold text-gray-900 border-b border-gray-200 flex justify-between">
-                    <h2>
-                        Total á prazo
+                        <h2>
+                            Total á prazo
                         </h2>
                         <span>
                             R$ 00,00

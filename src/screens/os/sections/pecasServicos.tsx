@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { Input } from "../../../components/ui/input"
 import AsyncSelect from 'react-select/async';
 import { StylesConfig } from 'react-select';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
+import { Label } from "../../../components/ui/label"
 
 export interface ColourOption {
     readonly value: string;
@@ -48,7 +50,66 @@ const OSPecasServicos = () => {
         });
 
     return <div className="pt-8">
-        <Sheet>
+        <Dialog>
+            <div className="text-right">
+                <DialogTrigger asChild>
+                    <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
+                </DialogTrigger>
+            </div>
+            <DialogContent className="sm:max-w-[425px]">
+                <Form {...form}>
+                    <form onSubmit={() => { }} className="mt-4">
+                        <DialogHeader>
+                            <DialogTitle>Adicionar peça/serviço</DialogTitle>
+                            <DialogDescription>
+                                Inclua peças/serviços a OS
+                            </DialogDescription>
+                        </DialogHeader>
+
+
+                        <div className="pt-6">
+                            <div className="mb-4">
+                                <FormLabel>Peça/serviço</FormLabel>
+                                <FormField
+                                    control={form.control}
+                                    name="search"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <AsyncSelect placeholder='Selecione' className="w-full" styles={colourStyles} cacheOptions defaultOptions loadOptions={promiseOptions} />
+
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="">
+                                <FormLabel>Quantidade</FormLabel>
+                                <FormField
+                                    control={form.control}
+                                    name="number"
+                                    render={({ field }) => (
+                                        <FormItem>
+
+                                            <FormControl>
+                                                <Input placeholder="Digite aqui" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+
+                        <DialogFooter>
+                            <Button className="mt-6" type="submit" variant={"primary"}>Adicionar</Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+        {/* <Sheet>
             <div className="text-right">
                 <SheetTrigger>
                     <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
@@ -82,7 +143,7 @@ const OSPecasServicos = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <FormLabel>Quantidade/estoque</FormLabel>
+                                <FormLabel>Quantidade</FormLabel>
                                 <FormField
                                     control={form.control}
                                     name="number"
@@ -159,7 +220,7 @@ const OSPecasServicos = () => {
                     </form>
                 </Form>
             </SheetContent>
-        </Sheet>
+        </Sheet> */}
         <div className="pb-6 mt-6">
             <table className="w-full">
                 <thead className="bg-gray-50 border-b-4 border-gray-300">
