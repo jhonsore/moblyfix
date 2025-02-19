@@ -20,6 +20,8 @@ export type TypeUsers = {
     number: string
     complement: string
     password: string
+    username: string
+    cpf: string
 }
 
 export type TypeUsersViewList = {

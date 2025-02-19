@@ -23,17 +23,58 @@ import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { useStoresContext } from "@/providers/stores/useStoresContext"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import { Loading } from "@/components/loading"
+import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
+import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
 
 
 
 const FormSchema = z.object({
-    title: z
+    name: z
         .string().min(1, {
-            message: "Preencha o título da Condição",
+            message: "Preencha o nome da loja",
         }),
-    text: z
+    cpfCnpj: z
         .string().min(1, {
-            message: "Preencha o texto da Condição",
+            message: "Preencha o CPF/CNPJ da loja",
+        }),
+    email: z
+        .string().min(1, {
+            message: "Preencha o Email",
+        }),
+    whatsapp: z
+        .string().min(1, {
+            message: "Preencha o whatsapp",
+        }),
+    telefone: z
+        .string(),
+    city: z
+        .string().min(1, {
+            message: "Preencha a cidade",
+        }),
+    neighborhood: z
+        .string().min(1, {
+            message: "Preencha o bairro",
+        }),
+    address: z
+        .string().min(1, {
+            message: "Preencha o endereço",
+        }),
+    zipcode: z
+        .string().min(1, {
+            message: "Preencha o endereço",
+        }),
+    number: z
+        .string().min(1, {
+            message: "Preencha o número",
+        }),
+    state: z
+        .string().min(1, {
+            message: "Preencha o número",
+        }),
+    complement: z
+        .string().min(1, {
+            message: "Preencha o complemento",
         }),
 })
 
@@ -43,8 +84,18 @@ const DadosDoUsuario = () => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            title: "",
-            text: ""
+            name: "",
+            email: "",
+            whatsapp: "",
+            telefone: "",
+            state: "",
+            city: "",
+            neighborhood: "",
+            address: "",
+            zipcode: "",
+            number: "",
+            complement: "",
+            password: "",
         },
     })
     const { id } = useParams()
@@ -67,8 +118,19 @@ const DadosDoUsuario = () => {
             setPageStatus(status)
             const { doc } = result
             if (doc) {
-                form.setValue('text', doc.text)
-                form.setValue('title', doc.title)
+                form.setValue('name', doc.name)
+                form.setValue('email', doc.email)
+                form.setValue('whatsapp', doc.whatsapp)
+                form.setValue('telefone', doc.telefone)
+                form.setValue('state', doc.state)
+                form.setValue('city', doc.city)
+                form.setValue('neighborhood', doc.neighborhood)
+                form.setValue('address', doc.address)
+                form.setValue('zipcode', doc.zipcode)
+                form.setValue('number', doc.number)
+                form.setValue('complement', doc.complement)
+                form.setValue('password', doc.password)
+                form.setValue('username', doc.username)
             }
         }
         load()
@@ -80,16 +142,16 @@ const DadosDoUsuario = () => {
             return
         }
         setStatusLoading(true)
-        const { name, text } = values
+        const { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
         const result = !id ?
-            await DB.termsAndConditions.create({
+            await DB.dadosDoUsuario.create({
                 db,
-                data: { name, text, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.dadosDoUsuario.update({
                 db,
                 id,
-                data: { name, text }
+                data: { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -100,7 +162,7 @@ const DadosDoUsuario = () => {
     const onCreateHandler = () => {
         setStatusCreated(false)
         form.reset()
-        if (id) navigate('/dashboard/condicoes-de-servicos/novo')
+        if (id) navigate('/dashboard/usuarios/novo')
 
     }
 
@@ -111,16 +173,18 @@ const DadosDoUsuario = () => {
     if (pageStatus === 'error') {
         return <ErrorPage />
     }
-    
+
 
     return <>
         <PageContent>
 
-            <HeaderPage title={id ? "Editar" : "Novo item"}>
-            </HeaderPage>
+            <HeaderPage title={id ? "Editar" : "Novo item"}></HeaderPage>
+            {statusLoading && <Loading />}
+            <StoreNotFoundAlert open={statusStore} />
+            <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
 
             <Form {...form}>
-                <form onSubmit={() => { }} className="py-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
 
                     <div className="space-y-2 py-4">
                         <FormLabel>Tipo de usuário</FormLabel>
@@ -188,7 +252,7 @@ const DadosDoUsuario = () => {
                             name="cpf"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CPF/CNPJ</FormLabel>
+                                    <FormLabel>CPF</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui seu CPF" {...field} />
                                     </FormControl>
@@ -261,44 +325,26 @@ const DadosDoUsuario = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="space-y-2">
-                            <FormLabel>UF</FormLabel>
-                            <Select>
-
-                                <SelectTrigger className="flex w-full text-left font-normal">
-                                    <SelectValue placeholder="" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="AC">Acre</SelectItem>
-                                    <SelectItem value="AL">Alagoas</SelectItem>
-                                    <SelectItem value="AP">Amapá</SelectItem>
-                                    <SelectItem value="AM">Amazonas</SelectItem>
-                                    <SelectItem value="BA">Bahia</SelectItem>
-                                    <SelectItem value="CE">Ceará</SelectItem>
-                                    <SelectItem value="DF">Distrito Federal</SelectItem>
-                                    <SelectItem value="ES">Espírito Santo</SelectItem>
-                                    <SelectItem value="GO">Goiás</SelectItem>
-                                    <SelectItem value="MA">Maranhão</SelectItem>
-                                    <SelectItem value="MT">Mato Grosso</SelectItem>
-                                    <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-                                    <SelectItem value="MG">Minas Gerais</SelectItem>
-                                    <SelectItem value="PA">Pará</SelectItem>
-                                    <SelectItem value="PB">Paraíba</SelectItem>
-                                    <SelectItem value="PR">Paraná</SelectItem>
-                                    <SelectItem value="PE">Pernambuco</SelectItem>
-                                    <SelectItem value="PI">Piauí</SelectItem>
-                                    <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                                    <SelectItem value="RN">Rio Grande do Norte</SelectItem>
-                                    <SelectItem value="RS">Rio Grande do Sul</SelectItem>
-                                    <SelectItem value="RO">Rondônia</SelectItem>
-                                    <SelectItem value="RR">Roraima</SelectItem>
-                                    <SelectItem value="SC">Santa Catarina</SelectItem>
-                                    <SelectItem value="SP">São Paulo</SelectItem>
-                                    <SelectItem value="SE">Sergipe</SelectItem>
-                                    <SelectItem value="TO">Tocantins</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>UF</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <SelectTrigger className="flex w-full text-left font-normal">
+                                                <SelectValue placeholder="Escolha seu estado" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="cidade"
@@ -385,7 +431,7 @@ const DadosDoUsuario = () => {
                     </div>
                 </form>
             </Form>
-            
+
 
         </PageContent>
     </>
