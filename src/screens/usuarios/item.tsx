@@ -33,11 +33,11 @@ import { Timestamp } from "firebase/firestore"
 const FormSchema = z.object({
     name: z
         .string().min(1, {
-            message: "Preencha o nome da loja",
+            message: "Preencha o nome do usuário",
         }),
     cpf: z
         .string().min(1, {
-            message: "Preencha o CPF/CNPJ da loja",
+            message: "Preencha o CPF do usuário",
         }),
     email: z
         .string().min(1, {
