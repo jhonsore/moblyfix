@@ -41,11 +41,12 @@ export const DB = {
         create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
     },
     sales: generateDB<TypeSales>(COLLECTIONS.sales),
-    stores: generateDB<TypeStores>(COLLECTIONS.stores),
-    users: {
-        ...generateDB<TypeUsers>(COLLECTIONS.users),
-        create: create<PartialWithRequired<TypeUsers, '_headquarterId' | '_storeId'>>(COLLECTIONS.users),
+    stores: {
+        ...generateDB<TypeStores>(COLLECTIONS.stores),
+        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.stores),
     },
+
+    users: generateDB<TypeUsers>(COLLECTIONS.users),
     views: {
         termsAndConditions: generateDBView<TypeTermsAndConditionsViewList>(COLLECTIONS_VIEWS._viewTermsAndConditionsList),
         customers: generateDBView<TypeCustomersViewList>(COLLECTIONS_VIEWS._viewCustomersList),
