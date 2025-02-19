@@ -33,7 +33,7 @@ export const DB = {
     },
     customers: {
         ...generateDB<TypeCustomers>(COLLECTIONS.customers),
-        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
+        create: create<PartialWithRequired<TypeCustomers, '_headquarterId' | '_storeId'>>(COLLECTIONS.customers),
     },
     os: generateDB<TypeOs>(COLLECTIONS.os),
     partsServicesProducts: {

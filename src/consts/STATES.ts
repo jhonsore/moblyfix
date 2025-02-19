@@ -1,34 +1,30 @@
 const STATES = [
     { value: 'AC', label: 'Acre' },
     { value: 'AL', label: 'Alagoas' },
+    { value: 'AP', label: 'Amapá' },
+    { value: 'AM', label: 'Amazonas' },
+    { value: 'BA', label: 'Bahia' },
+    { value: 'CE', label: 'Ceará' },
+    { value: 'DF', label: 'Distrito Federal' },
+    { value: 'ES', label: 'Espírito Santo' },
+    { value: 'GO', label: 'Goiás' },
+    { value: 'MA', label: 'Maranhão' },
+    { value: 'MT', label: 'Mato Grosso' },
+    { value: 'MS', label: 'Mato Grosso do Sul' },
+    { value: 'MG', label: 'Minas Gerais' },
+    { value: 'PA', label: 'Pará' },
+    { value: 'PB', label: 'Paraíba' },
+    { value: 'PR', label: 'Paraná' },
+    { value: 'PE', label: 'Pernambuco' },
+    { value: 'PI', label: 'Piauí' },
+    { value: 'RJ', label: 'Rio de Janeiro' },
+    { value: 'RN', label: 'Rio Grande do Norte' },
+    { value: 'RS', label: 'Rio Grande do Sul' },
+    { value: 'RO', label: 'Rondônia' },
+    { value: 'RR', label: 'Roraima' },
+    { value: 'SC', label: 'Santa Catarina' },
+    { value: 'SP', label: 'São Paulo' },
+    { value: 'SE', label: 'Sergipe' },
+    { value: 'TO', label: 'Tocantins' },
 ]
 export default STATES
-/*
-<SelectItem value="AC">Acre</SelectItem>
-<SelectItem value="AL">Alagoas</SelectItem>
-<SelectItem value="AP">Amapá</SelectItem>
-<SelectItem value="AM">Amazonas</SelectItem>
-<SelectItem value="BA">Bahia</SelectItem>
-<SelectItem value="CE">Ceará</SelectItem>
-<SelectItem value="DF">Distrito Federal</SelectItem>
-<SelectItem value="ES">Espírito Santo</SelectItem>
-<SelectItem value="GO">Goiás</SelectItem>
-<SelectItem value="MA">Maranhão</SelectItem>
-<SelectItem value="MT">Mato Grosso</SelectItem>
-<SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-<SelectItem value="MG">Minas Gerais</SelectItem>
-<SelectItem value="PA">Pará</SelectItem>
-<SelectItem value="PB">Paraíba</SelectItem>
-<SelectItem value="PR">Paraná</SelectItem>
-<SelectItem value="PE">Pernambuco</SelectItem>
-<SelectItem value="PI">Piauí</SelectItem>
-<SelectItem value="RJ">Rio de Janeiro</SelectItem>
-<SelectItem value="RN">Rio Grande do Norte</SelectItem>
-<SelectItem value="RS">Rio Grande do Sul</SelectItem>
-<SelectItem value="RO">Rondônia</SelectItem>
-<SelectItem value="RR">Roraima</SelectItem>
-<SelectItem value="SC">Santa Catarina</SelectItem>
-<SelectItem value="SP">São Paulo</SelectItem>
-<SelectItem value="SE">Sergipe</SelectItem>
-<SelectItem value="TO">Tocantins</SelectItem>
-*/
