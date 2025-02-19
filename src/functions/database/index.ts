@@ -40,7 +40,7 @@ export const DB = {
     sales: generateDB<TypeSales>(COLLECTIONS.sales),
     stores: {
         ... generateDB<TypeStores>(COLLECTIONS.stores),
-        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
+        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.stores),
     },
         
     users: generateDB<TypeUsers>(COLLECTIONS.users),
