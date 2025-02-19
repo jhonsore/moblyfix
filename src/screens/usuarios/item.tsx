@@ -89,6 +89,10 @@ const FormSchema = z.object({
         .string().min(1, {
             message: "Preencha o usuário",
         }),
+        type_users: z
+        .string().min(1, {
+            message: "Selecione o tipo de usuário",
+        }),
 
 })
 
@@ -113,6 +117,7 @@ const DadosDoUsuario = () => {
             complement: "",
             password: "",
             username: "",
+            type_users: "",
         },
     })
     const { id } = useParams()
@@ -150,6 +155,7 @@ const DadosDoUsuario = () => {
                 form.setValue('complement', doc.complement)
                 form.setValue('password', doc.password)
                 form.setValue('username', doc.username)
+                form.setValue('type_users', doc.type_users)
             }
         }
         load()
@@ -161,16 +167,16 @@ const DadosDoUsuario = () => {
             return
         }
         setStatusLoading(true)
-        const { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
+        const { type_users, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
         const result = !id ?
             await DB.users.create({
                 db,
-                data: {_id: "", createdAt: Timestamp.now(), lastOsNumber: 0, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { _id: "", createdAt: Timestamp.now(), type_users, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.users.update({
                 db,
                 id,
-                data: { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, }
+                data: { type_users, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -205,22 +211,34 @@ const DadosDoUsuario = () => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
 
-                    <div className="space-y-2 py-4">
-                        <FormLabel>Tipo de usuário</FormLabel>
-                        <Select>
-                            <SelectTrigger className="flex w-full text-left font-normal">
-                                <SelectValue placeholder="Selecione a loja" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value={TYPE_OF_USERS.admin._id}>{TYPE_OF_USERS.admin.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.attendant._id}>{TYPE_OF_USERS.attendant.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.financial1._id}>{TYPE_OF_USERS.financial1.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.financial2._id}>{TYPE_OF_USERS.financial2.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.manager._id}>{TYPE_OF_USERS.manager.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.technical._id}>{TYPE_OF_USERS.technical.label}</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+
+                    <FormField
+                        control={form.control}
+                        name="type_users"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Tipo de usuário</FormLabel>
+                                <FormControl>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <SelectTrigger className="flex w-full text-left font-normal">
+                                            <SelectValue placeholder="Selecione o usuário" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectContent>
+                                                <SelectItem value={TYPE_OF_USERS.admin._id}>{TYPE_OF_USERS.admin.label}</SelectItem>
+                                                <SelectItem value={TYPE_OF_USERS.attendant._id}>{TYPE_OF_USERS.attendant.label}</SelectItem>
+                                                <SelectItem value={TYPE_OF_USERS.financial1._id}>{TYPE_OF_USERS.financial1.label}</SelectItem>
+                                                <SelectItem value={TYPE_OF_USERS.financial2._id}>{TYPE_OF_USERS.financial2.label}</SelectItem>
+                                                <SelectItem value={TYPE_OF_USERS.manager._id}>{TYPE_OF_USERS.manager.label}</SelectItem>
+                                                <SelectItem value={TYPE_OF_USERS.technical._id}>{TYPE_OF_USERS.technical.label}</SelectItem>
+                                            </SelectContent>
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <div className="space-y-2 py-4">
                         <FormField
                             control={form.control}

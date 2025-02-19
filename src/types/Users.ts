@@ -8,6 +8,7 @@ export type TypeUsers = {
     createdAt: Timestamp
 
     type: TypeOfUsers
+    type_users: string
     name: string
     email: string
     whatsapp: string
