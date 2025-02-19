@@ -4,12 +4,14 @@ import { getFirestore } from 'firebase/firestore';
 import { getFunctions } from 'firebase/functions';
 import { initializeApp } from 'firebase/app'
 import firebaseConfig from '../../config/firebase';
+import { getStorage } from "firebase/storage";
 
 const fir = initializeApp(firebaseConfig)
 const db = getFirestore(fir);
 const auth = getAuth(fir);
 const functions = getFunctions(fir)
-const values = { db, auth, functions, app: fir }
+const storage = getStorage();
+const values = { db, auth, functions, app: fir, storage }
 const FirebaseContext = createContext(values);
 
 const FirebaseProvider: FC<{ children?: React.ReactNode }> = ({ children }) => {

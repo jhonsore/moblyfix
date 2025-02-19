@@ -11,7 +11,9 @@ export type TypeUsers = {
     name: string
     email: string
     whatsapp: string
-    telefone: string
+    phone: string
+    phone2: string
+    phone3: string
     state: string
     city: string
     neighborhood: string
@@ -20,4 +22,15 @@ export type TypeUsers = {
     number: string
     complement: string
     password: string
+    username: string
+    cpf: string
+}
+
+export type TypeUsersViewList = {
+    _id: TypeUsers
+    name: TypeUsers['name']
+    _headquarterId: TypeUsers['_headquarterId']
+    _storeId: TypeUsers['_storeId']
+    createdAt: TypeUsers['createdAt']
+    query: { [id: string]: boolean }
 }

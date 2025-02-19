@@ -8,3 +8,12 @@ export type TypeTermsAndConditions = {
     _storeId: string
     createdAt: Timestamp
 }
+
+export type TypeTermsAndConditionsViewList = {
+    _headquarterId: TypeTermsAndConditions['_headquarterId']
+    _storeId: TypeTermsAndConditions['_storeId']
+    _id: TypeTermsAndConditions['_id']
+    title: TypeTermsAndConditions['title']
+    createdAt: TypeTermsAndConditions['createdAt']
+    query: { [id: string]: boolean }
+}
