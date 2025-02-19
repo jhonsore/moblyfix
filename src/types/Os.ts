@@ -45,7 +45,6 @@ export type TypeOs = {
     finishedAt: Timestamp
     status: TypeOfStatus
     substatus: TypeOfSubstatus
-
     positionInCabinaet: string
     serialNumber: string
     guarantee: boolean

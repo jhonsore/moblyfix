@@ -32,7 +32,10 @@ export const DB = {
         create: create<PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'>>(COLLECTIONS.termsAndConditions),
     },
     customers: generateDB<TypeCustomers>(COLLECTIONS.customers),
-    os: generateDB<TypeOs>(COLLECTIONS.os),
+    os: {
+        ...generateDB<TypeOs>(COLLECTIONS.os),
+        create: create<PartialWithRequired<TypeOs, '_headquarterId' | '_storeId'>>(COLLECTIONS.os),
+    },
     partsServicesProducts: {
         ...generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),
         create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
