@@ -26,7 +26,8 @@ import { z } from "zod"
 import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
 import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
-
+import STATES from "../../consts/STATES"
+import { Timestamp } from "firebase/firestore"
 
 
 const FormSchema = z.object({
@@ -34,7 +35,7 @@ const FormSchema = z.object({
         .string().min(1, {
             message: "Preencha o nome da loja",
         }),
-    cpfCnpj: z
+    cpf: z
         .string().min(1, {
             message: "Preencha o CPF/CNPJ da loja",
         }),
@@ -46,7 +47,11 @@ const FormSchema = z.object({
         .string().min(1, {
             message: "Preencha o whatsapp",
         }),
-    telefone: z
+    phone: z
+        .string(),
+    phone2: z
+        .string(),
+    phone3: z
         .string(),
     city: z
         .string().min(1, {
@@ -62,7 +67,7 @@ const FormSchema = z.object({
         }),
     zipcode: z
         .string().min(1, {
-            message: "Preencha o endereço",
+            message: "Preencha o CEP",
         }),
     number: z
         .string().min(1, {
@@ -70,12 +75,21 @@ const FormSchema = z.object({
         }),
     state: z
         .string().min(1, {
-            message: "Preencha o número",
+            message: "Preencha o estado",
         }),
     complement: z
         .string().min(1, {
             message: "Preencha o complemento",
         }),
+    password: z
+        .string().min(1, {
+            message: "Preencha a senha",
+        }),
+    username: z
+        .string().min(1, {
+            message: "Preencha o usuário",
+        }),
+
 })
 
 const DadosDoUsuario = () => {
@@ -87,7 +101,9 @@ const DadosDoUsuario = () => {
             name: "",
             email: "",
             whatsapp: "",
-            telefone: "",
+            phone: "",
+            phone2: "",
+            phone3: "",
             state: "",
             city: "",
             neighborhood: "",
@@ -96,6 +112,7 @@ const DadosDoUsuario = () => {
             number: "",
             complement: "",
             password: "",
+            username: "",
         },
     })
     const { id } = useParams()
@@ -108,7 +125,7 @@ const DadosDoUsuario = () => {
     useEffect(() => {
         if (!id) return
         const load = async () => {
-            const result = await DB.dadosDoUsuario.read({ db, id })
+            const result = await DB.users.read({ db, id })
             let status: typeof pageStatus = 'success'
             if (!result.status) {
                 status = 'error'
@@ -121,7 +138,9 @@ const DadosDoUsuario = () => {
                 form.setValue('name', doc.name)
                 form.setValue('email', doc.email)
                 form.setValue('whatsapp', doc.whatsapp)
-                form.setValue('telefone', doc.telefone)
+                form.setValue('phone', doc.phone)
+                form.setValue('phone2', doc.phone2)
+                form.setValue('phone3', doc.phone3)
                 form.setValue('state', doc.state)
                 form.setValue('city', doc.city)
                 form.setValue('neighborhood', doc.neighborhood)
@@ -142,16 +161,16 @@ const DadosDoUsuario = () => {
             return
         }
         setStatusLoading(true)
-        const { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
+        const { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
         const result = !id ?
-            await DB.dadosDoUsuario.create({
+            await DB.users.create({
                 db,
-                data: { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: {_id: "", createdAt: Timestamp.now(), lastOsNumber: 0, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
-            await DB.dadosDoUsuario.update({
+            await DB.users.update({
                 db,
                 id,
-                data: { name, email, whatsapp, telefone, state, city, neighborhood, address, zipcode, number, complement, password, username, }
+                data: { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -275,7 +294,7 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="telefone"
+                            name="whatsapp"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Whatsapp</FormLabel>
@@ -288,7 +307,7 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Contato 1</FormLabel>
@@ -301,7 +320,7 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone2"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Contato 2</FormLabel>
@@ -314,7 +333,7 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone3"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Contato 3</FormLabel>
@@ -347,12 +366,12 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="cidade"
+                            name="city"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Cidade</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        <Input placeholder="Digite aqui sua cidade" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -360,12 +379,12 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="bairro"
+                            name="neighborhood"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Bairro</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        <Input placeholder="Digite aqui seu bairro" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -374,7 +393,7 @@ const DadosDoUsuario = () => {
                     </div>
                     <FormField
                         control={form.control}
-                        name="endereco"
+                        name="address"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Endereço</FormLabel>
@@ -388,12 +407,12 @@ const DadosDoUsuario = () => {
                     <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
-                            name="cep"
+                            name="zipcode"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>CEP</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        <Input placeholder="Digite aqui seu CEP" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -406,7 +425,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Nº</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="" {...field} />
+                                        <Input placeholder="Digite aqui seu numero" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -414,7 +433,7 @@ const DadosDoUsuario = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="complemento"
+                            name="complement"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Complemento</FormLabel>

@@ -11,7 +11,9 @@ export type TypeUsers = {
     name: string
     email: string
     whatsapp: string
-    telefone: string
+    phone: string
+    phone2: string
+    phone3: string
     state: string
     city: string
     neighborhood: string
