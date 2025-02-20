@@ -66,7 +66,7 @@ const PageNewOs = () => {
                   <form onSubmit={() => { }} className="">
                     <FormField
                       control={form.control}
-                      name="telefone"
+                      name="phone"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Whatsapp</FormLabel>
