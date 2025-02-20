@@ -21,6 +21,16 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
+const FormSchema = z.object({
+    title: z
+        .string().min(1, {
+            message: "Preencha o título da Condição",
+        }),
+    text: z
+        .string().min(1, {
+            message: "Preencha o texto da Condição",
+        }),
+})
 
 const PageNewOs = () => {
   const form = useForm()
