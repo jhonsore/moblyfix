@@ -165,7 +165,7 @@ const DadosDoUsuario = () => {
         const result = !id ?
             await DB.users.create({
                 db,
-                data: {_id: "", createdAt: Timestamp.now(), lastOsNumber: 0, name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { _id: "", createdAt: Timestamp.now(), name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.users.update({
                 db,
