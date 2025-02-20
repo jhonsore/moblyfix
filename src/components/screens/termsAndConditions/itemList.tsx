@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { TypeTermsAndConditions } from "../../../types/TermsAndConditions";
+import { TypeTermsAndConditions, TypeTermsAndConditionsViewList } from "../../../types/TermsAndConditions";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -16,7 +16,7 @@ import { DB } from "../../../functions/database";
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react";
 
-export function ItemList({ data }: { data: TypeTermsAndConditions }) {
+export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
     const { db } = useFirebaseContext()
     const { toast } = useToast()
     const [statusRemoved, setStatusRemoved] = useState(false)
