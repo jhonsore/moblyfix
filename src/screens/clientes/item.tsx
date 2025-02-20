@@ -41,11 +41,11 @@ const FormSchema = z.object({
         }),
     email: z
         .string().min(1, {
-            message: "Preencha o Email",
+            message: "Preencha o Email do usuário",
         }),
     whatsapp: z
         .string().min(1, {
-            message: "Preencha o whatsapp",
+            message: "Preencha o whatsapp do usuário",
         }),
     phone: z
         .string(),
@@ -55,27 +55,27 @@ const FormSchema = z.object({
         .string(),
     city: z
         .string().min(1, {
-            message: "Preencha a cidade",
+            message: "Preencha a cidade do usuário",
         }),
     neighborhood: z
         .string().min(1, {
-            message: "Preencha o bairro",
+            message: "Preencha o bairro do usuário",
         }),
     address: z
         .string().min(1, {
-            message: "Preencha o endereço",
+            message: "Preencha o endereço do usuário",
         }),
     zipcode: z
         .string().min(1, {
-            message: "Preencha o CEP",
+            message: "Preencha o CEP do usuário",
         }),
     number: z
         .string().min(1, {
-            message: "Preencha o número",
+            message: "Preencha o número do usuário",
         }),
     state: z
         .string().min(1, {
-            message: "Preencha o estado",
+            message: "Preencha o estado do usuário",
         }),
     complement: z
         .string().min(1, {
@@ -299,7 +299,7 @@ const DadosDoCliente = () => {
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
-                                                <SelectValue placeholder="Escolha seu estado" />
+                                                <SelectValue placeholder="Escolha o estado" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
