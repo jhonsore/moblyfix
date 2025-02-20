@@ -1,10 +1,10 @@
 import { createContext } from 'react';
-import { TypeStores } from '../../types/Stores';
+import { TypeStoresViewList } from '../../types/Stores';
 
 export interface IStoresContext {
-  stores: { [id: string]: TypeStores }
-  store: TypeStores | undefined
-  setStore: React.Dispatch<React.SetStateAction<TypeStores | undefined>>
+  stores: { [id: string]: TypeStoresViewList }
+  store: TypeStoresViewList | undefined
+  setStore: React.Dispatch<React.SetStateAction<TypeStoresViewList | undefined>>
 }
 
 const StoresContext = createContext<Partial<IStoresContext>>({});
