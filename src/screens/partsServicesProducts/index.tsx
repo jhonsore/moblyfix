@@ -15,6 +15,7 @@ import { formatCurrency } from "../../functions/utils/formatCurrency"
 import { EmptData } from "../../components/emptyData"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "../../components/loading"
+import formatToBrazilianReal from "../../functions/utils/formatToBrazilianReal"
 
 
 const PagePartsServicesProducts = () => {
@@ -30,7 +31,7 @@ const PagePartsServicesProducts = () => {
     if (!db || !store || pageData.length > 0) return
 
     const load = async () => {
-      const result = await DB.views.partsServicesProducts.list({ db, limit: 2, wheres: [['_storeId', '==', store._id]] })
+      const result = await DB.views.partsServicesProducts.list({ db, limit: 10, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -126,7 +127,7 @@ const PagePartsServicesProducts = () => {
                       Preço de custo
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {formatCurrency(data.costPrice.toString()) || '-'}
+                      {formatToBrazilianReal(data.costPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
@@ -136,7 +137,7 @@ const PagePartsServicesProducts = () => {
                       Venda à vista
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {formatCurrency(data.cashPrice.toString()) || '-'}
+                      {formatToBrazilianReal(data.cashPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
@@ -146,7 +147,7 @@ const PagePartsServicesProducts = () => {
                       Venda à prazo
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {formatCurrency(data.installmentPrice.toString()) || '-'}
+                      {formatToBrazilianReal(data.installmentPrice.toString()) || '-'}
                     </div>
                   </div>
                 </td>
