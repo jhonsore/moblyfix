@@ -24,7 +24,7 @@ const PageTermsandConditions = () => {
     const load = async () => {
       const result = await DB.views.termsAndConditions.list({ db, orderBy: [['createdAt', 'asc']], wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
-      console.log(result)
+
       if (!result.status) {
         status = 'error'
         return

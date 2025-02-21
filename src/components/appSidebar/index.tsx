@@ -23,7 +23,7 @@ import {
     UsersIcon,
     WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline'
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { Users } from "../../functions/users"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { ChartArea } from "lucide-react"
@@ -56,12 +56,20 @@ const ADMIN = [
 ]
 
 export function AppSidebar() {
+    const navigate = useNavigate()
     const { open } = useSidebar()
     const { auth } = useFirebaseContext()
     const { claims } = useAuthContext()
-    const { stores, store } = useStoresContext()
+    const { stores, store, setStore } = useStoresContext()
     const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
     const showSelectStores = stores && claims && (claims.type === TYPE_OF_USERS.financial1._id || claims.type === TYPE_OF_USERS.admin._id) && store && Object.keys(stores).length
+
+    function storeChangeHandler(storeId: string) {
+        if (stores?.[storeId] && setStore && stores) {
+            setStore(stores[storeId])
+            navigate('/dashboard/')
+        }
+    }
 
     return (
         <Sidebar collapsible='icon' className="z-30">
@@ -74,7 +82,6 @@ export function AppSidebar() {
                                 src="/img/logo-dash.svg"
                                 alt="logo"
                             />}
-
                         </div>
                     </SidebarMenuItem>
                 </SidebarMenu>
@@ -85,7 +92,7 @@ export function AppSidebar() {
 
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {showSelectStores && <Select defaultValue={store._id}>
+                            {showSelectStores && <Select defaultValue={store._id} onValueChange={storeChangeHandler}>
                                 <SelectTrigger className="mb-4 bg-white text-black">
                                     <SelectValue placeholder="Selecione uma loja" />
                                 </SelectTrigger>
