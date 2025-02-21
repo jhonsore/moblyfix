@@ -26,7 +26,7 @@ const EstoqueItens = lazy(() => import('./stock/item'))
 const DadosDaVenda = lazy(() => import('./sales/item'))
 const Appointments = lazy(() => import('./appointments'))
 const NewSchedule = lazy(() => import('./appointments/item'))
-const OsEntrance = lazy(() => import('./osEntrance'))
+const OsEntrance = lazy(() => import('./print/osEntrance'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
