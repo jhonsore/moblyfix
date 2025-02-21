@@ -14,10 +14,10 @@ export const StoresProvider: FC<{ children?: React.ReactNode }> = ({ children })
   useEffect(() => {
     if (!claims || Object.keys(stores).length > 0) return
     const load = async () => {
-      const response = await DB.views.stores.list({ db, orderBy: [['createAt', 'desc']], wheres: [['_headquarterId', '==', claims.headquarterId]] })
+      const response = await DB.views.stores.list({ db, orderBy: [['createdAt', 'desc']], wheres: [['_headquarterId', '==', claims.headquarterId]] })
       if (response.status && response.docs) {
         setStores(response.docs)
-        setStore(Object.values(response.docs)[0])
+        setStore(Object.values(response.docs).sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis())[0])
       }
     }
     load()

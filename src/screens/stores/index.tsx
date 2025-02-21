@@ -1,6 +1,6 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -10,22 +10,20 @@ import { ErrorPage } from "@/components/errorPage"
 import { TypeStoresViewList } from "@/types/Stores"
 import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
-import { useStoresContext } from "@/providers/stores/useStoresContext"
-
-
-
+import { useAuthContext } from "../../providers/auth/useAuthContext"
 
 const PageStores = () => {
     const { db } = useFirebaseContext()
+    const { claims } = useAuthContext()
     const [pageData, setPageData] = useState<TypeStoresViewList[]>([])
     const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
-    const { store } = useStoresContext()
 
     useEffect(() => {
-        if (!db) return
+        if (!db || !claims) return
         const load = async () => {
-            const result = await DB.views.stores.list({ db })
+            const result = await DB.views.stores.list({ db, orderBy: [['createdAt', 'desc']], wheres: [['_headquarterId', '==', claims.headquarterId]] })
             let status: typeof pageStatus = 'success'
+
             if (!result.status) {
                 status = 'error'
                 return
@@ -38,7 +36,7 @@ const PageStores = () => {
 
         }
         load()
-    }, [store])
+    }, [claims])
 
     if (pageStatus === 'loading') {
         return
@@ -59,7 +57,7 @@ const PageStores = () => {
         <PageContent>
 
             <div className=" py-6 ">
-                 <table className=" w-full">
+                <table className=" w-full">
                     <thead className="bg-gray-50 hidden lg:table-header-group w-full">
                         <tr>
                             <th
