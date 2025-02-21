@@ -25,6 +25,7 @@ export const listView = <TDoc extends DocumentData>(collection: CollectionsViews
             }
         } catch (error) {
             const _e = error as { message: string }
+            console.log(_e.message)
             return { status: false, error: _e }
         }
     })

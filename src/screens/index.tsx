@@ -4,6 +4,7 @@ import RequireAuth from "../components/auth"
 import Layout from "../components/layout"
 import { lazy } from "react"
 import Components from './components'
+import PrintLayout from "../components/print"
 
 const Dashboard = lazy(() => import('./dashboard'))
 const PageCondicoesServicos = lazy(() => import('./termsAndConditions'))
@@ -36,7 +37,10 @@ const OrdensServicos = lazy(() => import('./os'))
 const App = () => {
     return <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/os/imprimir-entrada/:id" element={<OsEntrance />} />
+        <Route path="imprimir" element={<PrintLayout />}>
+            <Route path="os/entrada/:id" element={<OsEntrance />} />
+        </Route>
+
         <Route path="dashboard" element={<RequireAuth><Layout /></RequireAuth>}>
             <Route index element={<Dashboard />} />
             <Route path="condicoes-de-servicos" element={<PageCondicoesServicos />} />
