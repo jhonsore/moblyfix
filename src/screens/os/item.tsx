@@ -20,17 +20,74 @@ import { Link } from "react-router"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import STATES from "@/consts/STATES"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+
 
 const FormSchema = z.object({
-    title: z
-        .string().min(1, {
-            message: "Preencha o título da Condição",
-        }),
+  name: z
+    .string().min(1, {
+      message: "Preencha o nome do usuário",
+    }),
+  cpfCnpj: z
+    .string().min(1, {
+      message: "Preencha o CPF do usuário",
+    }),
+  email: z
+    .string().min(1, {
+      message: "Preencha o Email",
+    }),
+  whatsapp: z
+    .string().min(1, {
+      message: "Preencha o whatsapp",
+    }),
+  phone: z
+    .string(),
+  phone2: z
+    .string(),
+  phone3: z
+    .string(),
+  city: z
+    .string().min(1, {
+      message: "Preencha a cidade",
+    }),
+  neighborhood: z
+    .string().min(1, {
+      message: "Preencha o bairro",
+    }),
+  address: z
+    .string().min(1, {
+      message: "Preencha o endereço",
+    }),
+  zipcode: z
+    .string().min(1, {
+      message: "Preencha o CEP",
+    }),
+  number: z
+    .string().min(1, {
+      message: "Preencha o número",
+    }),
+  state: z
+    .string().min(1, {
+      message: "Preencha o estado",
+    }),
+  complement: z
+    .string().min(1, {
+      message: "Preencha o complemento",
+    }),
     text: z
-        .string().min(1, {
-            message: "Preencha o texto da Condição",
-        }),
+    .string().min(1, {
+      message: "Preencha o produto",
+    }),
+    guarantee: z
+    .string().min(1, {
+      message: "Preencha a garantia",
+    }),
+
 })
+
 
 const PageNewOs = () => {
   const form = useForm()
@@ -66,7 +123,7 @@ const PageNewOs = () => {
                   <form onSubmit={() => { }} className="">
                     <FormField
                       control={form.control}
-                      name="phone"
+                      name="whatsapp"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Whatsapp</FormLabel>
@@ -107,7 +164,7 @@ const PageNewOs = () => {
           <div className=" flex pt-6 pb-4">
             <FormField
               control={form.control}
-              name="search"
+              name="name"
               render={({ field }) => (
                 <FormItem className="flex-1 mr-6">
                   <FormControl>
@@ -129,7 +186,7 @@ const PageNewOs = () => {
                       <form onSubmit={() => { }} className="pb-4">
                         <FormField
                           control={form.control}
-                          name="search"
+                          name="name"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Cliente</FormLabel>
@@ -143,7 +200,7 @@ const PageNewOs = () => {
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                           <FormField
                             control={form.control}
-                            name="cpf"
+                            name="cpfCnpj"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>CPF/CNPJ</FormLabel>
@@ -169,7 +226,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="whatsapp"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Whatsapp</FormLabel>
@@ -182,7 +239,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 1</FormLabel>
@@ -195,7 +252,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone1"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 2</FormLabel>
@@ -208,7 +265,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone2"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 3</FormLabel>
@@ -219,46 +276,29 @@ const PageNewOs = () => {
                               </FormItem>
                             )}
                           />
-                          <div className="space-y-2">
-                            <FormLabel>UF</FormLabel>
-                            <Select>
-                              <SelectTrigger className="flex w-full text-left font-normal">
-                                <SelectValue placeholder="" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="AC">Acre</SelectItem>
-                                <SelectItem value="AL">Alagoas</SelectItem>
-                                <SelectItem value="AP">Amapá</SelectItem>
-                                <SelectItem value="AM">Amazonas</SelectItem>
-                                <SelectItem value="BA">Bahia</SelectItem>
-                                <SelectItem value="CE">Ceará</SelectItem>
-                                <SelectItem value="DF">Distrito Federal</SelectItem>
-                                <SelectItem value="ES">Espírito Santo</SelectItem>
-                                <SelectItem value="GO">Goiás</SelectItem>
-                                <SelectItem value="MA">Maranhão</SelectItem>
-                                <SelectItem value="MT">Mato Grosso</SelectItem>
-                                <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-                                <SelectItem value="MG">Minas Gerais</SelectItem>
-                                <SelectItem value="PA">Pará</SelectItem>
-                                <SelectItem value="PB">Paraíba</SelectItem>
-                                <SelectItem value="PR">Paraná</SelectItem>
-                                <SelectItem value="PE">Pernambuco</SelectItem>
-                                <SelectItem value="PI">Piauí</SelectItem>
-                                <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                                <SelectItem value="RN">Rio Grande do Norte</SelectItem>
-                                <SelectItem value="RS">Rio Grande do Sul</SelectItem>
-                                <SelectItem value="RO">Rondônia</SelectItem>
-                                <SelectItem value="RR">Roraima</SelectItem>
-                                <SelectItem value="SC">Santa Catarina</SelectItem>
-                                <SelectItem value="SP">São Paulo</SelectItem>
-                                <SelectItem value="SE">Sergipe</SelectItem>
-                                <SelectItem value="TO">Tocantins</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
                           <FormField
                             control={form.control}
-                            name="cidade"
+                            name="state"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>UF</FormLabel>
+                                <FormControl>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="flex w-full text-left font-normal">
+                                      <SelectValue placeholder="Escolha seu estado" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                    </SelectContent>
+                                  </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="city"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Cidade</FormLabel>
@@ -271,7 +311,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="bairro"
+                            name="neighborhood"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Bairro</FormLabel>
@@ -285,7 +325,7 @@ const PageNewOs = () => {
                         </div>
                         <FormField
                           control={form.control}
-                          name="endereco"
+                          name="address"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Endereço</FormLabel>
@@ -299,7 +339,7 @@ const PageNewOs = () => {
                         <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4'>
                           <FormField
                             control={form.control}
-                            name="cep"
+                            name="zipCode"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>CEP</FormLabel>
@@ -325,7 +365,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="complemento"
+                            name="complement"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Complemento</FormLabel>
@@ -399,13 +439,26 @@ const PageNewOs = () => {
                   />
                 </div>
                 <div className="flex items-center space-x-2 pt-7 px-8">
-                  <Checkbox id="terms" />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Garantia
-                  </label>
+                  <FormField
+                    control={form.control}
+                    name="guarantee"
+                    render={({ field }) => (
+                      <FormItem className="flex space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            id="terms"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>
+                            Garantia
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -416,12 +469,13 @@ const PageNewOs = () => {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "flex w-full justify-start text-left font-normal",
+                      "flex w-full justify-between text-left font-normal",
                       !date && "text-muted-foreground"
                     )}
                   >
+
+                    {date ? format(date, "PPP") : <span>Data</span>}
                     <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>data</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -438,7 +492,7 @@ const PageNewOs = () => {
           <div className=" py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <FormField
               control={form.control}
-              name="search"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Acessórios</FormLabel>

@@ -47,6 +47,11 @@ export type TypeOs = {
     substatus: TypeOfSubstatus
     positionInCabinaet: string
     serialNumber: string
+    whatsapp: string
+    phone: string
+    phone1: string
+    phone2: string
+    text: string
     guarantee: boolean
     date: Timestamp
     accessories: string
