@@ -49,15 +49,24 @@ export type TypeOs = {
     serialNumber: string
     whatsapp: string
     phone: string
-    phone1: string
     phone2: string
-    text: string
+    phone3: string
+    product: string
     guarantee: boolean
     date: Timestamp
     accessories: string
     observation: string
     customerReport: string
     signFile: string
+    name: string
+    email: string
+    cpfCnpj: string
+    state: string
+    city: string
+    neighborhood: string
+    address: string
+    zipcode: string
+    complement: string
     devicePhotos: string[]
     responsibleTechnician: {
         name: string
