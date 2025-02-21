@@ -35,13 +35,20 @@ export const DB = {
         ...generateDB<TypeCustomers>(COLLECTIONS.customers),
         create: create<PartialWithRequired<TypeCustomers, '_headquarterId' | '_storeId'>>(COLLECTIONS.customers),
     },
-    os: generateDB<TypeOs>(COLLECTIONS.os),
+    os: {
+        ...generateDB<TypeOs>(COLLECTIONS.os),
+        create: create<PartialWithRequired<TypeOs, '_headquarterId' | '_storeId'>>(COLLECTIONS.os),
+    },
     partsServicesProducts: {
         ...generateDB<TypePartsServicesProducts>(COLLECTIONS.partsServicesProducts),
         create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
     },
     sales: generateDB<TypeSales>(COLLECTIONS.sales),
-    stores: generateDB<TypeStores>(COLLECTIONS.stores),
+    stores: {
+        ...generateDB<TypeStores>(COLLECTIONS.stores),
+        create: create<PartialWithRequired<TypeStores, '_headquarterId' | '_storeId'>>(COLLECTIONS.stores),
+    },
+
     users: generateDB<TypeUsers>(COLLECTIONS.users),
     views: {
         termsAndConditions: generateDBView<TypeTermsAndConditionsViewList>(COLLECTIONS_VIEWS._viewTermsAndConditionsList),

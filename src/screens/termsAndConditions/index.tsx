@@ -4,7 +4,7 @@ import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
 import { useEffect, useState } from "react"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
-import { TypeTermsAndConditions } from "../../types/TermsAndConditions"
+import { TypeTermsAndConditionsViewList } from "../../types/TermsAndConditions"
 import { DB } from "../../functions/database"
 import { TypePageStatus } from "../../types/PageStatus"
 import { LoadingPage } from "../../components/loadingPage"
@@ -16,14 +16,15 @@ import { ItemList } from "../../components/screens/termsAndConditions/itemList"
 const PageTermsandConditions = () => {
   const { db } = useFirebaseContext()
   const { store } = useStoresContext()
-  const [termsAndConditions, setTermsAndConditions] = useState<TypeTermsAndConditions[]>([])
+  const [termsAndConditions, setTermsAndConditions] = useState<TypeTermsAndConditionsViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
 
   useEffect(() => {
     if (!db || !store || termsAndConditions.length > 0) return
     const load = async () => {
-      const result = await DB.views.termsAndConditions.list({ db, wheres: [['_storeId', '==', store._id]] })
+      const result = await DB.views.termsAndConditions.list({ db, orderBy: [['createdAt', 'asc']], wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
+      console.log(result)
       if (!result.status) {
         status = 'error'
         return

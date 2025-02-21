@@ -10,7 +10,7 @@ import { ErrorPage } from "@/components/errorPage"
 import { TypeStoresViewList } from "@/types/Stores"
 import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
-
+import { useStoresContext } from "@/providers/stores/useStoresContext"
 
 
 
@@ -19,6 +19,7 @@ const PageStores = () => {
     const { db } = useFirebaseContext()
     const [pageData, setPageData] = useState<TypeStoresViewList[]>([])
     const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+    const { store } = useStoresContext()
 
     useEffect(() => {
         if (!db) return
@@ -37,7 +38,7 @@ const PageStores = () => {
 
         }
         load()
-    }, [])
+    }, [store])
 
     if (pageStatus === 'loading') {
         return
@@ -58,7 +59,7 @@ const PageStores = () => {
         <PageContent>
 
             <div className=" py-6 ">
-                <table className=" w-full">
+                 <table className=" w-full">
                     <thead className="bg-gray-50 hidden lg:table-header-group w-full">
                         <tr>
                             <th

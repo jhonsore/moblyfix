@@ -12,6 +12,9 @@ import { ErrorPage } from "@/components/errorPage"
 import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
 import { formatCurrency } from "../../functions/utils/formatCurrency"
+import { EmptData } from "../../components/emptyData"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { Loading } from "../../components/loading"
 
 
 const PagePartsServicesProducts = () => {
@@ -19,12 +22,15 @@ const PagePartsServicesProducts = () => {
   const [pageData, setPageData] = useState<TypePartsServicesProducts[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
   const { store } = useStoresContext()
+  const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+  const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+  const [statusLoading, setStatusLoading] = useState(false)
 
   useEffect(() => {
     if (!db || !store || pageData.length > 0) return
 
     const load = async () => {
-      const result = await DB.views.partsServicesProducts.list({ db, wheres: [['_storeId', '==', store._id]] })
+      const result = await DB.views.partsServicesProducts.list({ db, limit: 2, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -34,11 +40,26 @@ const PagePartsServicesProducts = () => {
       setPageStatus(status)
       if (result.docs) {
         setPageData(Object.values(result.docs))
+        setLastDocumentSnapshot(result.lastDocument);
       }
 
     }
     load()
   }, [store])
+
+  async function loadMoreHandler() {
+    if (!db || !store) return
+
+    const result = await DB.views.partsServicesProducts.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+    setStatusLoading(true)
+    if (result.docs && Object.keys(result.docs).length) {
+      setPageData([...pageData, ...Object.values(result.docs)])
+      setLastDocumentSnapshot(result.lastDocument);
+    } else {
+      setLoadMoreStatus(false)
+    }
+    setStatusLoading(false)
+  }
 
   if (pageStatus === 'loading') {
     return <LoadingPage />
@@ -48,16 +69,16 @@ const PagePartsServicesProducts = () => {
     return <ErrorPage />
   }
   return <>
+    {statusLoading && <Loading />}
     <HeaderPage title="Peças/serviços/produtos">
       <Link to={'/dashboard/pecas-servicos/novo'}>
         <Button variant={"primary"}>Novo item</Button>
       </Link>
     </ HeaderPage>
     <PageContent>
-
-
       <div className="py-6">
-        <table className=" w-full">
+        {pageData.length === 0 && <EmptData />}
+        {pageData.length > 0 && <table className=" w-full">
           <thead className="bg-gray-50 hidden lg:table-header-group w-full">
             <tr>
               <th
@@ -148,73 +169,11 @@ const PagePartsServicesProducts = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
       </div>
-
-
-
-      {/* <div className=" bg-white m-w-full py-6 lg:hidden">
-
-
-
-        <div>
-
-          {pageData.map((data) => (<div>
-            <div key={'123'} className='border-y border-gray-200'>
-              <div>
-                <div>
-                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                    Nome
-                  </div>
-                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                    {data.name}
-                  </div>
-                </div>
-                <div>
-                  <div className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                    Nome
-                  </div>
-                  <div className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                    {data.name}
-                  </div>
-                </div>
-              </div>
-              <div className="text-center border">
-                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
-                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
-                    visibility
-                  </span>
-                </Link>
-              </div>
-            </div>
-
-          </div>))
-          }
-
-
-
-
-        </div>
-      </div> */}
-
-      <div className='py-4 flex justify-end'>
-        <button
-          type="button"
-          className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-        >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-        >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
-
-
+      {pageData.length > 0 && loadMoreStatus && <div className='py-4 text-center'>
+        <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+      </div>}
     </PageContent>
   </>
 }
