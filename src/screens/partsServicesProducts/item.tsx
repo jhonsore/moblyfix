@@ -21,6 +21,7 @@ import { TypePartsServicesProducts } from "../../types/PartsServicesProducts"
 import { formatCurrency } from "../../functions/utils/formatCurrency"
 import { currencyToNumber } from "../../functions/utils/currencyToNumber"
 import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group"
+import formatToBrazilianReal from "../../functions/utils/formatToBrazilianReal"
 
 const FormSchema = z.object({
     name: z
@@ -75,9 +76,9 @@ const PartsServicesProductsItem = () => {
             const { doc } = result
             if (doc) {
                 form.setValue('name', doc.name)
-                form.setValue('cashPrice', doc.cashPrice.toString())
-                form.setValue('installmentPrice', doc.installmentPrice.toString())
-                form.setValue('costPrice', doc.costPrice.toString())
+                form.setValue('cashPrice', formatToBrazilianReal(doc.cashPrice.toString()))
+                form.setValue('installmentPrice', formatToBrazilianReal(doc.installmentPrice.toString()))
+                form.setValue('costPrice', formatToBrazilianReal(doc.costPrice.toString()))
                 form.setValue('type', doc.type)
             }
         }
