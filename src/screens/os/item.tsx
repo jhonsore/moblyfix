@@ -392,7 +392,7 @@ const PageNewOs = () => {
             <div className='col-span-2'>
               <FormField
                 control={form.control}
-                name="text"
+                name="devices"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Produto</FormLabel>
