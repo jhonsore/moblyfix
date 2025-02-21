@@ -26,6 +26,12 @@ import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
 import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
 import { Timestamp } from "firebase/firestore"
+import formatPhone from "../../functions/utils/formatPhone"
+import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
+import { Search } from "lucide-react"
+import formatCep from "../../functions/utils/formatCep"
+import cleanValue from "../../functions/utils/cleanValue"
+import { getCep } from "../../functions/cep"
 
 const FormSchema = z.object({
     name: z
@@ -37,7 +43,7 @@ const FormSchema = z.object({
             message: "Preencha o CPF/CNPJ da loja",
         }),
     email: z
-        .string().min(1, {
+        .string().email().min(1, {
             message: "Preencha o Email",
         }),
     whatsapp: z
@@ -75,9 +81,7 @@ const FormSchema = z.object({
             message: "Preencha o número",
         }),
     complement: z
-        .string().min(1, {
-            message: "Preencha o complemento",
-        }),
+        .string(),
 })
 
 const DadosDaLoja = () => {
@@ -112,6 +116,7 @@ const DadosDaLoja = () => {
     const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
     const navigate = useNavigate()
     const [statusLoading, setStatusLoading] = useState(false)
+    const [cepStatus, setCepStatus] = useState(false)
 
     useEffect(() => {
         if (!id) return
@@ -155,7 +160,7 @@ const DadosDaLoja = () => {
         const result = !id ?
             await DB.stores.create({
                 db,
-                data: {_id:"", createdAt:Timestamp.now(), lastOsNumber:0, name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { _id: "", createdAt: Timestamp.now(), lastOsNumber: 0, name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.stores.update({
                 db,
@@ -172,7 +177,20 @@ const DadosDaLoja = () => {
         setStatusCreated(false)
         form.reset()
         if (id) navigate('/dashboard/lojas/novo')
+    }
 
+    async function zipcodeHandler() {
+        const cep = cleanValue(form.getValues('zipcode'))
+        setCepStatus(true)
+        const response = await getCep(cep)
+        setCepStatus(false)
+        console.log(response)
+        if (response) {
+            form.setValue('state', response?.state || '')
+            form.setValue('city', response?.city || '')
+            form.setValue('neighborhood', response?.neighborhood || '')
+            form.setValue('address', response?.street || '')
+        }
     }
 
     if (pageStatus === 'loading') {
@@ -212,7 +230,7 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>CPF/CNPJ</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui seu CPF/CNPJ" {...field} />
+                                        <Input placeholder="Digite aqui o CPF/CNPJ" {...field} onChange={(e) => form.setValue("cpfCnpj", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -238,7 +256,7 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>Whatsapp</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -251,7 +269,7 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>Contato 1</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -264,7 +282,7 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>Contato 2</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone2", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -277,12 +295,37 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>Contato 3</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone3", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+
+                    </div>
+                    <div className="flex">
+                        <FormField
+                            control={form.control}
+                            name="zipcode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Cep:</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="ml-4 mt-8">
+                            <Button disabled={cepStatus} onClick={zipcodeHandler} type="button" variant={"outlinePrimary"}>
+                                {!cepStatus && <Search />}
+                                {cepStatus && <svg className="mx-auto size-10 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>}
+                            </Button>
+                        </div>
+                    </div>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="state"
@@ -290,12 +333,12 @@ const DadosDaLoja = () => {
                                 <FormItem>
                                     <FormLabel>UF</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
                                                 <SelectValue placeholder="Escolha seu estado" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                                {STATES.map(state => <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -330,6 +373,7 @@ const DadosDaLoja = () => {
                                 </FormItem>
                             )}
                         />
+
                     </div>
                     <FormField
                         control={form.control}
@@ -345,19 +389,7 @@ const DadosDaLoja = () => {
                         )}
                     />
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
-                        <FormField
-                            control={form.control}
-                            name="zipcode"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>CEP</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Digite aqui seu CEP" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
                         <FormField
                             control={form.control}
                             name="number"

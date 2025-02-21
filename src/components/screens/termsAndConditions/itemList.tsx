@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { TypeTermsAndConditions, TypeTermsAndConditionsViewList } from "../../../types/TermsAndConditions";
+import { TypeTermsAndConditionsViewList } from "../../../types/TermsAndConditions";
 import {
     AlertDialog,
     AlertDialogCancel,
