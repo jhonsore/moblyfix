@@ -9,13 +9,11 @@ import { useEffect, useState } from "react"
 import { TypePageStatus } from "@/types/PageStatus"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
-import { TypeUsers } from "@/types/Users"
-
-
+import { TypeUsersViewList } from "@/types/Users"
 
 const Usuarios = () => {
   const { db } = useFirebaseContext()
-  const [pageData, setPageData] = useState<TypeUsers[]>([])
+  const [pageData, setPageData] = useState<TypeUsersViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
 
   useEffect(() => {
@@ -100,7 +98,7 @@ const Usuarios = () => {
                   </div>
                 </td>
                 <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6 p-0">
-                  <Link to={'/dashboard/usuarios/1'}>
+                  <Link to={`/dashboard/usuarios/${data._id}`}>
                     <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                       edit
                     </span>
