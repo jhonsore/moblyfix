@@ -27,7 +27,14 @@ import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
 import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
 import STATES from "../../consts/STATES"
-import { Timestamp } from "firebase/firestore"
+import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
+import formatPhone from "../../functions/utils/formatPhone"
+import { Search } from "lucide-react"
+import cleanValue from "../../functions/utils/cleanValue"
+import { getCep } from "../../functions/cep"
+import formatCep from "../../functions/utils/formatCep"
+import { Users } from "../../functions/users"
+import { useAuthContext } from "../../providers/auth/useAuthContext"
 
 
 const FormSchema = z.object({
@@ -35,12 +42,16 @@ const FormSchema = z.object({
         .string().min(1, {
             message: "Preencha o nome do usuário",
         }),
+    type: z
+        .string().min(1, {
+            message: "Escolha o tipo de usuário",
+        }),
     cpf: z
         .string().min(1, {
             message: "Preencha o CPF do usuário",
         }),
     email: z
-        .string().min(1, {
+        .string().email('Email inválido').min(1, {
             message: "Preencha o Email",
         }),
     whatsapp: z
@@ -78,17 +89,11 @@ const FormSchema = z.object({
             message: "Preencha o estado",
         }),
     complement: z
-        .string().min(1, {
-            message: "Preencha o complemento",
-        }),
+        .string(),
     password: z
         .string().min(1, {
             message: "Preencha a senha",
-        }),
-    username: z
-        .string().min(1, {
-            message: "Preencha o usuário",
-        }),
+        })
 
 })
 
@@ -112,7 +117,8 @@ const DadosDoUsuario = () => {
             number: "",
             complement: "",
             password: "",
-            username: "",
+            cpf: '',
+            type: ''
         },
     })
     const { id } = useParams()
@@ -121,6 +127,8 @@ const DadosDoUsuario = () => {
     const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
     const navigate = useNavigate()
     const [statusLoading, setStatusLoading] = useState(false)
+    const [cepStatus, setCepStatus] = useState(false)
+    const { idToken } = useAuthContext()
 
     useEffect(() => {
         if (!id) return
@@ -149,31 +157,40 @@ const DadosDoUsuario = () => {
                 form.setValue('number', doc.number)
                 form.setValue('complement', doc.complement)
                 form.setValue('password', doc.password)
-                form.setValue('username', doc.username)
+                form.setValue('cpf', doc.cpf)
+                form.setValue('type', doc.type)
             }
         }
         load()
     }, [id])
 
     async function onSubmit(values: z.infer<typeof FormSchema>) {
-        if (!store) {
+        if (!store || !idToken) {
             setStatusStore(true)
             return
         }
         setStatusLoading(true)
-        const { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, } = values
-        const result = !id ?
-            await DB.users.create({
-                db,
-                data: { _id: "", createdAt: Timestamp.now(), name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, _headquarterId: store._headquarterId, _storeId: store._id }
-            }) :
+        const userData = { ...values, _headquarterId: '', _storeId: '', type: values.type as keyof typeof TYPE_OF_USERS }
+        if (id) {
             await DB.users.update({
                 db,
                 id,
-                data: { name, email, whatsapp, phone, phone2, phone3, cpf, state, city, neighborhood, address, zipcode, number, complement, password, username, }
+                data: { ...values, type: values.type as keyof typeof TYPE_OF_USERS }
             })
-        if (result.status) {
             setStatusCreated(true)
+            setStatusLoading(false)
+            return
+        }
+
+        try {
+            const response = await Users.create(idToken, userData);
+            setStatusCreated(true)
+            if (!response.status) {
+                alert('Ocorreu um erro ao cadastrar o usuário! (1001)')
+            }
+
+        } catch (error) {
+            alert('Ocorreu um erro ao cadastrar o usuário! (1002)')
         }
         setStatusLoading(false)
     }
@@ -182,7 +199,21 @@ const DadosDoUsuario = () => {
         setStatusCreated(false)
         form.reset()
         if (id) navigate('/dashboard/usuarios/novo')
+    }
 
+
+    async function zipcodeHandler() {
+        const cep = cleanValue(form.getValues('zipcode'))
+        setCepStatus(true)
+        const response = await getCep(cep)
+        setCepStatus(false)
+
+        if (response) {
+            form.setValue('state', response?.state || '')
+            form.setValue('city', response?.city || '')
+            form.setValue('neighborhood', response?.neighborhood || '')
+            form.setValue('address', response?.street || '')
+        }
     }
 
     if (pageStatus === 'loading') {
@@ -196,30 +227,33 @@ const DadosDoUsuario = () => {
 
     return <>
         <PageContent>
-
             <HeaderPage title={id ? "Editar" : "Novo item"}></HeaderPage>
             {statusLoading && <Loading />}
             <StoreNotFoundAlert open={statusStore} />
             <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
-
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
-
-                    <div className="space-y-2 py-4">
-                        <FormLabel>Tipo de usuário</FormLabel>
-                        <Select>
-                            <SelectTrigger className="flex w-full text-left font-normal">
-                                <SelectValue placeholder="Selecione a loja" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value={TYPE_OF_USERS.admin._id}>{TYPE_OF_USERS.admin.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.attendant._id}>{TYPE_OF_USERS.attendant.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.financial1._id}>{TYPE_OF_USERS.financial1.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.financial2._id}>{TYPE_OF_USERS.financial2.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.manager._id}>{TYPE_OF_USERS.manager.label}</SelectItem>
-                                <SelectItem value={TYPE_OF_USERS.technical._id}>{TYPE_OF_USERS.technical.label}</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <div className="space-y-2">
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Tipo de usuário</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                                            <SelectTrigger className="flex w-full text-left font-normal">
+                                                <SelectValue placeholder="Escolha o tipo de usuário" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {Object.values(TYPE_OF_USERS).filter(user => user._id !== TYPE_OF_USERS.master._id).map(user => <SelectItem key={user._id} value={user._id}>{user.label}</SelectItem>)}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <div className="space-y-2 py-4">
                         <FormField
@@ -240,10 +274,10 @@ const DadosDoUsuario = () => {
                     <div className='grid grid-cols-3 gap-4'>
                         <FormField
                             control={form.control}
-                            name="username"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Usuário</FormLabel>
+                                    <FormLabel>E-mail/Usuário</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui" {...field} />
                                     </FormControl>
@@ -258,7 +292,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Senha</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui" {...field} />
+                                        <Input type="password" placeholder="Digite aqui" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -273,20 +307,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>CPF</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui seu CPF" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Digite aqui seu Email" {...field} />
+                                        <Input maxLength={14} placeholder="Digite aqui o CPF" {...field} onChange={(e) => form.setValue("cpf", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -299,7 +320,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Whatsapp</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -312,7 +333,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Contato 1</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -325,7 +346,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Contato 2</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone2", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -338,12 +359,38 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Contato 3</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone3", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+                    </div>
+
+                    <div className="flex">
+                        <FormField
+                            control={form.control}
+                            name="zipcode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Cep:</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="ml-4 mt-8">
+                            <Button disabled={cepStatus} onClick={zipcodeHandler} type="button" variant={'outline'}>
+                                {!cepStatus && <Search />}
+                                {cepStatus && <svg className="mx-auto size-10 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>}
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="state"
@@ -351,12 +398,12 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>UF</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
                                                 <SelectValue placeholder="Escolha seu estado" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                                {STATES.map(state => <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -371,7 +418,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Cidade</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui sua cidade" {...field} />
+                                        <Input placeholder="Digite aqui a cidade" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -384,40 +431,26 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Bairro</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui seu bairro" {...field} />
+                                        <Input placeholder="Digite aqui o bairro" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                    </div>
-                    <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Endereço</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="End:" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
-                            name="zipcode"
+                            name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CEP</FormLabel>
+                                    <FormLabel>Endereço</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui seu CEP" {...field} />
+                                        <Input placeholder="End:" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="number"
@@ -425,7 +458,7 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>Nº</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui seu numero" {...field} />
+                                        <Input placeholder="Digite aqui o numero" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

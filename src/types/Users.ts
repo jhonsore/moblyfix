@@ -22,12 +22,11 @@ export type TypeUsers = {
     number: string
     complement: string
     password: string
-    username: string
     cpf: string
 }
 
 export type TypeUsersViewList = {
-    _id: TypeUsers
+    _id: TypeUsers['_id']
     name: TypeUsers['name']
     _headquarterId: TypeUsers['_headquarterId']
     _storeId: TypeUsers['_storeId']
