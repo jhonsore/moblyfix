@@ -9,95 +9,217 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Checkbox } from "../../components/ui/checkbox"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import STATES from "@/consts/STATES"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ErrorPage } from "@/components/errorPage"
+import { LoadingPage } from "@/components/loadingPage"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { useParams } from "react-router"
+import { TypePageStatus } from "@/types/PageStatus"
+import { DB } from "@/functions/database"
+import { Loading } from "@/components/loading"
+import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
+import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
+import { Timestamp } from "firebase/firestore"
+
+
+
+const FormSchema = z.object({
+  name: z
+    .string().min(1, {
+      message: "Preencha o nome do usuário",
+    }),
+  cpfCnpj: z
+    .string().min(1, {
+      message: "Preencha o CPF do usuário",
+    }),
+  email: z
+    .string().min(1, {
+      message: "Preencha o Email",
+    }),
+  whatsapp: z
+    .string().min(1, {
+      message: "Preencha o whatsapp",
+    }),
+  phone: z
+    .string(),
+  phone2: z
+    .string(),
+  phone3: z
+    .string(),
+  city: z
+    .string().min(1, {
+      message: "Preencha a cidade",
+    }),
+  neighborhood: z
+    .string().min(1, {
+      message: "Preencha o bairro",
+    }),
+  address: z
+    .string().min(1, {
+      message: "Preencha o endereço",
+    }),
+  zipcode: z
+    .string().min(1, {
+      message: "Preencha o CEP",
+    }),
+  number: z
+    .string().min(1, {
+      message: "Preencha o número",
+    }),
+  state: z
+    .string().min(1, {
+      message: "Preencha o estado",
+    }),
+  complement: z
+    .string().min(1, {
+      message: "Preencha o complemento",
+    }),
+  product: z
+    .string().min(1, {
+      message: "Preencha o produto",
+    }),
+  guarantee: z
+    .string().min(1, {
+      message: "Preencha a garantia",
+    }),
+
+})
 
 
 const PageNewOs = () => {
-  const form = useForm()
+
+  const { db } = useFirebaseContext()
+  const { store } = useStoresContext()
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      whatsapp: "",
+      phone: "",
+      phone2: "",
+      phone3: "",
+      state: "",
+      city: "",
+      neighborhood: "",
+      address: "",
+      zipcode: "",
+      number: "",
+      complement: "",
+      cpfCnpj: "",
+      product: "",
+      guarantee: "",
+    },
+  })
+  const { id } = useParams()
+  const [statusStore, setStatusStore] = useState(false)
+  const [statusCreated, setStatusCreated] = useState(false)
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
+  const navigate = useNavigate()
+  const [statusLoading, setStatusLoading] = useState(false)
+
+  useEffect(() => {
+    if (!id) return
+    const load = async () => {
+      const result = await DB.os.read({ db, id })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      const { doc } = result
+      if (doc) {
+        form.setValue('name', doc.name)
+        form.setValue('email', doc.email)
+        form.setValue('whatsapp', doc.whatsapp)
+        form.setValue('phone', doc.phone)
+        form.setValue('phone2', doc.phone2)
+        form.setValue('phone3', doc.phone3)
+        form.setValue('state', doc.state)
+        form.setValue('city', doc.city)
+        form.setValue('neighborhood', doc.neighborhood)
+        form.setValue('address', doc.address)
+        form.setValue('zipcode', doc.zipcode)
+        form.setValue('number', doc.number)
+        form.setValue('complement', doc.complement)
+        form.setValue('cpfCnpj', doc.cpfCnpj)
+        form.setValue('product', doc.product)
+        form.setValue('guarantee', doc.guarantee)
+      }
+    }
+    load()
+  }, [id])
+
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    if (!store) {
+      setStatusStore(true)
+      return
+    }
+    setStatusLoading(true)
+    const { product, guarantee, name, email, whatsapp, phone, phone3, phone2, cpfCnpj, state, city, neighborhood, address, zipcode, number, complement, } = values
+    const result = !id ?
+      await DB.os.create({
+        db,
+        data: { _id: "", createdAt: Timestamp.now(), product, guarantee, name, email, whatsapp, phone, phone3, phone2, cpfCnpj, state, city, neighborhood, address, zipcode, number, complement, _headquarterId: store._headquarterId, _storeId: store._id }
+      }) :
+      await DB.os.update({
+        db,
+        id,
+        data: { product, guarantee, name, email, whatsapp, phone, phone3, phone2, cpfCnpj, state, city, neighborhood, address, zipcode, number, complement, }
+      })
+    if (result.status) {
+      setStatusCreated(true)
+    }
+    setStatusLoading(false)
+  }
+
+  const onCreateHandler = () => {
+    setStatusCreated(false)
+    form.reset()
+    if (id) navigate('/dashboard/ordem-servico/novo')
+
+  }
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
+
   const [date, setDate] = useState<Date>()
+
   return <>
-    <HeaderPage title="Nova OS">
 
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="primary">Salvar</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>OS nº 000005 criada</DialogTitle>
-            <DialogDescription className="pt-4 text-center text-black">
-              O que deseja fazer agora?
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4 px-14">
-            <Button variant={"outlinePrimary"}>Imprimir</Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Enviar whatsapp</DialogTitle>
-                  <DialogDescription className="pt-4 text-center text-black">
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={() => { }} className="">
-                    <FormField
-                      control={form.control}
-                      name="telefone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Whatsapp</FormLabel>
-                          <FormControl>
-                            <Input placeholder="(xx) xxxxx-xxxx" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="pt-3 pb-6">
-                      <FormLabel>Mensagem</FormLabel>
-                      <Textarea placeholder="Digite a mensagem" />
-                    </div>
-                    <div className="text-right">
-                      <Button variant={"outlinePrimary"}>Enviar</Button>
-                    </div>
-                  </form>
-                </Form>
-                <DialogFooter>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Link to={'/dashboard/ordem-servico/criar'}>
-              <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
-            </Link>
-            <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-
-    </HeaderPage>
+    <HeaderPage title="Nova OS"></HeaderPage>
+    {statusLoading && <Loading />}
+    <StoreNotFoundAlert open={statusStore} />
+    <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
     <PageContent>
 
       <Form {...form}>
-        <form onSubmit={() => { }} >
+        <form onSubmit={form.handleSubmit(onSubmit)} >
           <div className=" flex pt-6 pb-4">
             <FormField
               control={form.control}
-              name="search"
+              name="name"
               render={({ field }) => (
                 <FormItem className="flex-1 mr-6">
                   <FormControl>
@@ -119,7 +241,7 @@ const PageNewOs = () => {
                       <form onSubmit={() => { }} className="pb-4">
                         <FormField
                           control={form.control}
-                          name="search"
+                          name="name"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Cliente</FormLabel>
@@ -133,7 +255,7 @@ const PageNewOs = () => {
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 py-4'>
                           <FormField
                             control={form.control}
-                            name="cpf"
+                            name="cpfCnpj"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>CPF/CNPJ</FormLabel>
@@ -159,7 +281,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="whatsapp"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Whatsapp</FormLabel>
@@ -172,7 +294,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 1</FormLabel>
@@ -185,7 +307,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone2"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 2</FormLabel>
@@ -198,7 +320,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="telefone"
+                            name="phone3"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Contato 3</FormLabel>
@@ -209,46 +331,29 @@ const PageNewOs = () => {
                               </FormItem>
                             )}
                           />
-                          <div className="space-y-2">
-                            <FormLabel>UF</FormLabel>
-                            <Select>
-                              <SelectTrigger className="flex w-full text-left font-normal">
-                                <SelectValue placeholder="" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="AC">Acre</SelectItem>
-                                <SelectItem value="AL">Alagoas</SelectItem>
-                                <SelectItem value="AP">Amapá</SelectItem>
-                                <SelectItem value="AM">Amazonas</SelectItem>
-                                <SelectItem value="BA">Bahia</SelectItem>
-                                <SelectItem value="CE">Ceará</SelectItem>
-                                <SelectItem value="DF">Distrito Federal</SelectItem>
-                                <SelectItem value="ES">Espírito Santo</SelectItem>
-                                <SelectItem value="GO">Goiás</SelectItem>
-                                <SelectItem value="MA">Maranhão</SelectItem>
-                                <SelectItem value="MT">Mato Grosso</SelectItem>
-                                <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-                                <SelectItem value="MG">Minas Gerais</SelectItem>
-                                <SelectItem value="PA">Pará</SelectItem>
-                                <SelectItem value="PB">Paraíba</SelectItem>
-                                <SelectItem value="PR">Paraná</SelectItem>
-                                <SelectItem value="PE">Pernambuco</SelectItem>
-                                <SelectItem value="PI">Piauí</SelectItem>
-                                <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                                <SelectItem value="RN">Rio Grande do Norte</SelectItem>
-                                <SelectItem value="RS">Rio Grande do Sul</SelectItem>
-                                <SelectItem value="RO">Rondônia</SelectItem>
-                                <SelectItem value="RR">Roraima</SelectItem>
-                                <SelectItem value="SC">Santa Catarina</SelectItem>
-                                <SelectItem value="SP">São Paulo</SelectItem>
-                                <SelectItem value="SE">Sergipe</SelectItem>
-                                <SelectItem value="TO">Tocantins</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
                           <FormField
                             control={form.control}
-                            name="cidade"
+                            name="state"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>UF</FormLabel>
+                                <FormControl>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="flex w-full text-left font-normal">
+                                      <SelectValue placeholder="Escolha seu estado" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                    </SelectContent>
+                                  </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="city"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Cidade</FormLabel>
@@ -261,7 +366,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="bairro"
+                            name="neighborhood"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Bairro</FormLabel>
@@ -275,7 +380,7 @@ const PageNewOs = () => {
                         </div>
                         <FormField
                           control={form.control}
-                          name="endereco"
+                          name="address"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Endereço</FormLabel>
@@ -289,7 +394,7 @@ const PageNewOs = () => {
                         <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4'>
                           <FormField
                             control={form.control}
-                            name="cep"
+                            name="zipCode"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>CEP</FormLabel>
@@ -315,7 +420,7 @@ const PageNewOs = () => {
                           />
                           <FormField
                             control={form.control}
-                            name="complemento"
+                            name="complement"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Complemento</FormLabel>
@@ -342,7 +447,7 @@ const PageNewOs = () => {
             <div className='col-span-2'>
               <FormField
                 control={form.control}
-                name="text"
+                name="product"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Produto</FormLabel>
@@ -389,13 +494,26 @@ const PageNewOs = () => {
                   />
                 </div>
                 <div className="flex items-center space-x-2 pt-7 px-8">
-                  <Checkbox id="terms" />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Garantia
-                  </label>
+                  <FormField
+                    control={form.control}
+                    name="guarantee"
+                    render={({ field }) => (
+                      <FormItem className="flex space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            id="terms"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>
+                            Garantia
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -406,12 +524,13 @@ const PageNewOs = () => {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "flex w-full justify-start text-left font-normal",
+                      "flex w-full justify-between text-left font-normal",
                       !date && "text-muted-foreground"
                     )}
                   >
+
+                    {date ? format(date, "PPP") : <span>Data</span>}
                     <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>data</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -428,7 +547,7 @@ const PageNewOs = () => {
           <div className=" py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
             <FormField
               control={form.control}
-              name="search"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Acessórios</FormLabel>
@@ -445,50 +564,111 @@ const PageNewOs = () => {
             <Textarea />
           </div>
 
-          <div className="space-y-2 pt-3">
+          <div className="space-y-2 pt-6">
             <FormLabel>Assinatura do cliente</FormLabel>
             <div>
               <Button variant={"outlinePrimary"}>Adicionar assinatura</Button>
             </div>
+          </div>
+          <div className='flex items-center justify-between pt-7'>
+            <h2>
+              Fotos do aparelho
+            </h2>
+            <div className=" ml-4 pb-4 md:mt-2 flex">
+              <Button variant={'primary'}><span className="material-symbols-outlined sm:mr-2">
+                add_a_photo
+              </span> <span className="hidden sm:block">Nova foto</span></Button>
+            </div>
+          </div>
+          <div className='flex gap-4'>
+            <div className='relative bg-img-add w-32 h-32'>
+              <button>
+                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                  delete
+                </span>
+              </button>
+            </div>
+            <div className='relative bg-img-add w-32 h-32'>
+              <button>
+                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                  delete
+                </span>
+              </button>
+            </div>
+            <div className='relative bg-img-add w-32 h-32'>
+              <button>
+                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                  delete
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className='py-6 flex justify-end'>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button type="submit" variant="primary">Salvar</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>OS nº 000005 criada</DialogTitle>
+                  <DialogDescription className="pt-4 text-center text-black">
+                    O que deseja fazer agora?
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4 px-14">
+                  <Button variant={"outlinePrimary"}>Imprimir</Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant={"outlinePrimary"}>Enviar whatsapp</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Enviar whatsapp</DialogTitle>
+                        <DialogDescription className="pt-4 text-center text-black">
+                        </DialogDescription>
+                      </DialogHeader>
+                      <Form {...form}>
+                        <form onSubmit={() => { }} className="">
+                          <FormField
+                            control={form.control}
+                            name="whatsapp"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Whatsapp</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <div className="pt-3 pb-6">
+                            <FormLabel>Mensagem</FormLabel>
+                            <Textarea placeholder="Digite a mensagem" />
+                          </div>
+                          <div className="text-right">
+                            <Button variant={"outlinePrimary"}>Enviar</Button>
+                          </div>
+                        </form>
+                      </Form>
+                      <DialogFooter>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                  <Link to={'/dashboard/ordem-servico/criar'}>
+                    <Button className="w-full" variant={"outlinePrimary"}>Nova OS</Button>
+                  </Link>
+                  <Button variant={"outlinePrimary"}>Nova OS do mesmo cliente</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </form>
       </Form>
 
 
 
-      <div className='flex items-center justify-between pt-7'>
-        <h2>
-          Fotos do aparelho
-        </h2>
-        <div className=" ml-4 pb-4 md:mt-2 flex">
-          <Button variant={'primary'}><span className="material-symbols-outlined sm:mr-2">
-            add_a_photo
-          </span> <span className="hidden sm:block">Nova foto</span></Button>
-        </div>
-      </div>
-      <div className='flex gap-4'>
-        <div className='relative bg-img-add w-32 h-32'>
-          <button>
-            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-              delete
-            </span>
-          </button>
-        </div>
-        <div className='relative bg-img-add w-32 h-32'>
-          <button>
-            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-              delete
-            </span>
-          </button>
-        </div>
-        <div className='relative bg-img-add w-32 h-32'>
-          <button>
-            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-              delete
-            </span>
-          </button>
-        </div>
-      </div>
+
     </PageContent>
   </>
 }

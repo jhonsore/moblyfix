@@ -47,12 +47,26 @@ export type TypeOs = {
     substatus: TypeOfSubstatus
     positionInCabinaet: string
     serialNumber: string
+    whatsapp: string
+    phone: string
+    phone2: string
+    phone3: string
+    product: string
     guarantee: boolean
     date: Timestamp
     accessories: string
     observation: string
     customerReport: string
     signFile: string
+    name: string
+    email: string
+    cpfCnpj: string
+    state: string
+    city: string
+    neighborhood: string
+    address: string
+    zipcode: string
+    complement: string
     devicePhotos: string[]
     responsibleTechnician: {
         name: string
