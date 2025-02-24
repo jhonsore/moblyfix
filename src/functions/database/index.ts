@@ -31,7 +31,10 @@ export const DB = {
         ...generateDB<TypeTermsAndConditions>(COLLECTIONS.termsAndConditions),
         create: create<PartialWithRequired<TypeTermsAndConditions, 'title' | 'text' | '_headquarterId' | '_storeId'>>(COLLECTIONS.termsAndConditions),
     },
-    customers: generateDB<TypeCustomers>(COLLECTIONS.customers),
+    customers: {
+        ...generateDB<TypeCustomers>(COLLECTIONS.customers),
+        create: create<PartialWithRequired<TypeCustomers, '_headquarterId' | '_storeId'>>(COLLECTIONS.customers),
+    },
     os: {
         ...generateDB<TypeOs>(COLLECTIONS.os),
         create: create<PartialWithRequired<TypeOs, '_headquarterId' | '_storeId'>>(COLLECTIONS.os),
