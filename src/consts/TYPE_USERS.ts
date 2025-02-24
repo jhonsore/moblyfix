@@ -4,8 +4,8 @@ const TYPE_OF_USERS = {
     manager: { _id: 'manager', label: 'Gerente' },
     technical: { _id: 'technical', label: 'Técnico' },
     attendant: { _id: 'attendant', label: 'Atendente' },
-    financial1: { _id: 'financial1', label: 'Financeiro I' },// acesso a todas as lojas
-    financial2: { _id: 'financial2', label: 'Financeiro II' }// acesso apenas a loja de criação
+    financial1: { _id: 'financial1', label: 'Financeiro I (acesso a todas as lojas)' },// acesso a todas as lojas
+    financial2: { _id: 'financial2', label: 'Financeiro II (acesso apenas a loja em que foi criado)' }// acesso apenas a loja de criação
 
 }
 
