@@ -27,23 +27,29 @@ import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
 import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
 import { Timestamp } from "firebase/firestore"
+import cleanValue from "../../functions/utils/cleanValue"
+import { getCep } from "../../functions/cep"
+import { Search } from "lucide-react"
+import formatCep from "../../functions/utils/formatCep"
+import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
+import formatPhone from "../../functions/utils/formatPhone"
 
 const FormSchema = z.object({
     name: z
         .string().min(1, {
-            message: "Preencha o nome do usuário",
+            message: "Preencha o nome do cliente",
         }),
     cpfCnpj: z
         .string().min(1, {
-            message: "Preencha o CPF do usuário",
+            message: "Preencha o CPF do cliente",
         }),
     email: z
-        .string().min(1, {
-            message: "Preencha o Email do usuário",
+        .string().email('Email inválido').min(1, {
+            message: "Preencha o Email",
         }),
     whatsapp: z
         .string().min(1, {
-            message: "Preencha o whatsapp do usuário",
+            message: "Preencha o whatsapp do cliente",
         }),
     phone: z
         .string(),
@@ -53,32 +59,28 @@ const FormSchema = z.object({
         .string(),
     city: z
         .string().min(1, {
-            message: "Preencha a cidade do usuário",
+            message: "Preencha a cidade do cliente",
         }),
     neighborhood: z
         .string().min(1, {
-            message: "Preencha o bairro do usuário",
+            message: "Preencha o bairro do cliente",
         }),
     address: z
         .string().min(1, {
-            message: "Preencha o endereço do usuário",
+            message: "Preencha o endereço do cliente",
         }),
     zipcode: z
         .string().min(1, {
-            message: "Preencha o CEP do usuário",
+            message: "Preencha o CEP do cliente",
         }),
     number: z
-        .string().min(1, {
-            message: "Preencha o número do usuário",
-        }),
+        .string(),
     state: z
         .string().min(1, {
-            message: "Preencha o estado do usuário",
+            message: "Preencha o estado do cliente",
         }),
     complement: z
-        .string().min(1, {
-            message: "Preencha o complemento",
-        }),
+        .string()
 
 })
 
@@ -111,6 +113,7 @@ const DadosDoCliente = () => {
     const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
     const navigate = useNavigate()
     const [statusLoading, setStatusLoading] = useState(false)
+    const [cepStatus, setCepStatus] = useState(false)
 
     useEffect(() => {
         if (!id) return
@@ -125,20 +128,20 @@ const DadosDoCliente = () => {
             setPageStatus(status)
             const { doc } = result
             if (doc) {
-                form.setValue('name', doc.name)
-                form.setValue('cpfCnpj', doc.cpfCnpj)
-                form.setValue('email', doc.email)
-                form.setValue('whatsapp', doc.whatsapp)
-                form.setValue('phone', doc.phone)
-                form.setValue('phone2', doc.phone2)
-                form.setValue('phone3', doc.phone3)
-                form.setValue('state', doc.state)
-                form.setValue('city', doc.city)
-                form.setValue('neighborhood', doc.neighborhood)
-                form.setValue('address', doc.address)
-                form.setValue('zipcode', doc.zipcode)
-                form.setValue('number', doc.number)
-                form.setValue('complement', doc.complement)
+                form.setValue('name', doc.name || '')
+                form.setValue('cpfCnpj', doc.cpfCnpj || '')
+                form.setValue('email', doc.email || '')
+                form.setValue('whatsapp', doc.whatsapp || '')
+                form.setValue('phone', doc.phone || '')
+                form.setValue('phone2', doc.phone2 || '')
+                form.setValue('phone3', doc.phone3 || '')
+                form.setValue('state', doc.state || '')
+                form.setValue('city', doc.city || '')
+                form.setValue('neighborhood', doc.neighborhood || '')
+                form.setValue('address', doc.address || '')
+                form.setValue('zipcode', doc.zipcode || '')
+                form.setValue('number', doc.number || '')
+                form.setValue('complement', doc.complement || '')
             }
         }
         load()
@@ -154,12 +157,12 @@ const DadosDoCliente = () => {
         const result = !id ?
             await DB.customers.create({
                 db,
-                data: { _id: "", createdAt: Timestamp.now(), name, email, whatsapp, phone, phone2, phone3, state, city, neighborhood, address, zipcode, number, complement, cpfCnpj, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { createdAt: Timestamp.now(), name, email, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj), _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.customers.update({
                 db,
                 id,
-                data: { name, email, whatsapp, phone, phone2, phone3, state, city, neighborhood, address, zipcode, number, complement, cpfCnpj, }
+                data: { name, email, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj) }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -172,6 +175,21 @@ const DadosDoCliente = () => {
         form.reset()
         if (id) navigate('/dashboard/clientes/novo')
 
+    }
+
+
+    async function zipcodeHandler() {
+        const cep = cleanValue(form.getValues('zipcode'))
+        setCepStatus(true)
+        const response = await getCep(cep)
+        setCepStatus(false)
+
+        if (response) {
+            form.setValue('state', response?.state || '')
+            form.setValue('city', response?.city || '')
+            form.setValue('neighborhood', response?.neighborhood || '')
+            form.setValue('address', response?.street || '')
+        }
     }
 
     if (pageStatus === 'loading') {
@@ -192,8 +210,6 @@ const DadosDoCliente = () => {
             {statusLoading && <Loading />}
             <StoreNotFoundAlert open={statusStore} />
             <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
-
-
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
                     <FormField
@@ -209,15 +225,16 @@ const DadosDoCliente = () => {
                             </FormItem>
                         )}
                     />
+
                     <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
-                            name="cpfCnpj"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CPF/CNPJ</FormLabel>
+                                    <FormLabel>E-mail/Usuário</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui o CPF/CNPJ  " {...field} />
+                                        <Input placeholder="Digite aqui" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -225,12 +242,12 @@ const DadosDoCliente = () => {
                         />
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="cpfCnpj"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>CPF/CNPJ</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui email" {...field} />
+                                        <Input maxLength={14} placeholder="Digite aqui o CPF" {...field} onChange={(e) => form.setValue("cpfCnpj", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -243,7 +260,7 @@ const DadosDoCliente = () => {
                                 <FormItem>
                                     <FormLabel>Whatsapp</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -256,7 +273,7 @@ const DadosDoCliente = () => {
                                 <FormItem>
                                     <FormLabel>Contato 1</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -269,7 +286,7 @@ const DadosDoCliente = () => {
                                 <FormItem>
                                     <FormLabel>Contato 2</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone2", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -282,12 +299,38 @@ const DadosDoCliente = () => {
                                 <FormItem>
                                     <FormLabel>Contato 3</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} />
+                                        <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("phone3", formatPhone(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+                    </div>
+
+                    <div className="flex">
+                        <FormField
+                            control={form.control}
+                            name="zipcode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Cep:</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="ml-4 mt-8">
+                            <Button disabled={cepStatus} onClick={zipcodeHandler} type="button" variant={'outline'}>
+                                {!cepStatus && <Search />}
+                                {cepStatus && <svg className="mx-auto size-10 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>}
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="state"
@@ -295,12 +338,12 @@ const DadosDoCliente = () => {
                                 <FormItem>
                                     <FormLabel>UF</FormLabel>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
-                                                <SelectValue placeholder="Escolha o estado" />
+                                                <SelectValue placeholder="Escolha seu estado" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {STATES.map(state => <SelectItem value={state.value}>{state.label}</SelectItem>)}
+                                                {STATES.map(state => <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -334,29 +377,14 @@ const DadosDoCliente = () => {
                                 </FormItem>
                             )}
                         />
-                    </div>
-                    <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Endereço</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="End:" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
-                            name="zipcode"
+                            name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CEP</FormLabel>
+                                    <FormLabel>Endereço</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui o CEP" {...field} />
+                                        <Input placeholder="End:" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

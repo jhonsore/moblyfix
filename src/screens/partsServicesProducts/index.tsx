@@ -1,6 +1,6 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -11,7 +11,6 @@ import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
 import { TypePartsServicesProducts } from "@/types/PartsServicesProducts"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
-import { formatCurrency } from "../../functions/utils/formatCurrency"
 import { EmptData } from "../../components/emptyData"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "../../components/loading"

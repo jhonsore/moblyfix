@@ -2,30 +2,57 @@ import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "../../components/ui/button"
 import { useForm } from "react-hook-form"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Link } from "react-router"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
 import { useEffect, useState } from "react"
-import { TypeCustomers } from "@/types/Customers"
+import { TypeCustomersViewList } from "@/types/Customers"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
-
+import formatPhone from "../../functions/utils/formatPhone"
+import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
+import { Loading } from "../../components/loading"
+import { Search } from "lucide-react"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { getQuery } from "../../functions/utils/getQuery"
+import { slugify } from "../../functions/utils/slugify"
+import { toast } from "../../hooks/use-toast"
+const LIMIT = 10
+const FormSchema = z.object({
+  name: z
+    .string().min(1, {
+      message: "Preencha o nome do cliente",
+    })
+})
 
 
 const Clientes = () => {
-  const form = useForm()
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: ""
+    },
+  })
   const { db } = useFirebaseContext()
-  const [pageData, setPageData] = useState<TypeCustomers[]>([])
+  const [pageData, setPageData] = useState<TypeCustomersViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+  const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+  const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+  const [statusLoading, setStatusLoading] = useState(false)
+  const { store } = useStoresContext()
 
   useEffect(() => {
-    if (!db) return
+    if (!db || !store || pageData.length > 0) return
+
     const load = async () => {
-      const result = await DB.views.customers.list({ db })
+      const result = await DB.views.customers.list({ db, limit: LIMIT, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -35,11 +62,41 @@ const Clientes = () => {
       setPageStatus(status)
       if (result.docs) {
         setPageData(Object.values(result.docs))
+        setLastDocumentSnapshot(result.lastDocument);
       }
 
     }
     load()
   }, [])
+
+  async function loadMoreHandler() {
+    if (!db || !store) return
+
+    const result = await DB.views.customers.list({ db, limit: LIMIT, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+    setStatusLoading(true)
+
+    if (result.docs && Object.keys(result.docs).length) {
+      setPageData([...pageData, ...Object.values(result.docs)])
+      setLastDocumentSnapshot(result.lastDocument);
+    } else {
+      setLoadMoreStatus(false)
+    }
+    setStatusLoading(false)
+  }
+
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    if (!store) return
+    const result = await DB.views.customers.list({ db, wheres: [['_storeId', '==', store._id], [`query.${slugify(values.name)}`, '==', true]] })
+    if (!result.docs || !Object.values(result.docs).length) {
+      toast({
+        duration: 3000,
+        title: "Busca não encontrada",
+        description: "A busca realizada não obteve nenhum resultado"
+      })
+      return
+    }
+    setPageData([...Object.values(result.docs)])
+  }
 
   if (pageStatus === 'loading') {
     return <LoadingPage />
@@ -51,7 +108,7 @@ const Clientes = () => {
 
 
   return <>
-
+    {statusLoading && <Loading />}
     <HeaderPage title="Clientes">
       <Link to={'/dashboard/clientes/novo'}>
         <Button variant={"primary"}>Novo item</Button>
@@ -62,22 +119,29 @@ const Clientes = () => {
 
       <div className="flex justify-betwee items-center pt-6">
         <Form {...form}>
-          <form onSubmit={() => { }} className=" flex-1 pr-4">
-            <FormField
-              control={form.control}
-              name="search"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Digite o nome do cliente" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)} className=" flex pr-4 w-full">
+            <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Digite o nome do cliente" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="ml-4">
+              <Button type="submit" variant={'outline'}>
+                <Search />
+              </Button>
+            </div>
           </form>
         </Form>
-        <Button variant={"outlinePrimary"}>Busca avançada</Button>
+        {/* <Button variant={"outlinePrimary"}>Busca avançada</Button> */}
       </div>
       <div className="py-6">
         <table className=" w-full">
@@ -142,7 +206,7 @@ const Clientes = () => {
                       Cpf
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.cpfCnpj}
+                      {formatCpfCnpj(data?.cpfCnpj || '-')}
                     </div>
                   </div>
                 </td>
@@ -152,12 +216,12 @@ const Clientes = () => {
                       Whatsapp
                     </div>
                     <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.whatsapp}
+                      {formatPhone(data?.whatsapp || '-')}
                     </div>
                   </div>
                 </td>
                 <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
-                  <Link to={'/dashboard/clientes/1'}>
+                  <Link to={`/dashboard/clientes/${data._id}`}>
                     <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                       edit
                     </span>
@@ -176,22 +240,9 @@ const Clientes = () => {
           </tbody>
         </table>
       </div>
-      <div className='py-4 flex justify-end'>
-        <button
-          type="button"
-          className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-        >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-        >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+        <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+      </div>}
     </PageContent>
   </>
 }
