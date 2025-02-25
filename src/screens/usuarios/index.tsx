@@ -10,16 +10,18 @@ import { TypePageStatus } from "@/types/PageStatus"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
 import { TypeUsersViewList } from "@/types/Users"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
 
 const Usuarios = () => {
   const { db } = useFirebaseContext()
   const [pageData, setPageData] = useState<TypeUsersViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+  const { store } = useStoresContext()
 
   useEffect(() => {
-    if (!db) return
+    if (!db || !store || pageData.length > 0) return
     const load = async () => {
-      const result = await DB.views.users.list({ db })
+      const result = await DB.views.users.list({ db, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -117,22 +119,7 @@ const Usuarios = () => {
           </tbody>
         </table>
       </div>
-      <div className='py-4 flex justify-end'>
-        <button
-          type="button"
-          className=" inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-        >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className=" ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-        >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
+
 
     </PageContent>
   </>
