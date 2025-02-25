@@ -28,6 +28,7 @@ export type TypeUsers = {
 export type TypeUsersViewList = {
     _id: TypeUsers['_id']
     name: TypeUsers['name']
+    type: TypeUsers['type']
     _headquarterId: TypeUsers['_headquarterId']
     _storeId: TypeUsers['_storeId']
     createdAt: TypeUsers['createdAt']

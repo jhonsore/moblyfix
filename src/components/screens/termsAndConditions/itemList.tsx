@@ -23,7 +23,7 @@ export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
 
     async function removeHandler() {
         const response = await DB.termsAndConditions.delete({ db, id: data._id })
-        console.log(response)
+
         if (!response.status) {
             toast({
                 variant: "destructive",

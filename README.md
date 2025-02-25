@@ -87,6 +87,26 @@ master@moblyfix.com.br
 admin@moblyfix.com.br
 123456Abc
 
+- Gerente
+gerente@moblyfix.com
+123456Abc
+
+- Técnico
+tecnico@moblyfix.com
+123456Abc
+
+- Atendente
+atendente@moblyfix.com
+123456Abc
+
+- Financeiro 1
+financeiro1@moblyfix.com
+123456Abc
+
+- Financeiro 2
+financeiro2@moblyfix.com
+123456Abc
+
 ============================
 
 # Coleções
