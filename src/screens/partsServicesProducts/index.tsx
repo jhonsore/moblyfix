@@ -16,6 +16,7 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "../../components/loading"
 import formatToBrazilianReal from "../../functions/utils/formatToBrazilianReal"
 
+const LIMIT = 10
 
 const PagePartsServicesProducts = () => {
   const { db } = useFirebaseContext()
@@ -30,7 +31,7 @@ const PagePartsServicesProducts = () => {
     if (!db || !store || pageData.length > 0) return
 
     const load = async () => {
-      const result = await DB.views.partsServicesProducts.list({ db, limit: 10, wheres: [['_storeId', '==', store._id]] })
+      const result = await DB.views.partsServicesProducts.list({ db, limit: LIMIT, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -171,7 +172,7 @@ const PagePartsServicesProducts = () => {
           </tbody>
         </table>}
       </div>
-      {pageData.length > 0 && loadMoreStatus && <div className='py-4 text-center'>
+      {pageData.length > LIMIT && loadMoreStatus && <div className='py-4 text-center'>
         <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
       </div>}
     </PageContent>

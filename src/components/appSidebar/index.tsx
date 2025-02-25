@@ -13,8 +13,6 @@ import {
 import {
     AdjustmentsHorizontalIcon,
     ArrowRightStartOnRectangleIcon,
-    CalendarIcon,
-    // CalendarIcon,
     ChartBarIcon,
     CurrencyDollarIcon,
     HomeIcon,
@@ -26,34 +24,45 @@ import {
 import { Link, useNavigate } from "react-router"
 import { Users } from "../../functions/users"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
-import { ChartArea } from "lucide-react"
+import { CalendarIcon, ChartArea } from "lucide-react"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import TYPE_USERS from "../../consts/TYPE_USERS"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
 import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 
-//https://ui.shadcn.com/docs/components/sidebar
-const USERS = [
-    { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
-    { title: 'Relatórios', href: 'relatorios', icon: ChartArea, current: true },
-    { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
-    { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
-    { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
-    { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
-    // { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
-    { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
-    { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
-    { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
-    { title: 'Estoque', href: 'estoque', icon: ListBulletIcon, current: false },
-]
+const MENU = {
+    dashboard: { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
+    relatorios: { title: 'Relatórios', href: 'relatorios', icon: ChartArea, current: true },
+    os: { title: 'Ordens de serviço', href: 'ordens-servicos', icon: AdjustmentsHorizontalIcon, current: false },
+    vendas: { title: 'Vendas', href: 'vendas', icon: CurrencyDollarIcon, current: false },
+    clientes: { title: 'Clientes', href: 'clientes', icon: UserGroupIcon, current: false },
+    usuarios: { title: 'Usuários', href: 'usuarios', icon: UsersIcon, current: false },
+    agendamentos: { title: 'Agendamentos', href: 'agendamentos', icon: CalendarIcon, current: false },
+    lojas: { title: 'Lojas', href: 'lojas', icon: HomeIcon, current: false },
+    pecas: { title: 'Peças/Serviços/Produtos', href: 'pecas-servicos', icon: WrenchScrewdriverIcon, current: false },
+    condicoesServicos: { title: 'Condições de serviço', href: 'condicoes-de-servicos', icon: ListBulletIcon, current: false },
+    estoque: { title: 'Estoque', href: 'estoque', icon: ListBulletIcon, current: false },
+}
 
-const ADMIN = [
+//https://ui.shadcn.com/docs/components/sidebar
+
+const MASTER = [
     { title: 'Dashboard', href: '', icon: ChartBarIcon, current: true },
     { title: 'Novo headquarter', href: 'new-headquarter', icon: ChartBarIcon },
     { title: 'Novo master', href: 'new-master', icon: ChartBarIcon },
     { title: 'Condições de Serviços', href: 'condicoes-de-servicos', icon: WrenchScrewdriverIcon, current: false },
 ]
+
+function getMenu(type: keyof typeof TYPE_USERS) {
+    if (type === TYPE_USERS.master._id) return MASTER
+    if (type === TYPE_USERS.attendant._id || type === TYPE_USERS.technical._id) return [MENU.os, MENU.vendas, MENU.clientes]
+    if (type === TYPE_USERS.manager._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.pecas, MENU.condicoesServicos,]
+    if (type === TYPE_USERS.financial1._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.lojas, MENU.pecas, MENU.condicoesServicos,]
+    if (type === TYPE_USERS.admin._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.lojas, MENU.pecas, MENU.condicoesServicos,]
+
+    return []
+}
 
 export function AppSidebar() {
     const navigate = useNavigate()
@@ -61,7 +70,7 @@ export function AppSidebar() {
     const { auth } = useFirebaseContext()
     const { claims } = useAuthContext()
     const { stores, store, setStore } = useStoresContext()
-    const items = claims?.type === TYPE_USERS.master ? ADMIN : USERS
+    const items = (claims && claims.type) ? getMenu(claims.type as keyof typeof TYPE_USERS) : []
     const showSelectStores = stores && claims && (claims.type === TYPE_OF_USERS.financial1._id || claims.type === TYPE_OF_USERS.admin._id) && store && Object.keys(stores).length
 
     function storeChangeHandler(storeId: string) {

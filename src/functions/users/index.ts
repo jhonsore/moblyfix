@@ -1,4 +1,5 @@
 import create from "./create";
+import remove from "./delete";
 import login from "./login";
 import logout from "./logout";
 
@@ -9,5 +10,6 @@ export const Users = {
     login,
     logout,
     resetPassword,
-    create
+    create,
+    delete: remove
 }

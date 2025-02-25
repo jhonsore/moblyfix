@@ -80,6 +80,7 @@ const PartsServicesProductsItem = () => {
                 form.setValue('installmentPrice', formatToBrazilianReal(doc.installmentPrice.toString()))
                 form.setValue('costPrice', formatToBrazilianReal(doc.costPrice.toString()))
                 form.setValue('type', doc.type)
+                console.log(doc)
             }
         }
         load()
@@ -103,7 +104,7 @@ const PartsServicesProductsItem = () => {
             await DB.partsServicesProducts.update({
                 db,
                 id,
-                data: { name, cashPrice: _cashPrice, costPrice: _costPrice, installmentPrice: _installmentPrice }
+                data: { type: type as TypePartsServicesProducts['type'], name, cashPrice: _cashPrice, costPrice: _costPrice, installmentPrice: _installmentPrice }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -143,7 +144,7 @@ const PartsServicesProductsItem = () => {
                                 <FormLabel>Escolha o tipo</FormLabel>
                                 <FormControl>
                                     <RadioGroup onValueChange={field.onChange}
-                                        defaultValue={field.value}
+                                        value={field.value}
                                         className="flex  space-x-4">
                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                             <FormControl>

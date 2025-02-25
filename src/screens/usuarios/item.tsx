@@ -170,12 +170,13 @@ const DadosDoUsuario = () => {
             return
         }
         setStatusLoading(true)
-        const userData = { ...values, _headquarterId: '', _storeId: '', type: values.type as keyof typeof TYPE_OF_USERS }
+        const userData = { ...values, _headquarterId: store._headquarterId, _storeId: store._id, type: values.type as keyof typeof TYPE_OF_USERS }
+        const _values = { ...values, _headquarterId: store._headquarterId, _storeId: store._id, }
         if (id) {
             await DB.users.update({
                 db,
                 id,
-                data: { ...values, type: values.type as keyof typeof TYPE_OF_USERS }
+                data: { ..._values, type: values.type as keyof typeof TYPE_OF_USERS }
             })
             setStatusCreated(true)
             setStatusLoading(false)
