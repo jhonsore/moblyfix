@@ -27,6 +27,9 @@ const DadosDaVenda = lazy(() => import('./sales/item'))
 const Appointments = lazy(() => import('./appointments'))
 const NewSchedule = lazy(() => import('./appointments/item'))
 const OsEntrance = lazy(() => import('./print/osEntrance'))
+const TechnicalAnalysis = lazy(() => import('./print/technicalAnalysis'))
+const NewTechnicianReport = lazy(() => import('./print/newTechnicianReport'))
+const TechnicalAnalysisCompleted = lazy(() => import('./print/technicalAnalysisCompleted'))
 
 // ADMIN PAGES
 const IntroPage = lazy(() => import('./admin/pages/intro'))
@@ -39,6 +42,9 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="imprimir" element={<PrintLayout />}>
             <Route path="os/entrada/:id" element={<OsEntrance />} />
+            <Route path="os/analise-tecnica/:id" element={<TechnicalAnalysis />} />
+            <Route path="os/nova-analise-tecnica/:id" element={<NewTechnicianReport />} />
+            <Route path="os/analise-tecnica-finalizada/:id" element={<TechnicalAnalysisCompleted />} />
         </Route>
 
         <Route path="dashboard" element={<RequireAuth><Layout /></RequireAuth>}>

@@ -6,7 +6,7 @@ import HTMLtoPDFViewer from '../../../components/HTMLtoPDFViewer';
 import { ErrorPage } from '../../../components/errorPage';
 import { LoadingPage } from '../../../components/loadingPage';
 
-function OsEntrance() {
+function TechnicalAnalysisCompleted() {
 const [htmlString, setHtmlString] = useState('')
 const { db } = useFirebaseContext()
 const { id } = useParams()
@@ -24,8 +24,7 @@ setHtmlString(`<div class="container">
     <table>
         <tr>
             <td>
-            <img class="logo" src="https://i.ibb.co/8gqZyg1c/logo-loja.png" alt="logo-loja" />
-                
+                <img class="logo" src="https://i.ibb.co/8gqZyg1c/logo-loja.png" alt="logo-loja" />
             </td>
             <td colspan="2" class="titulo-loja">
                 <h3>
@@ -46,6 +45,8 @@ setHtmlString(`<div class="container">
     <div class="border-alert">
         <span>Atenção, este é um e-mail automático. favor não responder.</span>
     </div>
+    <span class="servico-feito">FEITO REPARO ${result.doc?.devices?.device}</span>
+    
     <table>
         <tr>
             <td class="titulo">
@@ -127,8 +128,13 @@ setHtmlString(`<div class="container">
             </td>
         </tr>
         <tr>
+            <td class="relato-tecnico">
+                 Relato Técnico: <span> FEITO REPARO ${result.doc?.devices?.device}</span>
+            </td>
+        </tr>
+        <tr>
             <td class="subtitulo">
-                Observação: <span class="dados">${result.doc?.finishedAt?.observation}</span>
+                Observações: <span class="dados">${result.doc?.finishedAt?.observation}</span>
             </td>
         </tr>
         <tr>
@@ -139,14 +145,58 @@ setHtmlString(`<div class="container">
 
     </table>
     <div>
-        <h3 class="titulo">
-            Condições de serviço
-        </h3>
-        <span class="dados">${result.doc?.finishedAt?.observation}</span>
+        <span class="descricao">Itens de serviço</span>
+        <table class="table-descricao">
+        
+            <tr class="borda-th">
+                <th class="titulo-itens">
+                    Descrição
+                </th>
+                <th class="titulo-itens">
+                    Qnt.
+                </th>
+                <th class="titulo-itens">
+                    Valor à prazo
+                </th>
+                <th class="titulo-itens">
+                    Valor à vista
+                </th>
+            </tr>
+            <tr class="borda-tr">
+                <td class="titulo-reparo">
+                    Reparo
+                </td>
+                <td class="itens-td">
+                    200
+                </td>
+                <td class="itens-td">
+                    200
+                </td>
+                <td class="itens-td">
+                    200
+                </td>
+            </tr>
+            <tr class="texto-prazo">
+                <td class="texto-prazo-td" colspan="3">
+                    Total à prazo
+                </td>
+                <td class="texto-prazo-td-valor">
+                    R$ 0,00
+                </td>
+            </tr>
+            <tr class="texto-prazo">
+                <td colspan="3" >
+                    Total à vista
+                </td>
+                <td class="texto-vista-td-valor">
+                    R$ 0,00
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="assinatura">
         <h3 class="titulo">
-            Aceito em: <span>${result.doc?.finishedAt?.date}</span>
+            Gerado em: <span>${result.doc?.finishedAt?.date}</span>
         </h3>
         <span class="nome-cliente">${result.doc?.customer?.name}</span>
         <span class="border-assinatura"></span>
@@ -164,11 +214,6 @@ setHtmlString(`<div class="container">
         padding: 0;
         margin: 0 auto;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .logo {
-        width: 200px;
-        heigth: 200px;
     }
 
     table {
@@ -206,6 +251,12 @@ setHtmlString(`<div class="container">
         padding: 0 15px 10px 0;
     }
 
+    .relato-tecnico {
+        font-weight: bold;
+        font-size: 16px;
+        padding: 20px 0;
+    }
+
     .dados {
         font-weight: normal;
         font-size: 16px;
@@ -232,6 +283,12 @@ setHtmlString(`<div class="container">
         box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.46);
         margin: 20px 0;
 
+    }
+
+    .servico-feito {
+        display: block;
+        border-bottom: 1px solid #000;
+        padding-bottom: 30px;
     }
 
     h3,
@@ -265,6 +322,65 @@ setHtmlString(`<div class="container">
         padding-top: 20px;
     }
 
+    .descricao {
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px 0;
+        display: block;
+    }
+
+    .table-descricao {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .borda-th {
+        border-bottom: 1px solid #000;
+    }
+
+    .borda-tr {
+        border-bottom: 1px solid #0000002f;
+    }
+
+    .titulo-itens {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .titulo-reparo {
+        font-size: 16px;
+        text-align: left;
+        padding: 10px 0;
+    }
+
+    .itens-td {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .texto-prazo {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+        border-bottom: 1px solid #0000002f;
+    }
+
+    .texto-prazo-td {
+        padding: 20px 0 5px;
+    }
+
+    .texto-prazo-td-valor {
+        text-align: right;
+        padding: 20px 0 5px;
+    }
+
+    .texto-vista-td-valor {
+        text-align: right;
+        padding: 10px 0 0;
+    }
+
 
 
     @print {
@@ -292,4 +408,4 @@ return (
 <HTMLtoPDFViewer htmlString={htmlString} />);
 }
 
-export default OsEntrance;
+export default TechnicalAnalysisCompleted;
