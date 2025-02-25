@@ -14,6 +14,16 @@ export type TypeOs = {
         name: string
         _id: string
         cpfCnpj: string
+        email: string
+        whatsapp: string
+        phone: string
+        state: string
+        city: string
+        neighborhood: string
+        address: string
+        zipcode: string
+        number: string
+        complement: string
     }
     attachments: {
         file: string

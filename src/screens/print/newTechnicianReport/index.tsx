@@ -6,7 +6,7 @@ import HTMLtoPDFViewer from '../../../components/HTMLtoPDFViewer';
 import { ErrorPage } from '../../../components/errorPage';
 import { LoadingPage } from '../../../components/loadingPage';
 
-function OsEntrance() {
+function NewTechnicianReport() {
 const [htmlString, setHtmlString] = useState('')
 const { db } = useFirebaseContext()
 const { id } = useParams()
@@ -24,8 +24,7 @@ setHtmlString(`<div class="container">
     <table>
         <tr>
             <td>
-            <img class="logo" src="https://i.ibb.co/8gqZyg1c/logo-loja.png" alt="logo-loja" />
-                
+                <img class="logo" src="https://i.ibb.co/8gqZyg1c/logo-loja.png" alt="logo-loja" />
             </td>
             <td colspan="2" class="titulo-loja">
                 <h3>
@@ -46,61 +45,11 @@ setHtmlString(`<div class="container">
     <div class="border-alert">
         <span>Atenção, este é um e-mail automático. favor não responder.</span>
     </div>
+    <div class="alert-status">
+        <span> BOA TARDE !</span><span>${result.doc?.customer?.name}</span>
+        <p class="text-status">SEU ${result.doc?.devices?.device} ESTA PRONTO</p>
+    </div>
     <table>
-        <tr>
-            <td class="titulo">
-                Dados do cliente
-            </td>
-        </tr>
-        <tr>
-            <td class="subtitulo">
-                Nome: <span class="dados">${result.doc?.customer?.name}</span>
-            </td>
-            <td class="subtitulo">
-                Cpf/Cnpj: <span class="dados">${result.doc?.customer?.cpfCnpj}</span>
-            </td>
-            <td class="subtitulo">
-                E-mail: <span class="dados">${result.doc?.customer?.email}</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="subtitulo">
-                Telefone: <span class="dados">${result.doc?.customer?.phone}</span>
-            </td>
-            <td class="subtitulo">
-                Contato1: <span class="dados"></span>
-            </td>
-            <td class="subtitulo">
-                Contato2: <span class="dados"></span>
-            </td>
-            <td class="subtitulo">
-                WhatsApp: <span class="dados">${result.doc?.customer?.whatsapp}</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="subtitulo">
-                Uf: <span class="dados">${result.doc?.customer?.state}</span>
-            </td>
-            <td class="subtitulo">
-                Cidade: <span class="dados">${result.doc?.customer?.city}</span>
-            </td>
-            <td class="subtitulo">
-                Bairro: <span class="dados">${result.doc?.customer?.neighborhood}</span>
-            </td>
-            <td class="subtitulo">
-                Cep: <span class="dados">${result.doc?.customer?.zipcode}</span>
-            </td>
-        <tr>
-            <td class="subtitulo">
-                Endereço: <span class="dados">${result.doc?.customer?.address}</span>
-            </td>
-            <td class="subtitulo">
-                Número: <span class="dados">${result.doc?.customer?.number}</span>
-            </td>
-            <td class="subtitulo">
-                Complemento: <span class="dados">${result.doc?.customer?.complement}</span>
-            </td>
-        </tr>
         <tr>
             <td colspan="4">
                 <span class="border"></span>
@@ -131,32 +80,14 @@ setHtmlString(`<div class="container">
                 Observação: <span class="dados">${result.doc?.finishedAt?.observation}</span>
             </td>
         </tr>
-        <tr>
-            <td colspan="4">
-                <span class="border"></span>
-            </td>
-        </tr>
 
     </table>
-    <div>
-        <h3 class="titulo">
-            Condições de serviço
-        </h3>
-        <span class="dados">${result.doc?.finishedAt?.observation}</span>
-    </div>
-    <div class="assinatura">
-        <h3 class="titulo">
-            Aceito em: <span>${result.doc?.finishedAt?.date}</span>
-        </h3>
-        <span class="nome-cliente">${result.doc?.customer?.name}</span>
-        <span class="border-assinatura"></span>
-        <p class="assinatura-cliente">
-            Assinatura Cliente
-        </p>
+    <div class="border-bot">
 
     </div>
-    <span class="alerta-email">Atenção, este é um e-mail automático. favor não responder.</span>
-
+    <div class="email-auto">
+        <span>Atenção, este é um e-mail automático. favor não responder.</span>
+    </div>
 </div>
 <style>
     .container {
@@ -164,11 +95,6 @@ setHtmlString(`<div class="container">
         padding: 0;
         margin: 0 auto;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .logo {
-        width: 200px;
-        heigth: 200px;
     }
 
     table {
@@ -218,11 +144,9 @@ setHtmlString(`<div class="container">
         margin-bottom: 10px;
     }
 
-    .border-assinatura {
+    .border-bot {
         border-bottom: 1px solid #000;
-        display: block;
-        width: 70%;
-        margin: 0 auto 10px;
+        padding-top: 50px;
     }
 
     .border-alert {
@@ -240,32 +164,20 @@ setHtmlString(`<div class="container">
         padding: 0;
     }
 
-    .assinatura {
-        border-bottom: 1px solid #000;
-        border-top: 1px solid #000;
+    .alert-status {
+        padding: 10px 0 20px;
     }
 
-    .nome-cliente {
-        padding-top: 50px;
-        padding-bottom: 50px;
-        display: block;
+
+    .email-auto {
+        padding-top: 20px;
         text-align: center;
+
     }
 
-    .assinatura-cliente {
-        font-size: 18px;
-        text-align: center;
-        padding-bottom: 100px;
-    }
-
-    .alerta-email {
-        font-size: 18px;
-        display: block;
-        text-align: center;
+    .text-status {
         padding-top: 20px;
     }
-
-
 
     @print {
         .container {
@@ -292,4 +204,4 @@ return (
 <HTMLtoPDFViewer htmlString={htmlString} />);
 }
 
-export default OsEntrance;
+export default NewTechnicianReport;
