@@ -21,7 +21,6 @@ import { Loading } from "../../components/loading"
 import { Search } from "lucide-react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { getQuery } from "../../functions/utils/getQuery"
 import { slugify } from "../../functions/utils/slugify"
 import { toast } from "../../hooks/use-toast"
 const LIMIT = 10
