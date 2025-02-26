@@ -23,6 +23,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { slugify } from "../../functions/utils/slugify"
 import { toast } from "../../hooks/use-toast"
+import { ItemList } from "@/components/screens/customers/itemList"
 const LIMIT = 10
 const FormSchema = z.object({
   name: z
@@ -170,72 +171,13 @@ const Clientes = () => {
               >
                 Whatsapp
               </th>
-
               <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Edit</span>
               </th>
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {pageData.map((data) => (
-              <tr key={data._id} className='lg:border-b border-gray-200'>
-                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
-                  <div className="flex justify-between">
-                    <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                      Cliente
-                    </div>
-                    <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.name}
-                    </div>
-                  </div>
-                </td>
-                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
-                  <div className="flex justify-between">
-                    <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                      Email
-                    </div>
-                    <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {data.email}
-                    </div>
-                  </div>
-                </td>
-                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
-                  <div className="flex justify-between">
-                    <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                      Cpf
-                    </div>
-                    <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {formatCpfCnpj(data?.cpfCnpj || '-')}
-                    </div>
-                  </div>
-                </td>
-                <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
-                  <div className="flex justify-between">
-                    <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                      Whatsapp
-                    </div>
-                    <div className="text-sm text-gray-900 p-4 lg:p-0">
-                      {formatPhone(data?.whatsapp || '-')}
-                    </div>
-                  </div>
-                </td>
-                <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
-                  <Link to={`/dashboard/clientes/${data._id}`}>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
-                      edit
-                    </span>
-                    <span className="text-gray-400 hover:text-indigo-900 lg:mr-2 lg:hidden flex justify-center ">
-                      <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                  </Link>
-                  <a href="#" className="text-gray-400 hover:text-indigo-900 hidden lg:inline">
-                    <span className="material-symbols-outlined">
-                      delete
-                    </span><span className="sr-only">, {data._id}</span>
-                  </a>
-                </td>
-              </tr>
-            ))}
+            {pageData.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>
       </div>
