@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, Search, } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Popover,
   PopoverContent,
@@ -24,6 +24,13 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "../../components/ui/badge"
 import { Link } from "react-router"
+import { ErrorPage } from "@/components/errorPage"
+import { LoadingPage } from "@/components/loadingPage"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { TypePageStatus } from "@/types/PageStatus"
+import { TypeOsViewList } from "@/types/Os"
+import { DB } from "@/functions/database"
+import { ItemList } from "@/components/screens/os/itemList"
 
 
 
@@ -47,6 +54,38 @@ const OrdensServicos = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
   const [searchStatus, setSearchStatus] = useState(false)
+  const { db } = useFirebaseContext()
+  const [pageData, setPageData] = useState<TypeOsViewList[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.os.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
+    }
+    load()
+  }, [])
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
+  }
+
+
 
   return <>
     <HeaderPage title="Ordens de Serviços">
@@ -235,35 +274,8 @@ const OrdensServicos = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
-                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                  {transaction.id}
-                </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                  {transaction.company}
-                </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                <td className="">
-                  <Badge variant="destructive">{transaction.netAmount}</Badge>
-                </td>
-                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link to={`/dashboard/ordens-servicos/${transaction.id}`}>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
-                      visibility
-                    </span>
-                  </Link>
-                  <a href="#" className="text-gray-400 hover:text-indigo-900">
-                    <span className="material-symbols-outlined">
-                      delete
-                    </span><span className="sr-only">, {transaction.id}</span>
-                  </a>
-                </td>
-              </tr>
-            ))}
+            
+            {transactions.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>
       </div>
