@@ -69,7 +69,7 @@ const OSPecasServicos = () => {
 
                         <div className="pt-6">
                             <div className="mb-4">
-                                <FormLabel>Peça/serviço</FormLabel>
+                                <FormLabel>Peça/serviço/Produto</FormLabel>
                                 <FormField
                                     control={form.control}
                                     name="search"
