@@ -136,7 +136,7 @@ const PageOs = () => {
             </PageContent>
         </div>
         <PageContent>
-            <div className='border-b pt-7'>
+            <div className='border-b pt-7 hidden'>
 
                 <div className="flex justify-between items-center">
                     <nav className="flex-1 gap-2 flex pr-8" aria-label="Tabs">
