@@ -1,6 +1,6 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -10,7 +10,11 @@ import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { Loading } from "@/components/loading"
 
+const LIMIT = 10
 
 const transactions = [
     {
@@ -29,6 +33,10 @@ const PageSales = () => {
     const { db } = useFirebaseContext()
     const [pageData, setPageData] = useState<TypeSales[]>([])
     const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+    const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+    const [statusLoading, setStatusLoading] = useState(false)
+    const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+    const { store } = useStoresContext()
 
     useEffect(() => {
         if (!db) return
@@ -49,6 +57,20 @@ const PageSales = () => {
         load()
     }, [])
 
+    async function loadMoreHandler() {
+        if (!db || !store) return
+
+        const result = await DB.views.sales.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+        setStatusLoading(true)
+        if (result.docs && Object.keys(result.docs).length) {
+            setPageData([...pageData, ...Object.values(result.docs)])
+            setLastDocumentSnapshot(result.lastDocument);
+        } else {
+            setLoadMoreStatus(false)
+        }
+        setStatusLoading(false)
+    }
+
     if (pageStatus === 'loading') {
         return <LoadingPage />
     }
@@ -57,6 +79,7 @@ const PageSales = () => {
         return <ErrorPage />
     }
     return <>
+        {statusLoading && <Loading />}
         <HeaderPage title="Vendas">
             <Link to={'/dashboard/vendas/novo'}>
                 <Button variant={"primary"}>Novo item</Button>
@@ -160,22 +183,9 @@ const PageSales = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='py-4 flex justify-end'>
-                <button
-                    type="button"
-                    className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-                >
-                    <span className="sr-only">Previous</span>
-                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-                <button
-                    type="button"
-                    className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-                >
-                    <span className="sr-only">Next</span>
-                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-            </div>
+            {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+                <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+            </div>}
 
 
         </PageContent>

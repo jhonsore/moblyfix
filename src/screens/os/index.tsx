@@ -24,8 +24,15 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "../../components/ui/badge"
 import { Link } from "react-router"
+import { DB } from "@/functions/database"
+import { TypeOs } from "@/types/Os"
 
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { Loading } from "@/components/loading"
 
+const LIMIT = 10
 
 
 const transactions = [
@@ -47,8 +54,31 @@ const OrdensServicos = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
   const [searchStatus, setSearchStatus] = useState(false)
+  const { db } = useFirebaseContext()
+  const [pageData, setPageData] = useState<TypeOs[]>([])
+
+  const { store } = useStoresContext()
+  const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+  const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+  const [statusLoading, setStatusLoading] = useState(false)
+
+
+  async function loadMoreHandler() {
+    if (!db || !store) return
+
+    const result = await DB.views.os.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+    setStatusLoading(true)
+    if (result.docs && Object.keys(result.docs).length) {
+      setPageData([...pageData, ...Object.values(result.docs)])
+      setLastDocumentSnapshot(result.lastDocument);
+    } else {
+      setLoadMoreStatus(false)
+    }
+    setStatusLoading(false)
+  }
 
   return <>
+    {statusLoading && <Loading />}
     <HeaderPage title="Ordens de Serviços">
       <Link to={'/dashboard/ordens-servicos/novo'}>
         <Button variant={"primary"}>Nova OS</Button>
@@ -358,22 +388,9 @@ const OrdensServicos = () => {
 
         </table>
       </div>
-      <div className='py-4 flex justify-end'>
-        <button
-          type="button"
-          className="inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-indigo-500 focus:z-10 focus:outline-none focus:ring-1 hover:text-white"
-        >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="ml-3 inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500  focus:z-10 focus:outline-none focus:ring-1 hover:bg-indigo-500 hover:text-white "
-        >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+        <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+      </div>}
     </PageContent>
   </>
 }
