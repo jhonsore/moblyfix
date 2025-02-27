@@ -99,5 +99,6 @@ export type TypeOsViewList =
         substatus: TypeOs['substatus']
         customer: TypeOs['customer']
         query: { [id: string]: boolean }
+        
 
     }
