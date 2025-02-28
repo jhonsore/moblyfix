@@ -272,7 +272,7 @@ const DadosDoUsuario = () => {
                         />
                     </div>
 
-                    <div className='grid grid-cols-3 gap-4'>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                         <FormField
                             control={form.control}
                             name="email"
@@ -300,7 +300,7 @@ const DadosDoUsuario = () => {
                             )}
                         />
                     </div>
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="cpf"
@@ -391,7 +391,7 @@ const DadosDoUsuario = () => {
                         </div>
                     </div>
 
-                    <div className='grid grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 py-4'>
                         <FormField
                             control={form.control}
                             name="state"
@@ -479,7 +479,8 @@ const DadosDoUsuario = () => {
                             )}
                         />
                     </div>
-                    <div className='py-6 flex justify-end'>
+                    <div className='py-6 flex justify-end gap-4'>
+                        {id && <Button variant={'destructive'}>Deletar</Button>}
                         <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>
