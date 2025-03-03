@@ -25,8 +25,8 @@ const PageDashboard = () => {
         <PageContent>
             aqui entra o dashboard
             <br /><br /><br />
-            {/* <ImageUploader onUploaded={(url) => { alert(url) }} folder="stores/1/signature" title="Upload de imagem" /> */}
-            <Button onClick={() => { sendWhatsApp() }}>Enviar zap</Button>
+            {/* <ImageUploader onUploaded={(url) => { alert(url) }} folder="stores/1/signature" title="Upload de imagem" />
+            <Button onClick={() => { sendWhatsApp() }}>Enviar zap</Button> */}
         </PageContent>
     </>
 }
