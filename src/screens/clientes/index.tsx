@@ -166,14 +166,12 @@ const Clientes = () => {
                 Cpf
               </th>
               <th
-                scope="col"
+                colSpan={3}
                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
                 Whatsapp
               </th>
-              <th scope="col" className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6">
-                <span className="sr-only">Edit</span>
-              </th>
+              
             </tr>
           </thead>
           <tbody className=" bg-white">
