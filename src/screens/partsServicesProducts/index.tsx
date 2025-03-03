@@ -109,7 +109,7 @@ const PagePartsServicesProducts = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            
+
             {pageData.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>}

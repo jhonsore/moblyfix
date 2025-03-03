@@ -184,7 +184,7 @@ const DadosDaLoja = () => {
         setCepStatus(true)
         const response = await getCep(cep)
         setCepStatus(false)
-        console.log(response)
+
         if (response) {
             form.setValue('state', response?.state || '')
             form.setValue('city', response?.city || '')
