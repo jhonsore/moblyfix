@@ -12,12 +12,21 @@ import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import { ItemList } from "@/components/screens/stores/itemList"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { Loading } from "@/components/loading"
+
+const LIMIT = 10
 
 const PageStores = () => {
     const { db } = useFirebaseContext()
     const { claims } = useAuthContext()
+    const { store } = useStoresContext()
     const [pageData, setPageData] = useState<TypeStoresViewList[]>([])
     const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+    const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+    const [statusLoading, setStatusLoading] = useState(false)
+    const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
 
     useEffect(() => {
         if (!db || !claims) return
@@ -39,6 +48,20 @@ const PageStores = () => {
         load()
     }, [claims])
 
+    async function loadMoreHandler() {
+        if (!db || !store) return
+
+        const result = await DB.views.stores.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+        setStatusLoading(true)
+        if (result.docs && Object.keys(result.docs).length) {
+            setPageData([...pageData, ...Object.values(result.docs)])
+            setLastDocumentSnapshot(result.lastDocument);
+        } else {
+            setLoadMoreStatus(false)
+        }
+        setStatusLoading(false)
+    }
+
     if (pageStatus === 'loading') {
         return
         <LoadingPage />
@@ -49,6 +72,7 @@ const PageStores = () => {
         <ErrorPage />
     }
     return <>
+        {statusLoading && <Loading />}
         <HeaderPage title="Lojas">
             <Link to={'/dashboard/lojas/novo'}>
                 <Button variant={"primary"}>Novo item</Button>
@@ -76,6 +100,9 @@ const PageStores = () => {
                     </tbody>
                 </table>
             </div>
+            {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+                <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+            </div>}
         </PageContent>
     </>
 }

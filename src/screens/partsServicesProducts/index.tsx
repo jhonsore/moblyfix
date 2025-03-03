@@ -13,8 +13,7 @@ import { useStoresContext } from "../../providers/stores/useStoresContext"
 import { EmptData } from "../../components/emptyData"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "../../components/loading"
-
-import { ItemList } from "@/components/screens/partsServicesProducts/itemList"
+import { ItemList } from "../../components/screens/partsServicesProducts/itemList"
 
 const LIMIT = 10
 

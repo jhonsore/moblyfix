@@ -89,7 +89,7 @@ export function ItemList({ data }: { data: TypePartsServicesProductsViewList }) 
         </td>
         <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6 ">
             <Link to={`/dashboard/pecas-servicos/${data._id}`}>
-            <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
+                <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                     edit
                 </span>
                 <span className="text-gray-400 hover:text-indigo-900 lg:mr-2 lg:hidden flex justify-center ">
@@ -118,5 +118,5 @@ export function ItemList({ data }: { data: TypePartsServicesProductsViewList }) 
         </td>
     </tr>
 
-    
+
 }

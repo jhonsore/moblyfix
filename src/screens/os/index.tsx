@@ -1,7 +1,6 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "../../components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
@@ -22,8 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
 import { Link } from "react-router"
+import { useStoresContext } from "@/providers/stores/useStoresContext"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { Loading } from "@/components/loading"
 import { ErrorPage } from "@/components/errorPage"
 import { LoadingPage } from "@/components/loadingPage"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -32,7 +33,7 @@ import { TypeOsViewList } from "@/types/Os"
 import { DB } from "@/functions/database"
 import { ItemList } from "@/components/screens/os/itemList"
 
-
+const LIMIT = 10
 
 
 const OrdensServicos = () => {
@@ -42,6 +43,10 @@ const OrdensServicos = () => {
   const { db } = useFirebaseContext()
   const [pageData, setPageData] = useState<TypeOsViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
+  const { store } = useStoresContext()
+  const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+  const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+  const [statusLoading, setStatusLoading] = useState(false)
 
   useEffect(() => {
     if (!db) return
@@ -62,6 +67,20 @@ const OrdensServicos = () => {
     load()
   }, [])
 
+  async function loadMoreHandler() {
+    if (!db || !store) return
+
+    const result = await DB.views.os.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+    setStatusLoading(true)
+    if (result.docs && Object.keys(result.docs).length) {
+      setPageData([...pageData, ...Object.values(result.docs)])
+      setLastDocumentSnapshot(result.lastDocument);
+    } else {
+      setLoadMoreStatus(false)
+    }
+    setStatusLoading(false)
+  }
+
   if (pageStatus === 'loading') {
     return <LoadingPage />
   }
@@ -70,9 +89,8 @@ const OrdensServicos = () => {
     return <ErrorPage />
   }
 
-
-
   return <>
+    {statusLoading && <Loading />}
     <HeaderPage title="Ordens de Serviços">
       <Link to={'/dashboard/ordens-servicos/novo'}>
         <Button variant={"primary"}>Nova OS</Button>
@@ -264,7 +282,9 @@ const OrdensServicos = () => {
           </tbody>
         </table>
       </div>
-
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+        <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+      </div>}
     </PageContent>
   </>
 }
