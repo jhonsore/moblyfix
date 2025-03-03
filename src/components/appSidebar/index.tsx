@@ -60,7 +60,7 @@ function getMenu(type: keyof typeof TYPE_USERS) {
     if (type === TYPE_USERS.manager._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.pecas, MENU.condicoesServicos,]
     if (type === TYPE_USERS.financial1._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.lojas, MENU.pecas, MENU.condicoesServicos,]
     if (type === TYPE_USERS.admin._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.lojas, MENU.pecas, MENU.condicoesServicos,]
-
+    if (type === TYPE_USERS.financial2._id) return [MENU.dashboard, MENU.relatorios, MENU.os, MENU.vendas, MENU.clientes, MENU.usuarios, MENU.pecas, MENU.condicoesServicos,]
     return []
 }
 

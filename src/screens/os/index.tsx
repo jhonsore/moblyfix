@@ -1,7 +1,6 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "../../components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
@@ -9,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, Search, } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Popover,
   PopoverContent,
@@ -22,46 +21,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Badge } from "../../components/ui/badge"
 import { Link } from "react-router"
-import { DB } from "@/functions/database"
-import { TypeOs } from "@/types/Os"
-
-import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { useStoresContext } from "@/providers/stores/useStoresContext"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "@/components/loading"
+import { ErrorPage } from "@/components/errorPage"
+import { LoadingPage } from "@/components/loadingPage"
+import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
+import { TypePageStatus } from "@/types/PageStatus"
+import { TypeOsViewList } from "@/types/Os"
+import { DB } from "@/functions/database"
+import { ItemList } from "@/components/screens/os/itemList"
 
 const LIMIT = 10
 
-
-const transactions = [
-  {
-    id: '1234567',
-    company: 'Jhonnatan Soares Rebuli',
-    share: '10/03/24',
-    commission: '10/03/24',
-    price: '10 dias',
-    quantity: 'Iphone X',
-    netAmount: 'Finalizado',
-
-  },
-
-
-]
 
 const OrdensServicos = () => {
   const form = useForm()
   const [date, setDate] = useState<Date>()
   const [searchStatus, setSearchStatus] = useState(false)
   const { db } = useFirebaseContext()
-  const [pageData, setPageData] = useState<TypeOs[]>([])
-
+  const [pageData, setPageData] = useState<TypeOsViewList[]>([])
+  const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
   const { store } = useStoresContext()
   const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
   const [loadMoreStatus, setLoadMoreStatus] = useState(true)
   const [statusLoading, setStatusLoading] = useState(false)
 
+  useEffect(() => {
+    if (!db) return
+    const load = async () => {
+      const result = await DB.views.os.list({ db })
+      let status: typeof pageStatus = 'success'
+      if (!result.status) {
+        status = 'error'
+        return
+      }
+
+      setPageStatus(status)
+      if (result.docs) {
+        setPageData(Object.values(result.docs))
+      }
+
+    }
+    load()
+  }, [])
 
   async function loadMoreHandler() {
     if (!db || !store) return
@@ -75,6 +79,14 @@ const OrdensServicos = () => {
       setLoadMoreStatus(false)
     }
     setStatusLoading(false)
+  }
+
+  if (pageStatus === 'loading') {
+    return <LoadingPage />
+  }
+
+  if (pageStatus === 'error') {
+    return <ErrorPage />
   }
 
   return <>
@@ -265,127 +277,9 @@ const OrdensServicos = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className='border-b border-gray-200'>
-                <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-                  {transaction.id}
-                </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-                  {transaction.company}
-                </td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.share}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.commission}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.price}</td>
-                <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{transaction.quantity}</td>
-                <td className="">
-                  <Badge variant="destructive">{transaction.netAmount}</Badge>
-                </td>
-                <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <Link to={`/dashboard/ordens-servicos/${transaction.id}`}>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
-                      visibility
-                    </span>
-                  </Link>
-                  <a href="#" className="text-gray-400 hover:text-indigo-900">
-                    <span className="material-symbols-outlined">
-                      delete
-                    </span><span className="sr-only">, {transaction.id}</span>
-                  </a>
-                </td>
-              </tr>
-            ))}
+
+            {pageData.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
-        </table>
-      </div>
-      <div className=" bg-white m-w-full py-6 lg:hidden">
-        <table className=" w-full">
-
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-y border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Nº OS
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900 border-gray-200">
-                {transaction.id}
-              </td>
-
-              <td rowSpan={7} className="text-center border">
-                <Link to={'/dashboard/ordem-servico/analise-tecnica'}>
-                  <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2">
-                    visibility
-                  </span>
-                </Link>
-              </td>
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Cliente
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.company}
-              </td>
-
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Início
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.share}
-              </td>
-
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Fim
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.commission}
-              </td>
-
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Atraso
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.price}
-              </td>
-
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Aparelho
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3 text-sm text-gray-900">
-                {transaction.quantity}
-              </td>
-
-            </tr>
-          ))}
-          {transactions.map((transaction) => (
-            <tr key={transaction.id} className='border-b-4 border-gray-200'>
-              <td className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 bg-gray-50">
-                Status
-              </td>
-              <td className="whitespace-nowrap py-4 pl-3 text-right pr-3">
-                <Badge variant="destructive">{transaction.netAmount}</Badge>
-              </td>
-
-            </tr>
-          ))}
-
-
         </table>
       </div>
       {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
