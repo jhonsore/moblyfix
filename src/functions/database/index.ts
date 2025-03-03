@@ -8,7 +8,7 @@ import { read } from "./read"
 import { list } from "./list"
 import { listView } from "./listView"
 import { TypeCustomers, TypeCustomersViewList } from "../../types/Customers"
-import { TypeOs } from "../../types/Os"
+import { TypeOs, TypeOsViewList } from "../../types/Os"
 import { TypePartsServicesProducts, TypePartsServicesProductsViewList } from "../../types/PartsServicesProducts"
 import { TypeSales, TypeSalesViewList } from "../../types/Sales"
 import { TypeStores, TypeStoresViewList } from "../../types/Stores"
@@ -56,7 +56,7 @@ export const DB = {
     views: {
         termsAndConditions: generateDBView<TypeTermsAndConditionsViewList>(COLLECTIONS_VIEWS._viewTermsAndConditionsList),
         customers: generateDBView<TypeCustomersViewList>(COLLECTIONS_VIEWS._viewCustomersList),
-        os: generateDBView<TypeOs>(COLLECTIONS_VIEWS._viewOsList),
+        os: generateDBView<TypeOsViewList>(COLLECTIONS_VIEWS._viewOsList),
         partsServicesProducts: generateDBView<TypePartsServicesProductsViewList>(COLLECTIONS_VIEWS._viewPartsServicesProductsList),
         sales: generateDBView<TypeSalesViewList>(COLLECTIONS_VIEWS._viewSalesList),
         users: generateDBView<TypeUsersViewList>(COLLECTIONS_VIEWS._viewUsersList),

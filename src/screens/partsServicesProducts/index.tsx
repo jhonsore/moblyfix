@@ -114,7 +114,7 @@ const PagePartsServicesProducts = () => {
           </tbody>
         </table>}
       </div>
-      {pageData.length > LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
         <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
       </div>}
     </PageContent>
