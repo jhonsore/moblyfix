@@ -9,11 +9,10 @@ import { Button } from "../../components/ui/button"
 import { Textarea } from "../../components/ui/textarea"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
-import SearchSelect from "../../components/seacrhSelect"
+import SearchSelect from "../../components/searchSelect"
 import { DB } from "../../functions/database"
 import { LoadingPage } from "../../components/loadingPage"
-import { useState } from "react"
-import { TypePartsServicesProducts } from "../../types/PartsServicesProducts"
+import { useEffect, useState } from "react"
 import { toast } from "../../hooks/use-toast"
 import { Input } from "../../components/ui/input"
 import { z } from "zod"
@@ -29,6 +28,8 @@ import PAYMENT_METHODS from "../../consts/PAYMENT_METHODS"
 import { TypeSales } from "../../types/Sales"
 import { currencyToNumber } from "../../functions/utils/currencyToNumber"
 import { ImageUploader } from "../../components/imageUploader"
+import { TypePageStatus } from "../../types/PageStatus"
+import DISCOUNT_TYPES from "../../consts/DISCOUNT_TYPES"
 
 const FormSchema = z.object({
     item: z
@@ -48,7 +49,7 @@ const FormSchemaVendas = z.object({
     signFile: z.string().optional(),
     paymentMethod: z.string().optional(),
     observation: z.string().optional(),
-    discounType: z.enum(["cash", "percent", "none"]),
+    discountType: z.enum(["cash", "percent", "none"]),
     product: z.string().min(1, { message: 'Escolha ao mesmo um produto/serviço/peça' }),
     customer: z.string().min(1, { message: 'Escolha o cliente' }),
     installments: z.string().nullable().optional(),
@@ -63,7 +64,7 @@ const FormSchemaVendas = z.object({
             code: z.ZodIssueCode.custom,
         });
     }
-    if (val.discounType !== 'none' && !val.discount) {
+    if (val.discountType !== 'none' && !val.discount) {
         ctx.addIssue({
             message: `Digite o desconto`,
             path: ['discount'],
@@ -84,7 +85,7 @@ const PageSales = () => {
         resolver: zodResolver(FormSchemaVendas),
         defaultValues: {
             paymentType: 'cash',
-            discounType: 'none',
+            discountType: 'none',
             installments: null,
             discount: '',
             product: '',
@@ -97,9 +98,9 @@ const PageSales = () => {
     const navigate = useNavigate()
     const { db } = useFirebaseContext()
     const { store } = useStoresContext()
-    const [items, setItems] = useState<{ quantity: number, _id: string, cashPrice: TypePartsServicesProducts['cashPrice'], costPrice: TypePartsServicesProducts['costPrice'], installmentPrice: TypePartsServicesProducts['installmentPrice'], name: TypePartsServicesProducts['name'], type: TypePartsServicesProducts['type'] }[]>([])
+    const [items, setItems] = useState<TypeSales['items']>([])
     const [paymentType, setPaymentType] = useState('cash')
-    const [discounType, setDiscounType] = useState('none')
+    const [discountType, setdiscountType] = useState('none')
     const [statusLoading, setStatusLoading] = useState(false)
     const [statusStore, setStatusStore] = useState(false)
     const { id } = useParams()
@@ -107,12 +108,46 @@ const PageSales = () => {
     const [customer, setCustomer] = useState<{ value?: string, label?: string }>()
     const [total, setTotal] = useState(0)
     const [signFile, setSignFile] = useState('')
+    const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
+
+    useEffect(() => {
+        if (!id) return
+        const load = async () => {
+            const result = await DB.sales.read({ db, id })
+            let status: typeof pageStatus = 'success'
+            if (!result.status) {
+                status = 'error'
+                return
+            }
+
+            const { doc } = result
+            if (doc) {
+                form.setValue('paymentType', doc.paymentType)
+                form.setValue('discountType', doc.discountType as keyof typeof DISCOUNT_TYPES)
+                form.setValue('installments', doc.installments?.toString() || null)
+                const _discount = doc.discount?.toString() || ''
+                form.setValue("discount", doc.discountType === 'cash' ? formatCurrency(formatToBrazilianReal(_discount)) : formatNumber(_discount))
+                form.setValue('observation', doc.observation)
+                form.setValue('paymentMethod', doc.paymentMethod as keyof typeof PAYMENT_METHODS || '')
+                form.setValue('signFile', doc.signFile || undefined)
+                form.setValue('customer', doc.customer._id)
+                form.setValue('product', doc._id)// colocamos o id da venda apenas para ter algum valor no porducto e permitir que a venda seja atualizada
+                setItems(doc.items)
+                setSignFile(doc.signFile || '')
+                setCustomer({ label: doc.customer.name, value: doc.customer._id })
+                setdiscountType(doc.discountType || '')
+                getTotal({ products: doc.items, discount: doc?.discount, discountType: doc.discountType || '' })
+            }
+            setPageStatus(status)
+        }
+        load()
+    }, [id])
 
 
     async function onSubmitItem(values: z.infer<typeof FormSchema>) {
         const { item, quantity } = values
 
-        const checkProduct = items.filter(_item => _item._id === item)
+        const checkProduct = items?.filter(_item => _item._id === item)
 
         if (checkProduct.length > 0) {
             toast({
@@ -147,7 +182,7 @@ const PageSales = () => {
         setItems(products)
         form.setValue('product', '1')
         form.clearErrors()
-        getTotal({ products })
+        getTotal({ products, discountType })
     }
 
     async function onSubmit(data: z.infer<typeof FormSchemaVendas>) {
@@ -166,13 +201,13 @@ const PageSales = () => {
             _storeId: store._id,
             total,
             'paymentType': data.paymentType as TypeSales['paymentType'],
-            'discountType': data.discounType as TypeSales['discountType'],
+            'discountType': data.discountType as TypeSales['discountType'],
             'paymentMethod': data.paymentMethod as TypeSales['paymentMethod'] || null,
             'signFile': data.signFile || null,
-            'observations': data.observation || '',
+            'observation': data.observation || '',
             items,
             'installments': data.installments ? parseInt(data.installments) : null,
-            'discount': data.discount ? data.discounType === 'cash' ? currencyToNumber(data.discount) : parseInt(data.discount) : null,
+            'discount': data.discount ? data.discountType === 'cash' ? currencyToNumber(data.discount) : parseInt(data.discount) : null,
         }
 
         const result = !id ?
@@ -192,20 +227,20 @@ const PageSales = () => {
         setStatusLoading(false)
     }
 
-    function getTotal({ products, discount }: { discount?: number, products: typeof items }) {
+    function getTotal({ products, discount, discountType }: { discountType: string, discount?: number | null, products: typeof items }) {
         const sum = products.reduce((prev, cur) => {
             return prev + (form.getValues().paymentType === 'cash' ? cur.cashPrice : cur.installmentPrice)
         }, 0)
         let sumTemp = sum
 
-        if (discounType === 'cash' && discount) {
+        if (discountType === 'cash' && discount) {
             sumTemp -= discount
         }
-        if (discounType === 'percent' && discount) {
+        if (discountType === 'percent' && discount) {
             sumTemp -= (sum * discount) / 100
         }
 
-        if (sumTemp < 0 || (discount && discounType === 'percent' && discount > 100)) sumTemp = 0
+        if (sumTemp < 0 || (discount && discountType === 'percent' && discount > 100)) sumTemp = 0
 
         setTotal(sumTemp)
     }
@@ -223,8 +258,8 @@ const PageSales = () => {
     }
 
     function discountHandler(e: React.ChangeEvent<HTMLInputElement>) {
-        form.setValue("discount", discounType === 'cash' ? formatCurrency(e.target.value) : formatNumber(e.target.value))
-        getTotal({ products: items, discount: discounType === 'cash' ? currencyToNumber(formatCurrency(e.target.value)) : +formatNumber(e.target.value) })
+        form.setValue("discount", discountType === 'cash' ? formatCurrency(e.target.value) : formatNumber(e.target.value))
+        getTotal({ products: items, discountType, discount: discountType === 'cash' ? currencyToNumber(formatCurrency(e.target.value)) : +formatNumber(e.target.value) })
     }
 
     function imageUploadHandler(url: string) {
@@ -305,15 +340,21 @@ const PageSales = () => {
                                 <FormItem>
                                     <FormLabel>Cliente</FormLabel>
                                     <FormControl>
-                                        <SearchSelect onChange={e => {
-                                            field.onChange(e.value)
-                                            setCustomer(e)
-                                        }} store={store} db={db} requisition={DB.views.customers.list} />
+                                        <div>
+                                            {!id && <SearchSelect onChange={e => {
+                                                field.onChange(e.value)
+                                                setCustomer(e)
+                                            }} store={store} db={db} requisition={DB.views.customers.list} />}
+                                            {
+                                                id && customer && <Input value={customer.label} disabled />
+                                            }
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
                     </div>
                     <div className="flex gap-8 pt-4">
                         <div>
@@ -329,6 +370,7 @@ const PageSales = () => {
                                                     setPaymentType(e)
                                                     field.onChange(e)
                                                 }}
+                                                value={field.value}
                                                 defaultValue={field.value}
                                                 className="flex flex-col space-y-1"
                                             >
@@ -411,17 +453,18 @@ const PageSales = () => {
                         <div>
                             <FormField
                                 control={form.control}
-                                name="discounType"
+                                name="discountType"
                                 render={({ field }) => (
                                     <FormItem className="space-y-3">
                                         <FormLabel>Selecione o tipo de desconto</FormLabel>
                                         <FormControl>
                                             <RadioGroup
                                                 onValueChange={(e) => {
-                                                    setDiscounType(e)
+                                                    setdiscountType(e)
                                                     field.onChange(e)
                                                 }}
                                                 defaultValue={field.value}
+                                                value={field.value}
                                                 className="flex flex-col space-y-1"
                                             >
                                                 <FormItem className="flex items-center space-x-3 space-y-0">
@@ -452,7 +495,7 @@ const PageSales = () => {
                                     </FormItem>
                                 )}
                             />
-                            {discounType !== 'none' && <div className="mt-8 max-w-48">
+                            {discountType !== 'none' && <div className="mt-8 max-w-48">
                                 <FormField
                                     control={form.control}
                                     name="discount"
@@ -460,7 +503,7 @@ const PageSales = () => {
                                         <FormItem>
                                             <FormLabel>Desconto</FormLabel>
                                             <FormControl>
-                                                <Input placeholder={`${discounType === 'cash' ? "R$ 0,00" : 'Ex.: 10%'}`} {...field} onChange={discountHandler} />
+                                                <Input placeholder={`${discountType === 'cash' ? "R$ 0,00" : 'Ex.: 10%'}`} {...field} onChange={discountHandler} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -561,7 +604,7 @@ const PageSales = () => {
                                 {signFile && <img src={signFile} />}
                             </div>
                         </div>
-                        <ImageUploader buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
+                        <ImageUploader aspect={6 / 3} buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
                     </div>
                     <div className="text-right py-10">
                         <Button variant={"primary"} type="submit">Salvar</Button>

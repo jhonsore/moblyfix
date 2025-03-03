@@ -44,8 +44,8 @@ export const DB = {
         create: create<PartialWithRequired<TypePartsServicesProducts, 'name' | 'type' | 'costPrice' | 'cashPrice' | 'installmentPrice' | '_headquarterId' | '_storeId'>>(COLLECTIONS.partsServicesProducts),
     },
     sales: {
-        ...generateDB<TypePartsServicesProducts>(COLLECTIONS.sales),
-        create: create<PartialWithRequired<TypeSales, '_headquarterId' | '_storeId' | 'paymentType' | 'discountType' | 'paymentMethod' | 'signFile' | 'observations' | 'installments' | 'discount'>>(COLLECTIONS.sales),
+        ...generateDB<TypeSales>(COLLECTIONS.sales),
+        create: create<PartialWithRequired<TypeSales, '_headquarterId' | '_storeId' | 'paymentType' | 'discountType' | 'paymentMethod' | 'signFile' | 'observation' | 'installments' | 'discount'>>(COLLECTIONS.sales),
     },
     stores: {
         ...generateDB<TypeStores>(COLLECTIONS.stores),
