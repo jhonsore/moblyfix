@@ -89,7 +89,7 @@ export function ItemList({ data }: { data: TypeSalesViewList }) {
         </td>
 
         <td className=" whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
-            <Link to={`/dashboard/lojas/${data._id}`}>
+            <Link to={`/dashboard/vendas/${data._id}`}>
                 <span className="text-gray-400 hover:text-indigo-900 mr-2">
                     <span className="material-symbols-outlined">
                         edit

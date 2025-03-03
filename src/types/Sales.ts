@@ -3,6 +3,9 @@ import { TypePartsServicesProducts } from "./PartsServicesProducts"
 import PAYMENT_METHODS from "../consts/PAYMENT_METHODS"
 import { TypeCustomers } from "./Customers"
 import PAYMENT_TYPES from "../consts/PAYMENT_TYPES"
+import DISCOUNT_TYPES from "../consts/DISCOUNT_TYPES"
+
+type Items = Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'> & { quantity: number }
 
 export type TypeSales = {
     _id: string
@@ -14,12 +17,12 @@ export type TypeSales = {
         _id: TypeCustomers['_id'],
         name: TypeCustomers['name']
     }
-    items: Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'>[]
+    items: Items[]
     paymentType: keyof typeof PAYMENT_TYPES
-    discountType: 'cash' | 'percentage' | 'none'
+    discountType: keyof typeof DISCOUNT_TYPES | null
     paymentMethod: keyof typeof PAYMENT_METHODS | null
     signFile: string | null
-    observations: string
+    observation: string
     installments: number | null
     discount: number | null
     total: number
