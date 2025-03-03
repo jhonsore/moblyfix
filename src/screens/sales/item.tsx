@@ -28,6 +28,7 @@ import { ItemCreatedAlert } from "../../components/itemCreatedAlert"
 import PAYMENT_METHODS from "../../consts/PAYMENT_METHODS"
 import { TypeSales } from "../../types/Sales"
 import { currencyToNumber } from "../../functions/utils/currencyToNumber"
+import { ImageUploader } from "../../components/imageUploader"
 
 const FormSchema = z.object({
     item: z
@@ -105,6 +106,8 @@ const PageSales = () => {
     const [statusCreated, setStatusCreated] = useState(false)
     const [customer, setCustomer] = useState<{ value?: string, label?: string }>()
     const [total, setTotal] = useState(0)
+    const [signFile, setSignFile] = useState('')
+
 
     async function onSubmitItem(values: z.infer<typeof FormSchema>) {
         const { item, quantity } = values
@@ -222,6 +225,11 @@ const PageSales = () => {
     function discountHandler(e: React.ChangeEvent<HTMLInputElement>) {
         form.setValue("discount", discounType === 'cash' ? formatCurrency(e.target.value) : formatNumber(e.target.value))
         getTotal({ products: items, discount: discounType === 'cash' ? currencyToNumber(formatCurrency(e.target.value)) : +formatNumber(e.target.value) })
+    }
+
+    function imageUploadHandler(url: string) {
+        form.setValue('signFile', url)
+        setSignFile(url)
     }
 
     if (!store || !db) return <LoadingPage />
@@ -547,10 +555,13 @@ const PageSales = () => {
                         />
                     </div>
                     <div>
-                        <div className="border-b-2 w-full pt-20 mb-2">
+                        <div className=" w-full pt-20 mb-2">
                             <Label>Assinatura do cliente</Label>
+                            <div className="mt-5">
+                                {signFile && <img src={signFile} />}
+                            </div>
                         </div>
-                        <Button className="w-full" variant={"outlinePrimary"}>Adicionar assinatura</Button>
+                        <ImageUploader buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
                     </div>
                     <div className="text-right py-10">
                         <Button variant={"primary"} type="submit">Salvar</Button>

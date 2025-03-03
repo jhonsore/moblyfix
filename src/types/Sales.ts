@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore"
 import { TypePartsServicesProducts } from "./PartsServicesProducts"
 import PAYMENT_METHODS from "../consts/PAYMENT_METHODS"
 import { TypeCustomers } from "./Customers"
+import PAYMENT_TYPES from "../consts/PAYMENT_TYPES"
 
 export type TypeSales = {
     _id: string
@@ -14,7 +15,7 @@ export type TypeSales = {
         name: TypeCustomers['name']
     }
     items: Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'>[]
-    paymentType: 'cash' | 'installment' | 'free'
+    paymentType: keyof typeof PAYMENT_TYPES
     discountType: 'cash' | 'percentage' | 'none'
     paymentMethod: keyof typeof PAYMENT_METHODS | null
     signFile: string | null

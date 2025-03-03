@@ -17,6 +17,7 @@ import { useState } from "react";
 import { TypeSalesViewList } from "../../../types/Sales";
 import formatDate from "../../../functions/utils/formatDate";
 import formatToBrazilianReal from "../../../functions/utils/formatToBrazilianReal";
+import PAYMENT_TYPES from "../../../consts/PAYMENT_TYPES";
 
 export function ItemList({ data }: { data: TypeSalesViewList }) {
     const { db } = useFirebaseContext()
@@ -72,7 +73,7 @@ export function ItemList({ data }: { data: TypeSalesViewList }) {
                     Pagamento
                 </div>
                 <div className="text-sm text-gray-900 p-4 lg:p-0">
-                    {data.paymentType} ({data.paymentMethod})
+                    {PAYMENT_TYPES[data.paymentType].label} {data.paymentMethod ? `(${data.paymentMethod})` : ''}
                 </div>
             </div>
         </td>
