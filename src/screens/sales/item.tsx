@@ -220,7 +220,7 @@ const PageSales = () => {
                 id,
                 data: _data
             })
-        console.log(result)
+
         if (result.status) {
             setStatusCreated(true)
         }
