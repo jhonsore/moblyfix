@@ -9,21 +9,10 @@ export type TypeOs = {
     _storeId: string
     _saleId: string
     createdAt: Timestamp
-    number: string
     customer: {
         name: string
         _id: string
         cpfCnpj: string
-        email: string
-        whatsapp: string
-        phone: string
-        state: string
-        city: string
-        neighborhood: string
-        address: string
-        zipcode: string
-        number: string
-        complement: string
     }
     attachments: {
         file: string
@@ -49,41 +38,26 @@ export type TypeOs = {
         }
         description: string
     }[]
-    devices: {
-        device: string
-    }[]
     finishedAt: Timestamp
     status: TypeOfStatus
     substatus: TypeOfSubstatus
-    positionInCabinaet: string
+    positionInCabinet: string
     serialNumber: string
-    whatsapp: string
-    phone: string
-    phone2: string
-    phone3: string
+    numberOs: number
+
     product: string
     guarantee: boolean
     date: Timestamp
     accessories: string
     observation: string
-    customerReport: string
+
     signFile: string
-    name: string
-    email: string
-    cpfCnpj: string
-    state: string
-    city: string
-    neighborhood: string
-    address: string
-    zipcode: string
-    complement: string
-    devicePhotos: string[]
+
+    photos: { url: string, path: string }[]
     responsibleTechnician: {
         name: string
         _id: string
     }
-    completionReport: string// Relato de finalização de serviço
-    reasonForReopening: string// Motivo de reabertura de serviço
 }
 
 export type TypeOsViewList =
@@ -91,14 +65,12 @@ export type TypeOsViewList =
         _headquarterId: TypeOs['_headquarterId']
         _storeId: TypeOs['_storeId']
         _id: TypeOs['_id']
-        number: TypeOs['number']
         createdAt: TypeOs['createdAt']
-        devices: TypeOs['devices']
+        product: TypeOs['product']
         finishedAt: TypeOs['finishedAt']
         status: TypeOs['status']
         substatus: TypeOs['substatus']
         customer: TypeOs['customer']
+        numberOs: TypeOs['numberOs']
         query: { [id: string]: boolean }
-        
-
     }
