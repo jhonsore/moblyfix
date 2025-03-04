@@ -50,7 +50,7 @@ export type TypeOs = {
     date: Timestamp
     accessories: string
     observation: string
-
+    report: string
     signFile: string
 
     photos: { url: string, path: string }[]
