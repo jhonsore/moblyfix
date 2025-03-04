@@ -38,15 +38,12 @@ export type TypeOs = {
         }
         description: string
     }[]
-    devices: {
-        device: string
-    }[]
     finishedAt: Timestamp
     status: TypeOfStatus
     substatus: TypeOfSubstatus
     positionInCabinet: string
     serialNumber: string
-    numberOs: string
+    numberOs: number
 
     product: string
     guarantee: boolean
@@ -56,7 +53,7 @@ export type TypeOs = {
 
     signFile: string
 
-    devicePhotos: string[]
+    photos: { url: string, path: string }[]
     responsibleTechnician: {
         name: string
         _id: string
@@ -69,7 +66,7 @@ export type TypeOsViewList =
         _storeId: TypeOs['_storeId']
         _id: TypeOs['_id']
         createdAt: TypeOs['createdAt']
-        devices: TypeOs['devices']
+        product: TypeOs['product']
         finishedAt: TypeOs['finishedAt']
         status: TypeOs['status']
         substatus: TypeOs['substatus']

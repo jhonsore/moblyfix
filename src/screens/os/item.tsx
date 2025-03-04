@@ -9,20 +9,18 @@ import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useRef, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Checkbox } from "../../components/ui/checkbox"
 import { Link, useNavigate } from "react-router"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { z } from "zod"
+import { number, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ErrorPage } from "@/components/errorPage"
 import { LoadingPage } from "@/components/loadingPage"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { useStoresContext } from "@/providers/stores/useStoresContext"
 import { useParams } from "react-router"
-import { TypePageStatus } from "@/types/PageStatus"
 import { DB } from "@/functions/database"
 import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
@@ -31,6 +29,14 @@ import SearchSelect from "../../components/searchSelect"
 import { ptBR } from "date-fns/locale";
 import dateToServer from "../../functions/utils/dateToServer"
 import { toast } from "../../hooks/use-toast"
+import { ImageUploader } from "../../components/imageUploader"
+import { Label } from "../../components/ui/label"
+import resizeImage from "../../functions/utils/resizeImage"
+import uploadImageToFirebase from "../../functions/utils/uploadImageToFirebase"
+import deleteFileFromStorage from "../../functions/utils/deleteFileFromStorage"
+import { TypeOs } from "../../types/Os"
+import TYPE_STATUS from "../../consts/TYPE_STATUS"
+import TYPE_SUBSTATUS from "../../consts/TYPE_SUBSTATUS"
 
 const FormSchema = z.object({
   positionInCabinet: z.string().optional(),
@@ -40,6 +46,8 @@ const FormSchema = z.object({
     .string().min(1, {
       message: "Escolha o cliente",
     }),
+  signFile: z.string().optional(),
+  photos: z.any().optional(),
   accessories: z
     .string().optional(),
   product: z
@@ -52,9 +60,10 @@ const FormSchema = z.object({
     required_error: "A data de abertura é obrigatória",
   }),
 })
+const PATH_IMAGES = 'os/images'
 
 const PageNewOs = () => {
-  const { db } = useFirebaseContext()
+  const { db, storage } = useFirebaseContext()
   const { store } = useStoresContext()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -66,46 +75,49 @@ const PageNewOs = () => {
       serialNumber: '',
       date: new Date(),
       observation: '',
-      accessories: ''
+      accessories: '',
+      signFile: '',
+      photos: []
     },
   })
   const { id } = useParams()
   const [statusStore, setStatusStore] = useState(false)
   const [statusCreated, setStatusCreated] = useState(false)
-  const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
   const navigate = useNavigate()
   const [statusLoading, setStatusLoading] = useState(false)
+  const [signFile, setSignFile] = useState('')
+  const [imageUrl, setImageUrl] = useState<TypeOs['photos']>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (!id) return
-    const load = async () => {
-      const result = await DB.os.read({ db, id })
-      let status: typeof pageStatus = 'success'
-      if (!result.status) {
-        status = 'error'
-        return
-      }
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-      setPageStatus(status)
-      const { doc } = result
-      if (doc) {
-        form.setValue('customer', doc.customer.name)
-        form.setValue('product', doc.product)
-        form.setValue('guarantee', doc.guarantee)
+    if (file) {
+      try {
+        setStatusLoading(true)
+        const resizedImage = await resizeImage({ file, maxWidth: 1000, maxHeight: Infinity });
+        const url = await uploadImageToFirebase({ file: resizedImage, storage, path: PATH_IMAGES });
+        setImageUrl([...imageUrl, url]);
+      } catch (error) {
+        toast({
+          duration: 4000,
+          variant: "destructive",
+          title: "Erro",
+          description: "Ocorreu um erro ao realizar o upload da imagem"
+        })
       }
+      setStatusLoading(false)
     }
-    load()
-  }, [id])
+  };
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-
     if (!store) {
       setStatusStore(true)
       return
     }
 
     setStatusLoading(true)
-    const { accessories, date, guarantee, observation, positionInCabinet, product, serialNumber, customer } = values
+    const { accessories, date, signFile, guarantee, observation, positionInCabinet, product, serialNumber, customer } = values
 
     //carrega dados do cliente
     const resultCustomer = await DB.customers.read({ db, id: customer })
@@ -120,10 +132,13 @@ const PageNewOs = () => {
       })
       return
     }
+
+    const lastOs = await DB.os.list({ db, limit: 1, orderBy: [['createdAt', 'desc']] })
     const _customer = { name: resultCustomer.doc.name, _id: resultCustomer.doc._id, cpfCnpj: resultCustomer.doc.cpfCnpj }
+    const numberOs = lastOs && lastOs.status && lastOs.docs && Object.values(lastOs.docs).length > 0 ? Number(Object.values(lastOs.docs)[0].numberOs) + 1 : 1
 
     const result = await DB.os.create({
-      db, data: { accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
+      db, data: { substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
     })
 
     if (result.status) {
@@ -138,13 +153,17 @@ const PageNewOs = () => {
     if (id) navigate('/dashboard/ordem-servico/novo')
   }
 
-  if (pageStatus === 'loading') {
-    return <LoadingPage />
+  function removeImage(image: typeof imageUrl[0]) {
+    const newImages = imageUrl.filter(item => item.url !== image.url)
+    setImageUrl(newImages)
+    deleteFileFromStorage({ filePath: image.path, storage })
   }
 
-  if (pageStatus === 'error') {
-    return <ErrorPage />
+  function imageUploadHandler(url: string) {
+    form.setValue('signFile', url)
+    setSignFile(url)
   }
+
   if (!store || !db) return <LoadingPage />
 
   return <>
@@ -341,44 +360,35 @@ const PageNewOs = () => {
               )}
             />
           </div>
-
-
           <div className='flex items-center justify-between pt-7'>
             <FormLabel>Fotos do aparelho</FormLabel>
-            <div className=" ml-4 pb-4 md:mt-2 flex">
-              <Button type="button" variant={'primary'}><span className="material-symbols-outlined sm:mr-2">
+            <div className=" ml-4  md:mt-2 flex relative cursor-pointer">
+              <Button type="button" variant={'primary'}><span className="material-symbols-outlined sm:mr-2 cursor-pointer">
                 add_a_photo
               </span> <span className="hidden sm:block">Nova foto</span></Button>
+              <input className="absolute top-0 left-0 w-full h-full opacity-0  cursor-pointer " type="file" accept="image/*" onChange={handleImageUpload} ref={fileInputRef} />
             </div>
           </div>
           <div className='flex gap-4'>
-            <div className='relative bg-img-add w-32 h-32'>
-              <button>
-                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                  delete
-                </span>
-              </button>
-            </div>
-            <div className='relative bg-img-add w-32 h-32'>
-              <button>
-                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                  delete
-                </span>
-              </button>
-            </div>
-            <div className='relative bg-img-add w-32 h-32'>
-              <button>
-                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                  delete
-                </span>
-              </button>
-            </div>
+            {
+              imageUrl.map(item => <div key={item.url} className={`relative w-32 h-32`}>
+                <img src={item.url} alt="Imgem do aparelho" />
+                <button onClick={() => removeImage(item)}>
+                  <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                    delete
+                  </span>
+                </button>
+              </div>)
+            }
           </div>
-          <div className="space-y-2 pt-6">
-            <FormLabel>Assinatura do cliente</FormLabel>
-            <div>
-              <Button variant={"outlinePrimary"}>Adicionar assinatura</Button>
+          <div>
+            <div className=" w-full pt-20 mb-2">
+              <Label>Assinatura do cliente</Label>
+              <div className="mt-5">
+                {signFile && <img src={signFile} />}
+              </div>
             </div>
+            <ImageUploader aspect={6 / 3} maxWidth={300} buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="os/signatures" title="Upload de imagem" />
           </div>
           <div className='py-6 flex justify-end border-t-2 border-solid pt-4 mt-8 pb-8'>
             <Button type="submit" variant="primary">Salvar</Button>
