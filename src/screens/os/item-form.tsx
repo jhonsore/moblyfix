@@ -37,6 +37,7 @@ import TYPE_STATUS from "../../consts/TYPE_STATUS"
 import TYPE_SUBSTATUS from "../../consts/TYPE_SUBSTATUS"
 import { TypePageStatus } from "../../types/PageStatus"
 import { ErrorPage } from "../../components/errorPage"
+import { useOsContext } from "./provider/useOsContext"
 
 const FormSchema = z.object({
   positionInCabinet: z.string().optional(),
@@ -93,39 +94,27 @@ const PageOsForm = () => {
   const [signFile, setSignFile] = useState('')
   const [imageUrl, setImageUrl] = useState<TypeOs['photos']>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
   const [customerData, setCustomerData] = useState<TypeOs['customer']>()
+  const { os, pageStatus, setOs } = useOsContext()
 
   useEffect(() => {
     if (!id) return
-    const load = async () => {
-      const result = await DB.os.read({ db, id })
-      let status: typeof pageStatus = 'success'
-      if (!result.status) {
-        status = 'error'
-        return
-      }
-
-      setPageStatus(status)
-      const { doc } = result
-      if (doc) {
-        form.setValue('customer', doc.customer.name)
-        form.setValue('positionInCabinet', doc.positionInCabinet)
-        form.setValue('product', doc.product)
-        form.setValue('guarantee', doc.guarantee)
-        form.setValue('serialNumber', doc.serialNumber)
-        form.setValue('date', doc.date.toDate())
-        form.setValue('accessories', doc.accessories)
-        form.setValue('observation', doc.observation)
-        form.setValue('signFile', doc.signFile)
-        form.setValue('report', doc.report)
-        setImageUrl(doc.photos || [])
-        setSignFile(doc.signFile)
-        setCustomerData(doc.customer)
-      }
-    }
-    load()
-  }, [id])
+    if (pageStatus === 'error') return
+    if (!os) return
+    form.setValue('customer', os.customer.name)
+    form.setValue('positionInCabinet', os.positionInCabinet)
+    form.setValue('product', os.product)
+    form.setValue('guarantee', os.guarantee)
+    form.setValue('serialNumber', os.serialNumber)
+    form.setValue('date', os.date.toDate())
+    form.setValue('accessories', os.accessories)
+    form.setValue('observation', os.observation)
+    form.setValue('signFile', os.signFile)
+    form.setValue('report', os.report)
+    setImageUrl(os.photos || [])
+    setSignFile(os.signFile)
+    setCustomerData(os.customer)
+  }, [os])
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -187,8 +176,16 @@ const PageOsForm = () => {
         data: _data
       })
 
-    if (result.status) {
+    if (result.status && !id) {
       setStatusCreated(true)
+    }
+    if (result.status && id && setOs) {
+      setOs({ ...os, ..._data } as TypeOs)
+      toast({
+        duration: 4000,
+        title: "Item atualizado",
+        description: "A OS foi atualizada com sucesso"
+      })
     }
     setStatusLoading(false)
   }
