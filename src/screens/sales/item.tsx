@@ -243,7 +243,7 @@ const PageSales = () => {
             <HeaderPage title="Nova Venda" />
             <Form {...formItem}>
                 <form onSubmit={formItem.handleSubmit(onSubmitItem)} className="pt-4">
-                    <div className="flex gap-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
                         <div className="flex-1">
                             <FormField
                                 control={formItem.control}
@@ -275,7 +275,7 @@ const PageSales = () => {
                             />
                         </div>
                         <div>
-                            <Button type="submit" variant={'primary'} className="mt-8">Adicionar</Button>
+                            <Button type="submit" variant={'primary'} className="lg:mt-8">Adicionar</Button>
                         </div>
                     </div>
                 </form>
@@ -315,7 +315,7 @@ const PageSales = () => {
                             )}
                         />
                     </div>
-                    <div className="flex gap-8 pt-4">
+                    <div className="flex flex-col lg:flex-row gap-8 pt-4">
                         <div>
                             <FormField
                                 control={form.control}
@@ -384,28 +384,7 @@ const PageSales = () => {
                                     )}
                                 />
                             </div>}
-                            {paymentType === 'cash' && <div className="mt-8 max-w-48">
-                                <FormField
-                                    control={form.control}
-                                    name="paymentMethod"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Método de pagamento</FormLabel>
-                                            <Select onValueChange={field.onChange}>
-                                                <FormControl>
-                                                    <SelectTrigger className="w-[180px]">
-                                                        <SelectValue placeholder="Escolha" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    {Object.values(PAYMENT_METHODS).map(value => <SelectItem key={value.value} value={value.value}>{value.label}</SelectItem>)}
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>}
+
                         </div>
 
                         <div>
@@ -469,7 +448,28 @@ const PageSales = () => {
                             </div>}
                         </div>
                     </div>
-
+                    {paymentType === 'cash' && <div className="mt-8 max-w-48">
+                        <FormField
+                            control={form.control}
+                            name="paymentMethod"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Método de pagamento</FormLabel>
+                                    <Select onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Escolha" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {Object.values(PAYMENT_METHODS).map(value => <SelectItem key={value.value} value={value.value}>{value.label}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>}
 
 
                     <div className="pb-6 mt-8">
@@ -516,6 +516,7 @@ const PageSales = () => {
                                     <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
                                         {formatToBrazilianReal(item.installmentPrice.toString())}
                                     </td>
+
                                     <td>
                                         <span onClick={() => removeProduct(item)} className="material-symbols-outlined text-gray-400 hover:text-indigo-900 hidden lg:inline cursor-pointer">
                                             delete
@@ -563,7 +564,8 @@ const PageSales = () => {
                         </div>
                         <ImageUploader buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
                     </div>
-                    <div className="text-right py-10">
+                    <div className="text-right py-10 flex justify-end gap-4">
+                        {id && <Button variant={'destructive'}>Deletar</Button>}
                         <Button variant={"primary"} type="submit">Salvar</Button>
                     </div>
                 </form>
