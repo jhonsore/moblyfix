@@ -97,6 +97,10 @@ const FormSchema = z.object({
 
 })
 
+
+
+
+
 const DadosDoUsuario = () => {
     const { db } = useFirebaseContext()
     const { store } = useStoresContext()
@@ -280,25 +284,27 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>E-mail/Usuário</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui" {...field} />
+                                        <Input placeholder="Digite aqui" {...field} disabled={!!id} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Senha</FormLabel>
-                                    <FormControl>
-                                        <Input type="password" placeholder="Digite aqui" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {!id && (
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Senha</FormLabel>
+                                        <FormControl>
+                                            <Input type="password" placeholder="Digite aqui" {...field} disabled={!!id} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
                     </div>
                     <div className='grid grid-cols-3 gap-4 py-4'>
                         <FormField
