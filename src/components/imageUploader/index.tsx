@@ -16,8 +16,9 @@ import { removeTrailingSlash } from "../../functions/utils/removeTrailingSlash";
 import { slugify } from "../../functions/utils/slugify";
 import { getFileNameWithoutExtension } from "../../functions/utils/getFileNameWithoutExtension";
 import uuid from "../../functions/utils/uuid";
+import resizeImage from "../../functions/utils/resizeImage";
 
-export function ImageUploader({ title, subtitle, folder, onUploaded, buttonText }: { buttonText: string, onUploaded: (url: string) => void, folder: string, title: string, subtitle?: string }) {
+export function ImageUploader({ title, maxWidth, aspect, subtitle, folder, onUploaded, buttonText }: { maxWidth?: number, aspect?: number, buttonText: string, onUploaded: (url: string) => void, folder: string, title: string, subtitle?: string }) {
     const { storage } = useFirebaseContext()
     const [image, setImage] = useState<string | null>(null);
     const [croppedImage, setCroppedImage] = useState<File | null>(null);
@@ -53,9 +54,16 @@ export function ImageUploader({ title, subtitle, folder, onUploaded, buttonText 
             croppedAreaPixels.height
         );
 
-        canvas.toBlob((blob) => {
+
+        canvas.toBlob(async (blob) => {
             if (blob) {
-                setCroppedImage(new File([blob], "cropped-image.png", { type: "image/png" }));
+                let file = new File([blob], "cropped-image.png", { type: "image/png" })
+                if (maxWidth) {
+                    const resizedImage = await resizeImage({ file, maxWidth, maxHeight: Infinity });
+                    file = new File([resizedImage], "cropped-image.png", { type: "image/png" })
+                }
+
+                setCroppedImage(file);
             }
         }, "image/png");
     }, [image]);
@@ -114,7 +122,7 @@ export function ImageUploader({ title, subtitle, folder, onUploaded, buttonText 
                                 image={image}
                                 crop={crop}
                                 zoom={zoom}
-                                aspect={4 / 3}
+                                aspect={aspect || 1}
                                 onCropChange={setCrop}
                                 onZoomChange={setZoom}
                                 onCropComplete={onCropComplete}

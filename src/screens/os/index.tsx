@@ -51,7 +51,7 @@ const OrdensServicos = () => {
   useEffect(() => {
     if (!db) return
     const load = async () => {
-      const result = await DB.views.os.list({ db })
+      const result = await DB.views.os.list({ db, orderBy: [['createdAt', 'desc']] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -243,6 +243,12 @@ const OrdensServicos = () => {
               </th>
               <th
                 scope="col"
+                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Aparelho
+              </th>
+              <th
+                scope="col"
                 className="whitespace-nowrap px-2 py-4 text-left text-sm font-semibold text-gray-900"
               >
                 Início
@@ -259,12 +265,7 @@ const OrdensServicos = () => {
               >
                 Atraso
               </th>
-              <th
-                scope="col"
-                className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                Aparelho
-              </th>
+
               <th
                 scope="col"
                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"

@@ -16,12 +16,18 @@ import { useToast } from "@/hooks/use-toast"
 import { useState } from "react";
 import { TypeOsViewList } from "@/types/Os";
 import { Badge } from "@/components/ui/badge";
+import convertNumberOs from "../../../functions/os/convertOsNumber";
+import formatDate from "../../../functions/utils/formatDate";
+import TYPE_STATUS from "../../../consts/TYPE_STATUS";
+import TYPE_SUBSTATUS from "../../../consts/TYPE_SUBSTATUS";
+import getLabelByStatus from "../../../functions/os/getLabelByStatus";
+import isLate from "../../../functions/os/isLate";
 
 export function ItemList({ data }: { data: TypeOsViewList }) {
     const { db } = useFirebaseContext()
     const { toast } = useToast()
     const [statusRemoved, setStatusRemoved] = useState(false)
-    
+
 
     async function removeHandler() {
         const response = await DB.os.delete({ db, id: data._id })
@@ -45,24 +51,28 @@ export function ItemList({ data }: { data: TypeOsViewList }) {
         return
     }
 
-
+    const osLate = isLate(data.createdAt.toDate())
 
     return <tr key={data._id} className='border-b border-gray-200'>
         <td className="whitespace-nowrap py-4 pl-3 pr-3 text-sm text-gray-900 sm:pl-6">
-            {data.number}
+            {convertNumberOs(data.numberOs)}
         </td>
         <td className="whitespace-nowrap px-2 py-3 text-sm font-medium text-gray-900">
-            {data.number}
+            {data.customer.name}
         </td>
-        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data._id}</td>
-        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data._id}</td>
-        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data._id}</td>
-        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data._id}</td>
+        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{data.product}</td>
+        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{formatDate(data.createdAt.toDate())}</td>
+        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{(data.finishedAt && formatDate(data.finishedAt.toDate())) || '-'}</td>
+        <td className="whitespace-nowrap px-2 py-3 text-sm text-gray-900">{osLate.isLate ? <span className="text-red-500 font-bold">{osLate.dias} dia{osLate.dias > 1 ? 's' : ''}</span> : '-'}</td>
+
         <td>
-            <Badge variant="destructive">{data._id}</Badge>
+            <div className="max-w-36">
+                <Badge variant={getLabelByStatus(data.status)}>{TYPE_STATUS[data.status].label}</Badge>
+                <span className="block text-[8px] text-gray-500">{TYPE_SUBSTATUS[data.substatus].label}</span>
+            </div>
         </td>
         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-            <Link to={`/dashboard/os/${data._id}`}>
+            <Link to={`/dashboard/ordens-servicos/${data._id}`}>
                 <span className="text-gray-400 hover:text-indigo-900 mr-2">
                     <span className="material-symbols-outlined">
                         edit
