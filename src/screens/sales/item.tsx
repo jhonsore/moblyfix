@@ -30,6 +30,11 @@ import { currencyToNumber } from "../../functions/utils/currencyToNumber"
 import { ImageUploader } from "../../components/imageUploader"
 import { TypePageStatus } from "../../types/PageStatus"
 import DISCOUNT_TYPES from "../../consts/DISCOUNT_TYPES"
+import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { Link } from "react-router";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+
+
 
 const FormSchema = z.object({
     item: z
@@ -517,7 +522,7 @@ const PageSales = () => {
 
                     <div className="pb-6 mt-8">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b-4 border-gray-300">
+                            <thead className="bg-gray-50 hidden lg:table-header-group w-full">
                                 <tr className="align-top">
                                     <th
                                         scope="col"
@@ -535,35 +540,79 @@ const PageSales = () => {
                                         className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
                                         Valor à vista
                                     </th>
-                                    <th scope="col"
+                                    <th colSpan={2}
                                         className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
                                         Valor à prazo
                                     </th>
-                                    <th></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 {items.length === 0 && <tr>
                                     <td colSpan={4} className="text-center py-8">Nenhum item selecionado</td>
                                 </tr>}
-                                {items.map(item => <tr key={item._id} className='border-b border-gray-200'>
-                                    <td className="whitespace-nowrap pl-2 py-4 text-sm font-semibold text-gray-900">
-                                        {item.name}
+                                {items.map(item => <tr key={item._id} className='lg:border-b border-gray-200'>
+                                    <td className="whitespace-nowrap text-sm font-semibold text-gray-900 lg:px-2 lg:pl-6 lg:py-4 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
+                                        <div className="flex justify-between">
+                                            <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                                                Peças/Serviços
+                                            </div>
+                                            <div className="text-sm text-gray-900 p-4 lg:p-0">
+                                                {item.name}
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                                        {item.quantity}
+                                    <td className="whitespace-nowrap text-sm font-semibold text-gray-900 lg:px-2 lg:pl-6 lg:py-4 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
+                                        <div className="flex justify-between">
+                                            <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                                                Qtd
+                                            </div>
+                                            <div className="text-sm text-gray-900 p-4 lg:p-0">
+                                                {item.quantity}
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                                        {formatToBrazilianReal(item.cashPrice.toString())}
+                                    <td className="whitespace-nowrap text-sm font-semibold text-gray-900 lg:px-2 lg:pl-6 lg:py-4 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
+                                        <div className="flex justify-between">
+                                            <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                                                Valor à vista
+                                            </div>
+                                            <div className="text-sm text-gray-900 p-4 lg:p-0">
+                                                {formatToBrazilianReal(item.cashPrice.toString())}
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                                        {formatToBrazilianReal(item.installmentPrice.toString())}
+                                    <td className="whitespace-nowrap text-sm font-semibold text-gray-900 lg:px-2 lg:pl-6 lg:py-4 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
+                                        <div className="flex justify-between">
+                                            <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                                                Valor à prazo
+                                            </div>
+                                            <div className="text-sm text-gray-900 p-4 lg:p-0">
+                                                {formatToBrazilianReal(item.installmentPrice.toString())}
+                                            </div>
+                                        </div>
                                     </td>
-
-                                    <td>
-                                        <span onClick={() => removeProduct(item)} className="material-symbols-outlined text-gray-400 hover:text-indigo-900 hidden lg:inline cursor-pointer">
-                                            delete
-                                        </span>
+                                    <td className=" whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
+                                        
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer">
+                                                    delete
+                                                </span>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Você realmente quer remover esse item?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        Esta ação não pode ser desfeita. Ao clicar no botão "Remover" você apagará o item permanentemente.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                                    {/* <Button onClick={removeHandler} variant={'destructive'}>Remover</Button> */}
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </td>
                                 </tr>)}
                             </tbody>
