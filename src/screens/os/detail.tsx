@@ -141,7 +141,7 @@ const PageOsDetail = () => {
                             <Separator orientation="vertical" />
                         </div>
                         <div className="w-3/12">
-                            <Select onValueChange={responsavelTecnicoHandler} defaultValue={os.responsibleTechnician._id}>
+                            <Select onValueChange={responsavelTecnicoHandler} defaultValue={os?.responsibleTechnician?._id}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Selecione o responsável" />
                                 </SelectTrigger>
