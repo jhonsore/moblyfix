@@ -23,7 +23,7 @@ export const StoresProvider: FC<{ children?: React.ReactNode }> = ({ children })
     }
     load()
   }, [claims])
-  // todo: remover todos os usuários e criar novamente
+
   const value = { stores, store, setStore };
 
   return (
