@@ -178,6 +178,8 @@ const DadosDoUsuario = () => {
                 id,
                 data: { ..._values, type: values.type as keyof typeof TYPE_OF_USERS }
             })
+            console.log({ ..._values, type: values.type as keyof typeof TYPE_OF_USERS })
+
             setStatusCreated(true)
             setStatusLoading(false)
             return

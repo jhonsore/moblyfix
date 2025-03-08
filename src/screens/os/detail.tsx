@@ -14,19 +14,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { z } from "zod"
 import { Separator } from "@/components/ui/separator"
 
 import { Badge } from "../../components/ui/badge"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import OSDados from "./sections/dados"
 import OSAnexos from "./sections/anexos"
 import OSAcompanhamentos from "./sections/acompanhamentos"
 import OSRelatosTecnicos from "./sections/relatosTecnicos"
 import OSPecasServicos from "./sections/pecasServicos"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../../components/ui/form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "../../components/ui/label"
 import WhatsappButton from "../../components/screens/os/whatsappButton"
 import { useOsContext } from "./provider/useOsContext"
@@ -37,6 +33,11 @@ import formatDate from "../../functions/utils/formatDate"
 import getLabelByStatus from "../../functions/os/getLabelByStatus"
 import TYPE_STATUS from "../../consts/TYPE_STATUS"
 import TYPE_SUBSTATUS from "../../consts/TYPE_SUBSTATUS"
+import { DB } from "../../functions/database"
+import { useStoresContext } from "../../providers/stores/useStoresContext"
+import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
+import TYPE_OF_USERS from "../../consts/TYPE_USERS"
+import { TypeUsersViewList } from "../../types/Users"
 
 const tabs = [
     { name: 'Dados da OS', href: 'about', current: true, section: <OSDados /> },
@@ -50,28 +51,38 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-const FormSchema = z.object({
-    email: z
-        .string({
-            required_error: "Please select an email to display.",
-        })
-        .email(),
-})
-
 const PageOsDetail = () => {
-    const { os, pageStatus } = useOsContext()
-
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-    })
+    const { os, pageStatus, setOs } = useOsContext()
+    const { db } = useFirebaseContext()
+    const { store } = useStoresContext()
     const [currentSection, setCurrentSection] = useState(0)
+    const [technicalUsers, setTechnicalUsers] = useState<{ [id: string]: TypeUsersViewList }>({})
+
+    useEffect(() => {
+        async function load() {
+            if (store && db) {
+                const result = await DB.views.users.list({ db, wheres: [['_storeId', '==', store._id], ['type', '==', TYPE_OF_USERS.technical._id]] })
+                if (result.status && result.docs) {
+                    setTechnicalUsers(result.docs)
+                }
+            }
+        }
+        load()
+    }, [store, db])
 
     const openSectionHandler = (index: number) => {
         setCurrentSection(index)
     }
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-
+    function responsavelTecnicoHandler(id: string) {
+        if (!setOs || !id || !os) return
+        const responsibleTechnician = { name: technicalUsers[id].name, _id: id }
+        DB.os.update({
+            db,
+            id: os?._id,
+            data: { responsibleTechnician }
+        })
+        setOs({ ...os, responsibleTechnician })
     }
 
     if (pageStatus === 'loading') {
@@ -85,6 +96,9 @@ const PageOsDetail = () => {
     if (pageStatus === 'error') {
         return <ErrorPage />
     }
+
+    if (!store || !db) return <LoadingPage />
+
 
     return <>
         <HeaderPage title="OS - 123456">
@@ -127,32 +141,14 @@ const PageOsDetail = () => {
                             <Separator orientation="vertical" />
                         </div>
                         <div className="w-3/12">
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} >
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Técnico responsável:</FormLabel>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Selecione o técnico responsável" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                                        <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                                        <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-
-                                            </FormItem>
-                                        )}
-                                    />
-                                </form>
-                            </Form>
+                            <Select onValueChange={responsavelTecnicoHandler} defaultValue={os.responsibleTechnician._id}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Selecione o responsável" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {Object.values(technicalUsers) && Object.values(technicalUsers).map(item => <SelectItem key={item._id} value={item._id}>{item.name}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                 </div>

@@ -27,9 +27,9 @@ const Usuarios = () => {
 
 
   useEffect(() => {
-    // if (!db || !store || pageData.length > 0) return
+    if (!db || !store || pageData.length > 0) return
     const load = async () => {
-      const result = await DB.views.users.list({ db })//, wheres: [['_storeId', '==', store._id]]
+      const result = await DB.views.users.list({ db, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
