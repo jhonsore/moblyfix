@@ -141,7 +141,8 @@ const PageTermAndCondition = () => {
                             )}
                         />
                     </div>
-                    <div className='py-6 flex justify-end'>
+                    <div className='py-6 flex justify-end gap-4'>
+                        {id && <Button variant={'destructive'}>Deletar</Button>}
                         <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>
