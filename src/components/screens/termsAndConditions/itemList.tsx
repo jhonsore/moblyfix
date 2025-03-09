@@ -15,6 +15,7 @@ import { useFirebaseContext } from "../../../providers/firebase/useFirebaseConte
 import { DB } from "../../../functions/database";
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
     const { db } = useFirebaseContext()
@@ -52,15 +53,16 @@ export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
         </td>
         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium ">
             <Link to={`/dashboard/condicoes-de-servicos/${data._id}`}>
-                <span className="text-gray-400 hover:text-indigo-900 mr-2">
-                    <span className="material-symbols-outlined">
-                        edit
-                    </span>
+            < span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline" >
+                    edit
+                </span >
+                <span className="text-gray-400 hover:text-indigo-900 lg:mr-2 lg:hidden flex justify-end ">
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </span>
             </Link>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer">
+                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer hidden lg:inline">
                         delete
                     </span>
                 </AlertDialogTrigger>

@@ -75,7 +75,7 @@ export default function ItemList({ data }: { data: TypeUsersViewList }) {
             </Link>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer">
+                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer hidden lg:inline">
                         delete
                     </span>
                 </AlertDialogTrigger>
