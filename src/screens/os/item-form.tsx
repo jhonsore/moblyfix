@@ -66,7 +66,7 @@ const FormSchema = z.object({
     required_error: "A data de abertura é obrigatória",
   }),
 })
-const PATH_IMAGES = 'os/images'
+export const PATH_ATTACHMENTS_OS = 'os/images'
 
 const PageOsForm = () => {
   const { db, storage } = useFirebaseContext()
@@ -124,7 +124,7 @@ const PageOsForm = () => {
       try {
         setStatusLoading(true)
         const resizedImage = await resizeImage({ file, maxWidth: 1000, maxHeight: Infinity });
-        const url = await uploadImageToFirebase({ file: resizedImage, storage, path: PATH_IMAGES });
+        const url = await uploadImageToFirebase({ file: resizedImage, storage, path: PATH_ATTACHMENTS_OS });
         const _imageUrl = [...imageUrl, url]
         setImageUrl(_imageUrl);
         setImageUrl(_imageUrl)
@@ -220,9 +220,18 @@ const PageOsForm = () => {
   }
 
   function removeImage(image: typeof imageUrl[0]) {
+    if (!setOs || !os) return
     const newImages = imageUrl.filter(item => item.url !== image.url)
     setImageUrl(newImages)
     deleteFileFromStorage({ filePath: image.path, storage })
+    setOs({ ...os, photos: newImages })
+    if (id) {
+      DB.os.update({
+        db,
+        id,
+        data: { photos: newImages }
+      })
+    }
   }
 
   function signatureHandler({ url, path }: { url: string, path: string }) {
