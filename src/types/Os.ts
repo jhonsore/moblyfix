@@ -51,7 +51,7 @@ export type TypeOs = {
     accessories: string
     observation: string
     report: string
-    signFile: string
+    signFile: { url: string, path: string } | null
 
     photos: { url: string, path: string }[]
     responsibleTechnician: {
