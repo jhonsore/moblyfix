@@ -20,12 +20,14 @@ const LIMIT = 10
 const PageTermsandConditions = () => {
   const { db } = useFirebaseContext()
   const { store } = useStoresContext()
-  let [searchParams] = useSearchParams();
+
   const [termsAndConditions, setTermsAndConditions] = useState<TypeTermsAndConditionsViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
   const [loadMoreStatus, setLoadMoreStatus] = useState(true)
   const [statusLoading, setStatusLoading] = useState(false)
   const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+
+  let [searchParams] = useSearchParams();
   const removed = searchParams.get('deleted')
 
   useEffect(() => {
