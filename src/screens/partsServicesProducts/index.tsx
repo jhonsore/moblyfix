@@ -13,8 +13,7 @@ import { useStoresContext } from "../../providers/stores/useStoresContext"
 import { EmptData } from "../../components/emptyData"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 import { Loading } from "../../components/loading"
-
-import { ItemList } from "@/components/screens/partsServicesProducts/itemList"
+import { ItemList } from "../../components/screens/partsServicesProducts/itemList"
 
 const LIMIT = 10
 
@@ -109,12 +108,12 @@ const PagePartsServicesProducts = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            
+
             {pageData.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>}
       </div>
-      {pageData.length > LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
         <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
       </div>}
     </PageContent>

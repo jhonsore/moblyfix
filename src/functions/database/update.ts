@@ -5,7 +5,7 @@ import { TypeDbResponse } from "./TypeDbResponse"
 export const update = <TDoc extends DocumentData>(collection: CollectionsNames) => (
     async ({ id, data, db }: { db: Firestore, id: string, data: Partial<TDoc> }): Promise<TypeDbResponse<TDoc>> => {
         const ref = doc(db, collection, id)
-        console.log(collection, id)
+
         try {
             await updateDoc(ref, data as WithFieldValue<DocumentData>)
             return { status: true }

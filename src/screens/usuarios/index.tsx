@@ -1,7 +1,6 @@
 import { Link } from "react-router"
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "@/components/ui/button"
 import { DB } from "@/functions/database"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -12,17 +11,25 @@ import { ErrorPage } from "@/components/errorPage"
 import { TypeUsersViewList } from "@/types/Users"
 import { useStoresContext } from "../../providers/stores/useStoresContext"
 import ItemList from "../../components/screens/users/itemList"
+import { Loading } from "@/components/loading"
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+
+const LIMIT = 10
 
 const Usuarios = () => {
   const { db } = useFirebaseContext()
   const [pageData, setPageData] = useState<TypeUsersViewList[]>([])
   const [pageStatus, setPageStatus] = useState<TypePageStatus>('loading')
   const { store } = useStoresContext()
+  const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
+  const [loadMoreStatus, setLoadMoreStatus] = useState(true)
+  const [statusLoading, setStatusLoading] = useState(false)
+
 
   useEffect(() => {
-    // if (!db || !store || pageData.length > 0) return
+    if (!db || !store || pageData.length > 0) return
     const load = async () => {
-      const result = await DB.views.users.list({ db })//, wheres: [['_storeId', '==', store._id]]
+      const result = await DB.views.users.list({ db, wheres: [['_storeId', '==', store._id]] })
       let status: typeof pageStatus = 'success'
       if (!result.status) {
         status = 'error'
@@ -38,6 +45,20 @@ const Usuarios = () => {
     load()
   }, [])
 
+  async function loadMoreHandler() {
+    if (!db || !store) return
+
+    const result = await DB.views.users.list({ db, limit: 2, lastDocument: lastDocumentSnapshot, wheres: [['_storeId', '==', store._id]] })
+    setStatusLoading(true)
+    if (result.docs && Object.keys(result.docs).length) {
+      setPageData([...pageData, ...Object.values(result.docs)])
+      setLastDocumentSnapshot(result.lastDocument);
+    } else {
+      setLoadMoreStatus(false)
+    }
+    setStatusLoading(false)
+  }
+
   if (pageStatus === 'loading') {
     return <LoadingPage />
   }
@@ -46,6 +67,7 @@ const Usuarios = () => {
     return <ErrorPage />
   }
   return <>
+    {statusLoading && <Loading />}
     <HeaderPage title="Usuários">
       <Link to={'/dashboard/usuarios/novo'}>
         <Button variant={"primary"}>Novo item</Button>
@@ -83,7 +105,9 @@ const Usuarios = () => {
         </table>
       </div>
 
-
+      {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
+        <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
+      </div>}
     </PageContent>
   </>
 }

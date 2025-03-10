@@ -20,9 +20,6 @@ export type TypeStores = {
     zipcode: string
     number: string
     complement: string
-
-    lastOsNumber: number
-    lastSaleNumber: number
 }
 
 

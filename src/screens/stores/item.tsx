@@ -184,7 +184,7 @@ const DadosDaLoja = () => {
         setCepStatus(true)
         const response = await getCep(cep)
         setCepStatus(false)
-        console.log(response)
+
         if (response) {
             form.setValue('state', response?.state || '')
             form.setValue('city', response?.city || '')
@@ -417,7 +417,8 @@ const DadosDaLoja = () => {
                             )}
                         />
                     </div>
-                    <div className='py-6 flex justify-end'>
+                    <div className='py-6 flex justify-end gap-4'>
+                        {id && <Button variant={'destructive'}>Deletar</Button>}
                         <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>

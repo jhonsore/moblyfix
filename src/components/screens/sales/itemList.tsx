@@ -14,23 +14,24 @@ import { useFirebaseContext } from "../../../providers/firebase/useFirebaseConte
 import { DB } from "../../../functions/database";
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react";
-import formatPhone from "@/functions/utils/formatPhone";
-import formatCpfCnpj from "@/functions/utils/formatCpfCnpj";
-import { TypeCustomersViewList } from "@/types/Customers";
+import { TypeSalesViewList } from "../../../types/Sales";
+import formatDate from "../../../functions/utils/formatDate";
+import formatToBrazilianReal from "../../../functions/utils/formatToBrazilianReal";
+import PAYMENT_TYPES from "../../../consts/PAYMENT_TYPES";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
-export function ItemList({ data }: { data: TypeCustomersViewList }) {
+export function ItemList({ data }: { data: TypeSalesViewList }) {
     const { db } = useFirebaseContext()
     const { toast } = useToast()
     const [statusRemoved, setStatusRemoved] = useState(false)
 
     async function removeHandler() {
-        const response = await DB.customers.delete({ db, id: data._id })
+        const response = await DB.sales.delete({ db, id: data._id })
 
         if (!response.status) {
             toast({
                 variant: "destructive",
-                title: "Remoção de Clientes",
+                title: "Remoção de venda",
                 description: "Ocorreu um erro ao remover o item, tente novamente!"
             })
             return
@@ -46,53 +47,54 @@ export function ItemList({ data }: { data: TypeCustomersViewList }) {
         return
     }
 
-    return <tr key={data._id} className='lg:border-b border-gray-200'>
-        <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
+    return <tr key={data._id} className='lg:border-b border-gray-200 '>
+        <td className="whitespace-nowrap lg:px-2 lg:pl-6 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
             <div className="flex justify-between">
-                <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                    Cliente
+                <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                    Nome
                 </div>
                 <div className="text-sm text-gray-900 p-4 lg:p-0">
-                    {data.name}
+                    {data.customer.name}
                 </div>
             </div>
         </td>
         <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
             <div className="flex justify-between">
-                <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                    Email
+                <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                    Valor
                 </div>
                 <div className="text-sm text-gray-900 p-4 lg:p-0">
-                    {data.email}
+                    {formatToBrazilianReal(data.total)}
                 </div>
             </div>
         </td>
         <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b border-gray-200 lg:border-none">
             <div className="flex justify-between">
-                <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                    Cpf
+                <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                    Pagamento
                 </div>
                 <div className="text-sm text-gray-900 p-4 lg:p-0">
-                    {formatCpfCnpj(data?.cpfCnpj || '-')}
+                    {PAYMENT_TYPES[data.paymentType].label} {data.paymentMethod ? `(${data.paymentMethod})` : ''}
                 </div>
             </div>
         </td>
-        <td colSpan={2} className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
+        <td className="whitespace-nowrap lg:px-2 lg:py-4 text-sm text-gray-900 block lg:table-cell p-0 border-b-4 border-gray-200 lg:border-none">
             <div className="flex justify-between">
-                <div className="lg:hidden w-2/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
-                    Whatsapp
+                <div className="lg:hidden w-3/5 bg-gray-50 p-4 lg:p-0  text-left text-sm font-semibold text-gray-900 ">
+                    Data
                 </div>
                 <div className="text-sm text-gray-900 p-4 lg:p-0">
-                    {formatPhone(data?.whatsapp || '-')}
+                    {formatDate(data.createdAt.toDate())}
                 </div>
             </div>
         </td>
-        <td className="whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
-            <Link to={`/dashboard/clientes/${data._id}`}>
+
+        <td className=" whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
+            <Link to={`/dashboard/vendas/${data._id}`}>
                 <span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline">
                     edit
                 </span>
-                <span className="text-gray-400 hover:text-indigo-900 lg:mr-2 lg:hidden flex justify-center ">
+                <span className="text-gray-400 hover:text-indigo-900 lg:hidden flex justify-center">
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </span>
             </Link>
@@ -117,6 +119,5 @@ export function ItemList({ data }: { data: TypeCustomersViewList }) {
             </AlertDialog>
         </td>
     </tr>
-
 
 }

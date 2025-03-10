@@ -1,7 +1,8 @@
 const TYPE_STATUS = {
-    inService: 'inService',
-    canceled: 'canceled',
-    finished: 'finished'
+    created: { value: 'created', label: 'OS criada' },
+    inService: { value: 'inService', label: 'Em atendimento' },
+    canceled: { value: 'canceled', label: 'Cancelado' },
+    finished: { value: 'finished', label: 'Finalizado' }
 }
 
 export type TypeOfStatus = keyof typeof TYPE_STATUS
