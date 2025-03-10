@@ -35,6 +35,7 @@ export type TypeOs = {
         createdAt: Timestamp
         createdBy: {
             name: string
+            _id: string
         }
         description: string
     }[]
