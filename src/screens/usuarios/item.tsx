@@ -35,6 +35,17 @@ import { getCep } from "../../functions/cep"
 import formatCep from "../../functions/utils/formatCep"
 import { Users } from "../../functions/users"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
+import { useToast } from "@/hooks/use-toast"
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 const FormSchema = z.object({
@@ -97,9 +108,15 @@ const FormSchema = z.object({
 
 })
 
+
+
+
+
 const DadosDoUsuario = () => {
     const { db } = useFirebaseContext()
     const { store } = useStoresContext()
+    const { toast } = useToast()
+    const [statusDeleting, setStatusDeleting] = useState(false)
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -178,6 +195,8 @@ const DadosDoUsuario = () => {
                 id,
                 data: { ..._values, type: values.type as keyof typeof TYPE_OF_USERS }
             })
+            console.log({ ..._values, type: values.type as keyof typeof TYPE_OF_USERS })
+
             setStatusCreated(true)
             setStatusLoading(false)
             return
@@ -215,6 +234,28 @@ const DadosDoUsuario = () => {
             form.setValue('neighborhood', response?.neighborhood || '')
             form.setValue('address', response?.street || '')
         }
+    }
+
+    async function removeHandler() {
+        if (!id) return
+        const response = await DB.users.delete({ db, id: id })
+
+        if (!response.status) {
+            toast({
+                variant: "destructive",
+                title: "Remoção de peças,serviços ou produtos",
+                description: "Ocorreu um erro ao remover o item, tente novamente!"
+            })
+            return
+        }
+        toast({
+            description: "Item removido com sucesso",
+        })
+        setStatusDeleting(true)
+        setTimeout(() => {
+            navigate('/dashboard/usuarios')
+        }, 2000)
+
     }
 
     if (pageStatus === 'loading') {
@@ -280,25 +321,27 @@ const DadosDoUsuario = () => {
                                 <FormItem>
                                     <FormLabel>E-mail/Usuário</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui" {...field} />
+                                        <Input placeholder="Digite aqui" {...field} disabled={!!id} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Senha</FormLabel>
-                                    <FormControl>
-                                        <Input type="password" placeholder="Digite aqui" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {!id && (
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Senha</FormLabel>
+                                        <FormControl>
+                                            <Input type="password" placeholder="Digite aqui" {...field} disabled={!!id} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
                     </div>
                     <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 py-4'>
                         <FormField
@@ -480,7 +523,30 @@ const DadosDoUsuario = () => {
                         />
                     </div>
                     <div className='py-6 flex justify-end gap-4'>
-                        {id && <Button variant={'destructive'}>Deletar</Button>}
+                        {
+                            id &&
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant={'destructive'}>Deletar</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Você realmente quer remover esse item?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Esta ação não pode ser desfeita. Ao clicar no botão "Remover" você apagará o item permanentemente.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                        <Button disabled={statusDeleting} onClick={removeHandler} variant={'destructive'}>
+                                            {!statusDeleting && <span>Remover</span>}
+                                            {statusDeleting && <span><svg className="size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>}
+                                        </Button>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        }
+
                         <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>

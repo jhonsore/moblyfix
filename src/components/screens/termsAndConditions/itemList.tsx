@@ -15,15 +15,18 @@ import { useFirebaseContext } from "../../../providers/firebase/useFirebaseConte
 import { DB } from "../../../functions/database";
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
     const { db } = useFirebaseContext()
     const { toast } = useToast()
     const [statusRemoved, setStatusRemoved] = useState(false)
+    const [statusDeleting, setStatusDeleting] = useState(false)
 
     async function removeHandler() {
+        setStatusDeleting(true)
         const response = await DB.termsAndConditions.delete({ db, id: data._id })
-
+        setStatusDeleting(false)
         if (!response.status) {
             toast({
                 variant: "destructive",
@@ -43,21 +46,23 @@ export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
         return
     }
 
+
     return <tr key={data._id} className='border-b border-gray-200'>
         <td className="whitespace-nowrap py-4 pl-2 pr-2 text-sm text-gray-900 ">
             {data.title}
         </td>
         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium ">
             <Link to={`/dashboard/condicoes-de-servicos/${data._id}`}>
-                <span className="text-gray-400 hover:text-indigo-900 mr-2">
-                    <span className="material-symbols-outlined">
-                        edit
-                    </span>
+            < span className="material-symbols-outlined text-gray-400 hover:text-indigo-900 mr-2 hidden lg:inline" >
+                    edit
+                </span >
+                <span className="text-gray-400 hover:text-indigo-900 lg:mr-2 lg:hidden flex justify-end ">
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </span>
             </Link>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer">
+                    <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer hidden lg:inline">
                         delete
                     </span>
                 </AlertDialogTrigger>
@@ -69,8 +74,11 @@ export function ItemList({ data }: { data: TypeTermsAndConditionsViewList }) {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <Button onClick={removeHandler} variant={'destructive'}>Remover</Button>
+                        <AlertDialogCancel disabled={statusDeleting}>Cancelar</AlertDialogCancel>
+                        <Button disabled={statusDeleting} onClick={removeHandler} variant={'destructive'}>
+                            {!statusDeleting && <span>Remover</span>}
+                            {statusDeleting && <span><svg className="size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>}
+                        </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
