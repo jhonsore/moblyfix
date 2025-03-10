@@ -127,9 +127,7 @@ const PageTermAndCondition = () => {
             description: "Item removido com sucesso",
         })
         setStatusDeleting(true)
-        setTimeout(() => {
-            navigate('/dashboard/condicoes-de-servicos')
-        }, 2000)
+        navigate(`/dashboard/condicoes-de-servicos/?deleted=${id}`)
 
     }
 
