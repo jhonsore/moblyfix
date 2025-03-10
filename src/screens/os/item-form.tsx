@@ -35,9 +35,10 @@ import deleteFileFromStorage from "../../functions/utils/deleteFileFromStorage"
 import { TypeOs } from "../../types/Os"
 import TYPE_STATUS from "../../consts/TYPE_STATUS"
 import TYPE_SUBSTATUS from "../../consts/TYPE_SUBSTATUS"
-import { TypePageStatus } from "../../types/PageStatus"
 import { ErrorPage } from "../../components/errorPage"
 import { useOsContext } from "./provider/useOsContext"
+import SignUploader from "../../components/signUploader"
+import MandatoryLabel from "../../components/ui/mandatoryLabel"
 
 const FormSchema = z.object({
   positionInCabinet: z.string().optional(),
@@ -65,7 +66,7 @@ const FormSchema = z.object({
     required_error: "A data de abertura é obrigatória",
   }),
 })
-const PATH_IMAGES = 'os/images'
+export const PATH_ATTACHMENTS_OS = 'os/images'
 
 const PageOsForm = () => {
   const { db, storage } = useFirebaseContext()
@@ -91,7 +92,7 @@ const PageOsForm = () => {
   const [statusCreated, setStatusCreated] = useState(false)
   const navigate = useNavigate()
   const [statusLoading, setStatusLoading] = useState(false)
-  const [signFile, setSignFile] = useState('')
+  const [signFile, setSignFile] = useState<{ url: string, path: string } | null>()
   const [imageUrl, setImageUrl] = useState<TypeOs['photos']>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [customerData, setCustomerData] = useState<TypeOs['customer']>()
@@ -109,10 +110,10 @@ const PageOsForm = () => {
     form.setValue('date', os.date.toDate())
     form.setValue('accessories', os.accessories)
     form.setValue('observation', os.observation)
-    form.setValue('signFile', os.signFile)
+    form.setValue('signFile', os?.signFile?.url)
     form.setValue('report', os.report)
     setImageUrl(os.photos || [])
-    setSignFile(os.signFile)
+    setSignFile(os?.signFile)
     setCustomerData(os.customer)
   }, [os])
 
@@ -123,8 +124,19 @@ const PageOsForm = () => {
       try {
         setStatusLoading(true)
         const resizedImage = await resizeImage({ file, maxWidth: 1000, maxHeight: Infinity });
-        const url = await uploadImageToFirebase({ file: resizedImage, storage, path: PATH_IMAGES });
-        setImageUrl([...imageUrl, url]);
+        const url = await uploadImageToFirebase({ file: resizedImage, storage, path: PATH_ATTACHMENTS_OS });
+        const _imageUrl = [...imageUrl, url]
+        setImageUrl(_imageUrl);
+        setImageUrl(_imageUrl)
+
+        if (id) {
+          DB.os.update({
+            db,
+            id,
+            data: { photos: _imageUrl }
+          })
+        }
+
       } catch (error) {
         toast({
           duration: 4000,
@@ -144,7 +156,7 @@ const PageOsForm = () => {
     }
 
     setStatusLoading(true)
-    const { accessories, date, report, signFile, guarantee, observation, positionInCabinet, product, serialNumber, customer } = values
+    const { accessories, date, report, guarantee, observation, positionInCabinet, product, serialNumber, customer } = values
 
     //carrega dados do cliente
     const resultCustomer = await DB.customers.read({ db, id: (id && customerData) ? customerData._id : customer })
@@ -159,11 +171,11 @@ const PageOsForm = () => {
       })
       return
     }
-
+    const _signFile = signFile || null
     const lastOs = await DB.os.list({ db, limit: 1, orderBy: [['createdAt', 'desc']] })
     const _customer = { name: resultCustomer.doc.name, _id: resultCustomer.doc._id, cpfCnpj: resultCustomer.doc.cpfCnpj }
     const numberOs = lastOs && lastOs.status && lastOs.docs && Object.values(lastOs.docs).length > 0 ? Number(Object.values(lastOs.docs)[0].numberOs) + 1 : 1
-    const _data = { report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
+    const _data = { report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile: _signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
 
     const result = !id ?
       await DB.os.create({
@@ -176,8 +188,19 @@ const PageOsForm = () => {
         data: _data
       })
 
-    if (result.status && !id) {
+    if (!result.status) {
+      toast({
+        duration: 4000,
+        variant: "destructive",
+        title: "Erro",
+        description: "Ocorreu um erro ao salvar a OS"
+      })
+
+    }
+
+    if (result.status && !id && result.doc) {
       setStatusCreated(true)
+      navigate(`/dashboard/ordens-servicos/${result.id}`)
     }
     if (result.status && id && setOs) {
       setOs({ ...os, ..._data } as TypeOs)
@@ -197,14 +220,31 @@ const PageOsForm = () => {
   }
 
   function removeImage(image: typeof imageUrl[0]) {
+    if (!setOs || !os) return
     const newImages = imageUrl.filter(item => item.url !== image.url)
     setImageUrl(newImages)
     deleteFileFromStorage({ filePath: image.path, storage })
+    setOs({ ...os, photos: newImages })
+    if (id) {
+      DB.os.update({
+        db,
+        id,
+        data: { photos: newImages }
+      })
+    }
   }
 
-  function imageUploadHandler(url: string) {
+  function signatureHandler({ url, path }: { url: string, path: string }) {
     form.setValue('signFile', url)
-    setSignFile(url)
+    setSignFile({ url, path })
+
+    if (id) {
+      DB.os.update({
+        db,
+        id,
+        data: { signFile: { url, path } }
+      })
+    }
   }
 
 
@@ -233,7 +273,7 @@ const PageOsForm = () => {
               name="customer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cliente</FormLabel>
+                  <FormLabel>Cliente <MandatoryLabel /></FormLabel>
                   <FormControl>
                     <div>
                       {!id && <SearchSelect onChange={e => {
@@ -271,7 +311,7 @@ const PageOsForm = () => {
               name="product"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Produto</FormLabel>
+                  <FormLabel>Produto <MandatoryLabel /></FormLabel>
                   <FormControl>
                     <Input placeholder="Digite aqui" {...field} />
                   </FormControl>
@@ -344,7 +384,7 @@ const PageOsForm = () => {
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Data de abertura</FormLabel>
+                  <FormLabel>Data de abertura <MandatoryLabel /></FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -402,7 +442,7 @@ const PageOsForm = () => {
             name="report"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Relato do problema</FormLabel>
+                <FormLabel>Relato do problema <MandatoryLabel /></FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder=""
@@ -460,10 +500,10 @@ const PageOsForm = () => {
           <div className=" w-full pt-20 mb-2">
             <Label>Assinatura do cliente</Label>
             <div className="mt-5">
-              {signFile && <img src={signFile} />}
+              {signFile && <img className="max-w-80" src={signFile.url} />}
             </div>
           </div>
-          <ImageUploader aspect={6 / 3} maxWidth={300} buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="os/signatures" title="Upload de imagem" />
+          <SignUploader path='os/signatures' onCreate={signatureHandler} />
         </div>
         <div className='py-6 flex justify-end border-t-2 border-solid pt-4 mt-8 pb-8'>
           <Button type="submit" variant="primary">Salvar</Button>
