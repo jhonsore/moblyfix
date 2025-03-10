@@ -13,7 +13,6 @@ import SearchSelect from "../../components/searchSelect"
 import { DB } from "../../functions/database"
 import { LoadingPage } from "../../components/loadingPage"
 import { useEffect, useState } from "react"
-import { toast } from "../../hooks/use-toast"
 import { Input } from "../../components/ui/input"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -30,9 +29,21 @@ import { currencyToNumber } from "../../functions/utils/currencyToNumber"
 import { ImageUploader } from "../../components/imageUploader"
 import { TypePageStatus } from "../../types/PageStatus"
 import DISCOUNT_TYPES from "../../consts/DISCOUNT_TYPES"
+import { useToast } from "@/hooks/use-toast"
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import { Link } from "react-router";
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 
 
@@ -114,6 +125,8 @@ const PageSales = () => {
     const [total, setTotal] = useState(0)
     const [signFile, setSignFile] = useState('')
     const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
+    const { toast } = useToast()
+    const [statusDeleting, setStatusDeleting] = useState(false)
 
     useEffect(() => {
         if (!id) return
@@ -270,6 +283,28 @@ const PageSales = () => {
     function imageUploadHandler(url: string) {
         form.setValue('signFile', url)
         setSignFile(url)
+    }
+
+    async function removeHandler() {
+        if (!id) return
+        const response = await DB.sales.delete({ db, id: id })
+
+        if (!response.status) {
+            toast({
+                variant: "destructive",
+                title: "Remoção de peças,serviços ou produtos",
+                description: "Ocorreu um erro ao remover o item, tente novamente!"
+            })
+            return
+        }
+        toast({
+            description: "Item removido com sucesso",
+        })
+        setStatusDeleting(true)
+        setTimeout(() => {
+            navigate('/dashboard/vendas')
+        }, 2000)
+
     }
 
     if (!store || !db) return <LoadingPage />
@@ -593,7 +628,7 @@ const PageSales = () => {
                                         </div>
                                     </td>
                                     <td className=" whitespace-nowrap pl-3 text-center lg:text-right text-sm font-medium sm:pr-6">
-                                        
+
                                         <AlertDialog>
                                             <AlertDialogTrigger asChild>
                                                 <span className="material-symbols-outlined text-gray-400 hover:text-red-500 cursor-pointer">
@@ -656,9 +691,32 @@ const PageSales = () => {
                         </div>
                         <ImageUploader aspect={6 / 3} buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
                     </div>
-                    <div className="text-right py-10 flex justify-end gap-4">
-                        {id && <Button variant={'destructive'}>Deletar</Button>}
-                        <Button variant={"primary"} type="submit">Salvar</Button>
+                    <div className='py-6 flex justify-end gap-4'>
+                        {
+                            id &&
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant={'destructive'}>Deletar</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Você realmente quer remover esse item?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Esta ação não pode ser desfeita. Ao clicar no botão "Remover" você apagará o item permanentemente.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                        <Button disabled={statusDeleting} onClick={removeHandler} variant={'destructive'}>
+                                            {!statusDeleting && <span>Remover</span>}
+                                            {statusDeleting && <span><svg className="size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>}
+                                        </Button>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        }
+
+                        <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>
             </Form>
