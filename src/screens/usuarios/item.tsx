@@ -252,9 +252,8 @@ const DadosDoUsuario = () => {
             description: "Item removido com sucesso",
         })
         setStatusDeleting(true)
-        setTimeout(() => {
-            navigate('/dashboard/usuarios')
-        }, 2000)
+        navigate(`/dashboard/usuarios/?deleted=${id}`)
+        
 
     }
 

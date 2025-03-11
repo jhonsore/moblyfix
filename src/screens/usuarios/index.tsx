@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "@/components/ui/button"
@@ -24,6 +24,8 @@ const Usuarios = () => {
   const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
   const [loadMoreStatus, setLoadMoreStatus] = useState(true)
   const [statusLoading, setStatusLoading] = useState(false)
+  let [searchParams] = useSearchParams();
+  const removed = searchParams.get('deleted')
 
 
   useEffect(() => {
@@ -100,7 +102,7 @@ const Usuarios = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {pageData.map((data) => <ItemList key={data._id} data={data} />)}
+            {pageData.filter(item => removed ? item._id !== removed : true).map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>
       </div>

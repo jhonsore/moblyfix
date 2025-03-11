@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
 import { LoadingPage } from "@/components/loadingPage"
 import { ErrorPage } from "@/components/errorPage"
 import { useEffect, useState } from "react"
@@ -47,6 +47,8 @@ const Clientes = () => {
   const [loadMoreStatus, setLoadMoreStatus] = useState(true)
   const [statusLoading, setStatusLoading] = useState(false)
   const { store } = useStoresContext()
+  let [searchParams] = useSearchParams();
+  const removed = searchParams.get('deleted')
 
   useEffect(() => {
     if (!db || !store || pageData.length > 0) return
@@ -171,11 +173,11 @@ const Clientes = () => {
               >
                 Whatsapp
               </th>
-              
+
             </tr>
           </thead>
           <tbody className=" bg-white">
-            {pageData.map((data) => <ItemList key={data._id} data={data} />)}
+            {pageData.filter(item => removed ? item._id !== removed : true).map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>
       </div>
