@@ -20,8 +20,8 @@ export type TypeStores = {
     zipcode: string
     number: string
     complement: string
+    logo: { url: string, path: string } | null
 }
-
 
 export type TypeStoresViewList = {
     _id: TypeStores['_id']

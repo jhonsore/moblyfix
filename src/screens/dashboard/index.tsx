@@ -9,17 +9,17 @@ import { useStoresContext } from "../../providers/stores/useStoresContext";
 const PageDashboard = () => {
     const { db } = useFirebaseContext()
     const { store } = useStoresContext()
-    const sendWhatsApp = async () => {
-        if (!store) {
-            return
-        }
-        try {
-            const response = await DB.os.create({ data: { _headquarterId: store._headquarterId, _storeId: store._id, devices: [{ device: 'iphone' }] }, db })
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const sendWhatsApp = async () => {
+    //     if (!store) {
+    //         return
+    //     }
+    //     try {
+    //         const response = await DB.os.create({ data: { _headquarterId: store._headquarterId, _storeId: store._id, devices: [{ device: 'iphone' }] }, db })
+    //         console.log(response)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
     return <>
         <HeaderPage title="Dashboard" />
         <PageContent>

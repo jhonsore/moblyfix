@@ -42,6 +42,12 @@ import {
 } from "@/components/ui/alert-dialog"
 
 
+import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { Link } from "react-router";
+import { Sign } from "crypto"
+import SignUploader from "../../components/signUploader"
+
+
 
 const FormSchema = z.object({
     item: z
@@ -119,7 +125,7 @@ const PageSales = () => {
     const [statusCreated, setStatusCreated] = useState(false)
     const [customer, setCustomer] = useState<{ value?: string, label?: string }>()
     const [total, setTotal] = useState(0)
-    const [signFile, setSignFile] = useState('')
+    const [signFile, setSignFile] = useState<{ url: string, path: string } | null>()
     const [pageStatus, setPageStatus] = useState<TypePageStatus>(id ? 'loading' : 'success')
     const { toast } = useToast()
     const [statusDeleting, setStatusDeleting] = useState(false)
@@ -143,11 +149,11 @@ const PageSales = () => {
                 form.setValue("discount", doc.discountType === 'cash' ? formatCurrency(formatToBrazilianReal(_discount)) : formatNumber(_discount))
                 form.setValue('observation', doc.observation)
                 form.setValue('paymentMethod', doc.paymentMethod as keyof typeof PAYMENT_METHODS || '')
-                form.setValue('signFile', doc.signFile || undefined)
+                form.setValue('signFile', doc.signFile?.url || undefined)
                 form.setValue('customer', doc.customer._id)
                 form.setValue('product', doc._id)// colocamos o id da venda apenas para ter algum valor no porducto e permitir que a venda seja atualizada
                 setItems(doc.items)
-                setSignFile(doc.signFile || '')
+                setSignFile(doc.signFile)
                 setCustomer({ label: doc.customer.name, value: doc.customer._id })
                 setdiscountType(doc.discountType || '')
                 getTotal({ products: doc.items, discount: doc?.discount, discountType: doc.discountType || '' })
@@ -217,7 +223,7 @@ const PageSales = () => {
             'paymentType': data.paymentType as TypeSales['paymentType'],
             'discountType': data.discountType as TypeSales['discountType'],
             'paymentMethod': data.paymentMethod as TypeSales['paymentMethod'] || null,
-            'signFile': data.signFile || null,
+            'signFile': signFile || null,
             'observation': data.observation || '',
             items,
             'installments': data.installments ? parseInt(data.installments) : null,
@@ -259,11 +265,6 @@ const PageSales = () => {
         setTotal(sumTemp)
     }
 
-    function removeProduct(item: typeof items[0]) {
-        const _items = items.filter(product => product._id !== item._id)
-        setItems(_items)
-        form.setValue('product', '')
-    }
 
     const onCreateHandler = () => {
         setStatusCreated(false)
@@ -276,9 +277,17 @@ const PageSales = () => {
         getTotal({ products: items, discountType, discount: discountType === 'cash' ? currencyToNumber(formatCurrency(e.target.value)) : +formatNumber(e.target.value) })
     }
 
-    function imageUploadHandler(url: string) {
+    function imageUploadHandler({ url, path }: { url: string, path: string }) {
         form.setValue('signFile', url)
-        setSignFile(url)
+        setSignFile({ url, path })
+
+        if (id) {
+            DB.sales.update({
+                db,
+                id,
+                data: { signFile: { url, path } }
+            })
+        }
     }
 
     async function removeHandler() {
@@ -298,7 +307,7 @@ const PageSales = () => {
         })
         setStatusDeleting(true)
         navigate(`/dashboard/vendas/?deleted=${id}`)
-        
+
 
     }
 
@@ -636,10 +645,10 @@ const PageSales = () => {
                         <div className=" w-full pt-20 mb-2">
                             <Label>Assinatura do cliente</Label>
                             <div className="mt-5">
-                                {signFile && <img src={signFile} />}
+                                {signFile && <img className="max-w-80" src={signFile.url} />}
                             </div>
                         </div>
-                        <ImageUploader aspect={6 / 3} buttonText='Adicionar assinatura' onUploaded={imageUploadHandler} folder="sales/signatures" title="Upload de imagem" />
+                        <SignUploader onCreate={imageUploadHandler} path={`sales/signatures`} />
                     </div>
                     <div className='py-6 flex justify-end gap-4'>
                         {
