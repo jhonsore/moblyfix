@@ -43,6 +43,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
+import { ImageUploader } from "../../components/imageUploader"
+import { Label } from "../../components/ui/label"
+import deleteFileFromStorage from "../../functions/utils/deleteFileFromStorage"
 
 
 
@@ -123,7 +126,7 @@ const DadosDaLoja = () => {
         },
     })
 
-
+    const { storage } = useFirebaseContext()
     const { id } = useParams()
     const [statusStore, setStatusStore] = useState(false)
     const [statusCreated, setStatusCreated] = useState(false)
@@ -132,6 +135,7 @@ const DadosDaLoja = () => {
     const [statusDeleting, setStatusDeleting] = useState(false)
     const [statusLoading, setStatusLoading] = useState(false)
     const [cepStatus, setCepStatus] = useState(false)
+    const [logo, setLogo] = useState<{ url: string, path: string } | null>(null)
 
     useEffect(() => {
         if (!id) return
@@ -160,6 +164,7 @@ const DadosDaLoja = () => {
                 form.setValue('state', doc.state)
                 form.setValue('number', doc.number)
                 form.setValue('complement', doc.complement)
+                setLogo(doc.logo)
             }
         }
         load()
@@ -171,16 +176,17 @@ const DadosDaLoja = () => {
             return
         }
         setStatusLoading(true)
+
         const { name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement } = values
         const result = !id ?
             await DB.stores.create({
                 db,
-                data: { _id: "", createdAt: Timestamp.now(), lastOsNumber: 0, name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement, _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { logo, name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement, _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.stores.update({
                 db,
                 id,
-                data: { name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement }
+                data: { logo, name, cpfCnpj, email, whatsapp, phone, phone2, phone3, city, neighborhood, address, zipcode, number, state, complement }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -228,6 +234,33 @@ const DadosDaLoja = () => {
             navigate('/dashboard/lojas')
         }, 2000)
 
+    }
+
+    function onUploaded({ url, path }: { url: string, path: string }) {
+        setLogo({ url, path })
+
+        if (id) {
+            DB.stores.update({
+                db,
+                id,
+                data: { logo: { url, path } }
+            })
+        }
+    }
+
+
+    function removeImage(image: typeof logo) {
+        if (!image) return
+        setLogo(null)
+        deleteFileFromStorage({ filePath: image.path, storage })
+
+        if (id) {
+            DB.stores.update({
+                db,
+                id,
+                data: { logo: null }
+            })
+        }
     }
 
     if (pageStatus === 'loading') {
@@ -453,6 +486,20 @@ const DadosDaLoja = () => {
                                 </FormItem>
                             )}
                         />
+
+
+                    </div>
+                    <div>
+                        <Label className="block mb-4">Logomarca</Label>
+                        {logo && <div key={logo.url} className={`relative w-32 h-32`}>
+                            <img src={logo.url} alt="Logo" className=" object-cover rounded-lg" />
+                            <button onClick={() => removeImage(logo)}>
+                                <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                                    delete
+                                </span>
+                            </button>
+                        </div>}
+                        {!logo && <ImageUploader buttonText="Inserir logomarca" onUploaded={onUploaded} folder="stores/logos" title="Upload de imagem" />}
                     </div>
                     <div className='py-6 flex justify-end gap-4'>
                         {
@@ -484,7 +531,6 @@ const DadosDaLoja = () => {
                 </form>
 
             </Form>
-
 
         </PageContent>
     </>

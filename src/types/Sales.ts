@@ -21,7 +21,7 @@ export type TypeSales = {
     paymentType: keyof typeof PAYMENT_TYPES
     discountType: keyof typeof DISCOUNT_TYPES | null
     paymentMethod: keyof typeof PAYMENT_METHODS | null
-    signFile: string | null
+    signFile: { url: string, path: string } | null
     observation: string
     installments: number | null
     discount: number | null

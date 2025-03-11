@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/dialog"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import { useCallback, useState } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Cropper from "react-easy-crop";
 import { removeTrailingSlash } from "../../functions/utils/removeTrailingSlash";
 import { slugify } from "../../functions/utils/slugify";
 import { getFileNameWithoutExtension } from "../../functions/utils/getFileNameWithoutExtension";
 import uuid from "../../functions/utils/uuid";
 import resizeImage from "../../functions/utils/resizeImage";
+import uploadImageToFirebase from "../../functions/utils/uploadImageToFirebase";
 
-export function ImageUploader({ title, maxWidth, aspect, subtitle, folder, onUploaded, buttonText }: { maxWidth?: number, aspect?: number, buttonText: string, onUploaded: (url: string) => void, folder: string, title: string, subtitle?: string }) {
+export function ImageUploader({ title, maxWidth, aspect, subtitle, folder, onUploaded, buttonText }: { maxWidth?: number, aspect?: number, buttonText: string, onUploaded: ({ path, url }: { url: string, path: string }) => void, folder: string, title: string, subtitle?: string }) {
     const { storage } = useFirebaseContext()
     const [image, setImage] = useState<string | null>(null);
     const [croppedImage, setCroppedImage] = useState<File | null>(null);
@@ -82,9 +82,8 @@ export function ImageUploader({ title, maxWidth, aspect, subtitle, folder, onUpl
         if (!croppedImage || !fileUploaded) return;
         setStatusUploading(true)
         const name = `${uuid()}-${slugify(getFileNameWithoutExtension(fileUploaded.name))}`
-        const storageRef = ref(storage, `${removeTrailingSlash(folder)}/${name}`);
-        await uploadBytes(storageRef, croppedImage);
-        const url = await getDownloadURL(storageRef);
+        const url = await uploadImageToFirebase({ file: croppedImage, storage, path: `${removeTrailingSlash(folder)}/${name}` });
+
         onUploaded(url)
         setOpen(false)
         setStatusUploading(false)
