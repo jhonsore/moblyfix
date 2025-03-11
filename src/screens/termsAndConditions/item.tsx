@@ -29,6 +29,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import MandatoryLabel from "../../components/ui/mandatoryLabel"
 
 
 const FormSchema = z.object({
@@ -152,7 +153,7 @@ const PageTermAndCondition = () => {
                         name="title"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Título da condição</FormLabel>
+                                <FormLabel>Título da condição<MandatoryLabel /></FormLabel>
                                 <FormControl>
                                     <Input placeholder="Digite aqui" {...field} />
                                 </FormControl>
@@ -166,7 +167,7 @@ const PageTermAndCondition = () => {
                             name="text"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Texto da condição</FormLabel>
+                                    <FormLabel>Texto da condição <MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Textarea placeholder="Digite aqui" {...field} />
                                     </FormControl>
@@ -199,7 +200,6 @@ const PageTermAndCondition = () => {
                                 </AlertDialogContent>
                             </AlertDialog>
                         }
-
                         <Button type="submit" variant={'primary'}>Salvar</Button>
                     </div>
                 </form>
