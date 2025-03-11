@@ -5,6 +5,7 @@ import { TypeUsers } from '../../types/Users';
 // Interface para o tipo de resposta que esperamos da API
 export interface CreateResponse {
     status: boolean;
+    error?: { code: string, message: string }
 }
 
 // Função que faz a requisição POST

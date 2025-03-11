@@ -195,7 +195,6 @@ const DadosDoUsuario = () => {
                 id,
                 data: { ..._values, type: values.type as keyof typeof TYPE_OF_USERS }
             })
-            console.log({ ..._values, type: values.type as keyof typeof TYPE_OF_USERS })
 
             setStatusCreated(true)
             setStatusLoading(false)
@@ -204,10 +203,17 @@ const DadosDoUsuario = () => {
 
         try {
             const response = await Users.create(idToken, userData);
-            setStatusCreated(true)
+            setStatusLoading(false)
+            if (response.error && response.error.code === 'auth/email-already-exists') {
+                alert('O email já está cadastrado, por favor utilize outro email! (1003)')
+                return
+            }
             if (!response.status) {
                 alert('Ocorreu um erro ao cadastrar o usuário! (1001)')
+                return
             }
+
+            setStatusCreated(true)
 
         } catch (error) {
             alert('Ocorreu um erro ao cadastrar o usuário! (1002)')
@@ -238,12 +244,18 @@ const DadosDoUsuario = () => {
 
     async function removeHandler() {
         if (!id) return
-        const response = await DB.users.delete({ db, id: id })
+        if (!idToken) {
+            alert('Impossível remover o item')
+            return
+        }
+        setStatusDeleting(true)
+        const response = await Users.delete(idToken, id);
+        setStatusDeleting(false)
 
         if (!response.status) {
             toast({
                 variant: "destructive",
-                title: "Remoção de peças,serviços ou produtos",
+                title: "Remoção de usuários",
                 description: "Ocorreu um erro ao remover o item, tente novamente!"
             })
             return
@@ -251,10 +263,8 @@ const DadosDoUsuario = () => {
         toast({
             description: "Item removido com sucesso",
         })
-        setStatusDeleting(true)
-        navigate(`/dashboard/usuarios/?deleted=${id}`)
-        
 
+        navigate(`/dashboard/usuarios/?deleted=${id}`)
     }
 
     if (pageStatus === 'loading') {

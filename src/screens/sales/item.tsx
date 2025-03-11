@@ -26,7 +26,6 @@ import { ItemCreatedAlert } from "../../components/itemCreatedAlert"
 import PAYMENT_METHODS from "../../consts/PAYMENT_METHODS"
 import { TypeSales } from "../../types/Sales"
 import { currencyToNumber } from "../../functions/utils/currencyToNumber"
-import { ImageUploader } from "../../components/imageUploader"
 import { TypePageStatus } from "../../types/PageStatus"
 import DISCOUNT_TYPES from "../../consts/DISCOUNT_TYPES"
 import { useToast } from "@/hooks/use-toast"
@@ -41,13 +40,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-
-import { ChevronRightIcon } from "@heroicons/react/24/outline"
-import { Link } from "react-router";
-import { Sign } from "crypto"
 import SignUploader from "../../components/signUploader"
-
-
 
 const FormSchema = z.object({
     item: z
@@ -68,7 +61,7 @@ const FormSchemaVendas = z.object({
     paymentMethod: z.string().optional(),
     observation: z.string().optional(),
     discountType: z.enum(["cash", "percent", "none"]),
-    product: z.string().min(1, { message: 'Escolha ao mesmo um produto/serviço/peça' }),
+    product: z.string().min(1, { message: 'Escolha ao menos um produto/serviço/peça' }),
     customer: z.string().min(1, { message: 'Escolha o cliente' }),
     installments: z.string().nullable().optional(),
     discount: z
@@ -166,7 +159,7 @@ const PageSales = () => {
 
     async function onSubmitItem(values: z.infer<typeof FormSchema>) {
         const { item, quantity } = values
-
+        console.log('aaaaa')
         const checkProduct = items?.filter(_item => _item._id === item)
 
         if (checkProduct.length > 0) {
@@ -308,7 +301,12 @@ const PageSales = () => {
         setStatusDeleting(true)
         navigate(`/dashboard/vendas/?deleted=${id}`)
 
+    }
 
+    function removeProduct(item: typeof items[0]) {
+        const _items = items.filter(product => product._id !== item._id)
+        setItems(_items)
+        if (!_items.length) form.setValue('product', '')
     }
 
     if (!store || !db) return <LoadingPage />
@@ -319,7 +317,8 @@ const PageSales = () => {
             <StoreNotFoundAlert open={statusStore} />
             <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
 
-            <HeaderPage title="Nova Venda" />
+            <HeaderPage title={id ? "Editar" : "Novo item"}></HeaderPage>
+
             <Form {...formItem}>
                 <form onSubmit={formItem.handleSubmit(onSubmitItem)} className="pt-4">
                     <div className="flex gap-4">
