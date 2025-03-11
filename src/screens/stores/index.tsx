@@ -88,7 +88,7 @@ const PageStores = () => {
                     <thead className="bg-gray-50 hidden lg:table-header-group w-full">
                         <tr>
                             <th
-                                scope="col"
+                                colSpan={2}
                                 className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
                                 Nome
