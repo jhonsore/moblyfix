@@ -24,12 +24,14 @@ export type TypeOs = {
         }
         description: string
     }[]
-    partsAndServices: {
-        createdAt: Timestamp
-        createdBy: {
-            name: string
-        }
-        data: TypePartsServicesProducts
+    partsServicesProducts: {
+        quantity: number
+        _id: TypePartsServicesProducts['_id']
+        name: TypePartsServicesProducts['name']
+        cashPrice: TypePartsServicesProducts['cashPrice'] // preço a vista
+        installmentPrice: TypePartsServicesProducts['installmentPrice'] // preço a prazo
+        costPrice: TypePartsServicesProducts['costPrice'] // preço de custo
+        type: TypePartsServicesProducts['type'] // define se o item é um produto
     }[]
     technicalReports: {
         createdAt: Timestamp
