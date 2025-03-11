@@ -159,7 +159,7 @@ const PageSales = () => {
 
     async function onSubmitItem(values: z.infer<typeof FormSchema>) {
         const { item, quantity } = values
-        console.log('aaaaa')
+
         const checkProduct = items?.filter(_item => _item._id === item)
 
         if (checkProduct.length > 0) {
@@ -345,7 +345,7 @@ const PageSales = () => {
                                     <FormItem>
                                         <FormLabel>Quantidade</FormLabel>
                                         <FormControl>
-                                            <Input type="number" placeholder="Insira aqui" {...field} onChange={e => formItem.setValue('quantity', +e.target.value)} />
+                                            <Input type="string" placeholder="Insira aqui" {...field} onChange={e => formItem.setValue('quantity', +e.target.value)} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

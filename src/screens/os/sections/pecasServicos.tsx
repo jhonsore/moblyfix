@@ -1,64 +1,146 @@
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "../../../components/ui/button"
 import { useForm } from "react-hook-form"
 import { Input } from "../../../components/ui/input"
-import AsyncSelect from 'react-select/async';
-import { StylesConfig } from 'react-select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
-import { Label } from "../../../components/ui/label"
+import { useOsContext } from "../provider/useOsContext"
+import SearchSelect from "../../../components/searchSelect"
+import { DB } from "../../../functions/database"
+import { useStoresContext } from "../../../providers/stores/useStoresContext"
+import { useFirebaseContext } from "../../../providers/firebase/useFirebaseContext"
+import { LoadingPage } from "../../../components/loadingPage"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "../../../hooks/use-toast"
+import { useEffect, useState } from "react"
+import { TypeOs } from "../../../types/Os"
+import formatToBrazilianReal from "../../../functions/utils/formatToBrazilianReal"
 
-export interface ColourOption {
-    readonly value: string;
-    readonly label: string;
-    readonly color: string;
-    readonly isFixed?: boolean;
-    readonly isDisabled?: boolean;
-}
-
-
-export const colourOptions: readonly ColourOption[] = [
-    { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-    { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-    { value: 'purple', label: 'Purple', color: '#5243AA' },
-    { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-    { value: 'orange', label: 'Orange', color: '#FF8B00' },
-    { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-    { value: 'green', label: 'Green', color: '#36B37E' },
-    { value: 'forest', label: 'Forest', color: '#00875A' },
-    { value: 'slate', label: 'Slate', color: '#253858' },
-    { value: 'silver', label: 'Silver', color: '#666666' },
-];
-
-const colourStyles: StylesConfig<ColourOption> = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white', borderColor: '#e5e5e5' })
-};
+const FormSchema = z.object({
+    item: z
+        .string().min(1, {
+            message: "Escolha o item",
+        }),
+    quantity: z
+        .number().min(1, {
+            message: "Escolha a quantidade",
+        })
+})
 const OSPecasServicos = () => {
-    const form = useForm()
+    const { os, setOs } = useOsContext()
+    const formItem = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            item: "",
+            quantity: 1
+        },
+    })
+    const { db } = useFirebaseContext()
+    const { store } = useStoresContext()
+    const [items, setItems] = useState<TypeOs['partsServicesProducts']>([])
+    const [total, setTotal] = useState({ cash: 0, installment: 0 })
+    const [open, setOpen] = useState(false)
 
-    const filterColors = (inputValue: string) => {
-        return colourOptions.filter((i) =>
-            i.label.toLowerCase().includes(inputValue.toLowerCase())
-        );
-    };
+    useEffect(() => {
+        if (!os || !os.partsServicesProducts) return
+        setItems(os.partsServicesProducts)
+        getTotal(os.partsServicesProducts)
+    }, [os])
 
-    const promiseOptions = (inputValue: string) =>
-        new Promise<ColourOption[]>((resolve) => {
-            setTimeout(() => {
-                resolve(filterColors(inputValue));
-            }, 1000);
-        });
+    async function onSubmitItem(values: z.infer<typeof FormSchema>) {
+        if (!os || !setOs) {
+            toast({
+                duration: 4000,
+                variant: "destructive",
+                title: "Erro ao adicionar item",
+                description: "Erro ao adicionar item, tente novamente (1005)"
+            })
+            return
+
+        }
+        const { item, quantity } = values
+
+        const checkProduct = os?.partsServicesProducts?.filter(_item => _item._id === item)
+
+        if (checkProduct && checkProduct.length > 0) {
+            toast({
+                duration: 4000,
+                variant: "destructive",
+                title: "Produto já inserido",
+                description: "O produto selecionado já foi inserido na venda, remova o anterior e insira o novo"
+            })
+            return
+        }
+
+        const result = await DB.partsServicesProducts.read({ db, id: item })
+        if (!result.status || !result.doc || !Object.values(result.doc).length) {
+            toast({
+                duration: 4000,
+                variant: "destructive",
+                title: "Item não encontrado",
+                description: "A busca realizada não obteve nenhum resultado"
+            })
+            return
+        }
+        const doc = result.doc
+        const items = os?.partsServicesProducts || []
+        const products: typeof items = [...items, {
+            quantity,
+            _id: doc._id,
+            name: doc.name,
+            cashPrice: doc.cashPrice, // preço a vista
+            installmentPrice: doc.installmentPrice, // preço a prazo
+            costPrice: doc.costPrice, // preço de custo
+            type: doc.type, // define se o item é um produto
+        }]
+        getTotal(products)
+        formItem.clearErrors()
+        setOpen(false)
+        updateData(products)
+    }
+
+    function removeProduct(item: typeof items[0]) {
+        const _items = items.filter(product => product._id !== item._id)
+        getTotal(_items)
+        updateData(_items)
+        if (!_items.length) formItem.setValue('item', '')
+    }
+
+    async function updateData(products: typeof items) {
+        if (!os || !setOs) return
+        setOs({ ...os, partsServicesProducts: products })
+        setItems(products)
+        await DB.os.update({
+            db,
+            id: os._id,
+            data: { partsServicesProducts: products }
+        })
+    }
+
+    function getTotal(products: typeof items) {
+        if (!os || !setOs) return
+        const sum = products.reduce((prev, cur) => {
+            return ({ cash: prev.cash + (cur.quantity * cur.cashPrice), installment: prev.installment + (cur.quantity * cur.installmentPrice) })
+        }, { cash: 0, installment: 0 })
+        setTotal(sum)
+
+    }
+
+    if (!os || !setOs) return <div>Erro ao carregar anexos</div>
+
+    if (!store || !db) return <LoadingPage />
+
 
     return <div className="pt-8">
-        <Dialog>
+        <Dialog open={open} onOpenChange={value => setOpen(value)}>
             <div className="text-right">
                 <DialogTrigger asChild>
                     <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
                 </DialogTrigger>
             </div>
             <DialogContent className="sm:max-w-[425px]">
-                <Form {...form}>
-                    <form onSubmit={() => { }} className="mt-4">
+                <Form {...formItem}>
+                    <form onSubmit={formItem.handleSubmit(onSubmitItem)} >
                         <DialogHeader>
                             <DialogTitle>Adicionar peça/serviço</DialogTitle>
                             <DialogDescription>
@@ -66,18 +148,16 @@ const OSPecasServicos = () => {
                             </DialogDescription>
                         </DialogHeader>
 
-
                         <div className="pt-6">
                             <div className="mb-4">
                                 <FormLabel>Peça/serviço/Produto</FormLabel>
                                 <FormField
-                                    control={form.control}
-                                    name="search"
+                                    control={formItem.control}
+                                    name="item"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <AsyncSelect placeholder='Selecione' className="w-full" styles={colourStyles} cacheOptions defaultOptions loadOptions={promiseOptions} />
-
+                                                <SearchSelect onChange={e => field.onChange(e.value)} store={store} db={db} requisition={DB.views.partsServicesProducts.list} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -87,13 +167,14 @@ const OSPecasServicos = () => {
                             <div className="">
                                 <FormLabel>Quantidade</FormLabel>
                                 <FormField
-                                    control={form.control}
-                                    name="number"
+                                    control={formItem.control}
+                                    name="quantity"
                                     render={({ field }) => (
                                         <FormItem>
 
                                             <FormControl>
-                                                <Input placeholder="Digite aqui" {...field} />
+                                                <Input type="string" placeholder="Insira aqui" {...field} onChange={e => formItem.setValue('quantity', +e.target.value)} />
+
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -109,119 +190,8 @@ const OSPecasServicos = () => {
                 </Form>
             </DialogContent>
         </Dialog>
-        {/* <Sheet>
-            <div className="text-right">
-                <SheetTrigger>
-                    <Button variant={"outlinePrimary"}>Adicionar  peça/serviço</Button>
-                </SheetTrigger>
-            </div>
-            <SheetContent className="w-96">
-                <SheetHeader>
-                    <SheetTitle>Adicionar peça/serviço</SheetTitle>
-                    <SheetDescription>
-                        Preencha o formulário abaixo e adicione peças/serviços/produtos a OS
-                    </SheetDescription>
-                </SheetHeader>
-                <Form {...form}>
-                    <form onSubmit={() => { }} className="mt-6">
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2 ">
-                                <FormLabel>Peça/serviço/produto</FormLabel>
-                                <FormField
-                                    control={form.control}
-                                    name="search"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <AsyncSelect className="w-full" styles={colourStyles} cacheOptions defaultOptions loadOptions={promiseOptions} />
-
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <FormLabel>Quantidade</FormLabel>
-                                <FormField
-                                    control={form.control}
-                                    name="number"
-                                    render={({ field }) => (
-                                        <FormItem>
-
-                                            <FormControl>
-                                                <Input placeholder="Digite aqui" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </div>
-                        <div className='grid grid-cols-3 gap-4 mt-4'>
-                            <div className="space-y-2">
-                                <FormLabel>Preço de custo</FormLabel>
-                                <FormField
-                                    control={form.control}
-                                    name="number"
-                                    render={({ field }) => (
-                                        <FormItem>
-
-                                            <FormControl>
-                                                <Input placeholder="R$" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <FormLabel>Venda à vista</FormLabel>
-                                <FormField
-                                    control={form.control}
-                                    name="number"
-                                    render={({ field }) => (
-                                        <FormItem>
-
-                                            <FormControl>
-                                                <Input placeholder="R$" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <FormLabel>Venda à prazo</FormLabel>
-                                <FormField
-                                    control={form.control}
-                                    name="number"
-                                    render={({ field }) => (
-                                        <FormItem>
-
-                                            <FormControl>
-                                                <Input placeholder="R$" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </div>
-
-
-                        <SheetFooter className="mt-4">
-                            <SheetClose asChild>
-                                <Button type="submit" variant={"primary"}>Adicionar</Button>
-                            </SheetClose>
-                        </SheetFooter>
-
-                    </form>
-                </Form>
-            </SheetContent>
-        </Sheet> */}
-        <div className="pb-6 mt-6">
+        <div className="pb-6 mt-8">
             <table className="w-full">
                 <thead className="bg-gray-50 border-b-4 border-gray-300">
                     <tr className="align-top">
@@ -229,7 +199,7 @@ const OSPecasServicos = () => {
                             scope="col"
                             className="whitespace-nowrap pl-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                         >
-                            Peça/Serviço
+                            Peças/Serviços
                         </th>
                         <th
                             scope="col"
@@ -239,63 +209,58 @@ const OSPecasServicos = () => {
                         </th>
                         <th scope="col"
                             className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Preço de custo
+                            Valor à vista
                         </th>
                         <th scope="col"
                             className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Venda á vista<br /> (débito/dinheiro)
+                            Valor à prazo
                         </th>
-
-                        <th colSpan={2}
-                            className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Venda á prazo
-                        </th>
-
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className='border-b-4 border-gray-200'>
+                    {items.length === 0 && <tr>
+                        <td colSpan={4} className="text-center py-8">Nenhum item selecionado</td>
+                    </tr>}
+                    {items.map(item => <tr key={item._id} className='border-b border-gray-200'>
                         <td className="whitespace-nowrap pl-2 py-4 text-sm font-semibold text-gray-900">
-                            Peça-1
+                            {item.name}
                         </td>
                         <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            1
+                            {item.quantity}
                         </td>
                         <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            R$1000,00
+                            {formatToBrazilianReal(item.cashPrice.toString())}
                         </td>
                         <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            R$3000,00
+                            {formatToBrazilianReal(item.installmentPrice.toString())}
                         </td>
-                        <td className="whitespace-nowrap text-left py-4 text-sm font-semibold text-gray-900">
-                            R$2300,00
-                        </td>
-                        <td className="text-center">
-                            <span className="material-symbols-outlined cursor-pointer text-red-400 hover:text-indigo-900 mr-2 text-sm">
-                                x
+                        <td>
+                            <span onClick={() => removeProduct(item)} className="material-symbols-outlined text-gray-400 hover:text-indigo-900 hidden lg:inline cursor-pointer">
+                                delete
                             </span>
                         </td>
-                    </tr>
+                    </tr>)}
                 </tbody>
             </table>
-            <div>
+            {items.length > 0 && <div>
                 <div className="py-4 text-base font-bold text-gray-900 border-b border-gray-200 flex justify-between">
                     <h2>
-                        Total á prazo
+                        Total à vista
                     </h2>
                     <span>
-                        R$ 00,00
+                        {formatToBrazilianReal(total.cash)}
                     </span>
                 </div>
                 <div className="py-4 text-base font-bold text-gray-900 border-b border-gray-200 flex justify-between">
                     <h2>
-                        Total á vista
+                        Total à prazo
                     </h2>
                     <span>
-                        R$ 00,00
+                        {formatToBrazilianReal(total.installment)}
                     </span>
                 </div>
-            </div>
+            </div>}
         </div>
     </div>
 
