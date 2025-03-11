@@ -230,9 +230,8 @@ const DadosDaLoja = () => {
             description: "Item removido com sucesso",
         })
         setStatusDeleting(true)
-        setTimeout(() => {
-            navigate('/dashboard/lojas')
-        }, 2000)
+        navigate(`/dashboard/lojas/?deleted=${id}`)
+        
 
     }
 

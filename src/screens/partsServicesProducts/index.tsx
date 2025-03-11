@@ -1,7 +1,7 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
 import { Button } from "../../components/ui/button"
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
 import { TypePageStatus } from "@/types/PageStatus"
 import { useEffect, useState } from "react"
@@ -25,6 +25,8 @@ const PagePartsServicesProducts = () => {
   const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
   const [loadMoreStatus, setLoadMoreStatus] = useState(true)
   const [statusLoading, setStatusLoading] = useState(false)
+  let [searchParams] = useSearchParams();
+  const removed = searchParams.get('deleted')
 
   useEffect(() => {
     if (!db || !store || pageData.length > 0) return
@@ -109,7 +111,7 @@ const PagePartsServicesProducts = () => {
           </thead>
           <tbody className=" bg-white">
 
-            {pageData.map((data) => <ItemList key={data._id} data={data} />)}
+            {pageData.filter(item => removed ? item._id !== removed : true).map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
         </table>}
       </div>

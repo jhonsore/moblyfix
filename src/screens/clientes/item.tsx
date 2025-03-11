@@ -127,7 +127,7 @@ const DadosDoCliente = () => {
     const [statusLoading, setStatusLoading] = useState(false)
     const [statusDeleting, setStatusDeleting] = useState(false)
     const [cepStatus, setCepStatus] = useState(false)
-    
+
 
     useEffect(() => {
         if (!id) return
@@ -222,9 +222,7 @@ const DadosDoCliente = () => {
             description: "Item removido com sucesso",
         })
         setStatusDeleting(true)
-        setTimeout(() => {
-            navigate('/dashboard/clientes')
-        }, 2000)
+        navigate(`/dashboard/clientes/?deleted=${id}`)
 
     }
 

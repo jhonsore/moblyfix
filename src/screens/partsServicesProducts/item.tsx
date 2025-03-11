@@ -150,9 +150,8 @@ const PartsServicesProductsItem = () => {
             description: "Item removido com sucesso",
         })
         setStatusDeleting(true)
-        setTimeout(() => {
-            navigate('/dashboard/pecas-servicos')
-        }, 2000)
+        navigate(`/dashboard/pecas-servicos/?deleted=${id}`)
+        
 
     }
 
