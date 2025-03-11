@@ -46,6 +46,7 @@ import { useToast } from "@/hooks/use-toast"
 import { ImageUploader } from "../../components/imageUploader"
 import { Label } from "../../components/ui/label"
 import deleteFileFromStorage from "../../functions/utils/deleteFileFromStorage"
+import MandatoryLabel from "@/components/ui/mandatoryLabel"
 
 
 
@@ -283,7 +284,7 @@ const DadosDaLoja = () => {
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Nome</FormLabel>
+                                <FormLabel>Nome<MandatoryLabel /></FormLabel>
                                 <FormControl>
                                     <Input placeholder="Nome do loja" {...field} />
                                 </FormControl>
@@ -297,7 +298,7 @@ const DadosDaLoja = () => {
                             name="cpfCnpj"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CPF/CNPJ</FormLabel>
+                                    <FormLabel>CPF/CNPJ<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui o CPF/CNPJ" {...field} onChange={(e) => form.setValue("cpfCnpj", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
@@ -310,7 +311,7 @@ const DadosDaLoja = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>Email<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui seu Email" {...field} />
                                     </FormControl>
@@ -323,7 +324,7 @@ const DadosDaLoja = () => {
                             name="whatsapp"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Whatsapp</FormLabel>
+                                    <FormLabel>Whatsapp<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
@@ -379,7 +380,7 @@ const DadosDaLoja = () => {
                             name="zipcode"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cep:</FormLabel>
+                                    <FormLabel>Cep:<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
                                     </FormControl>
@@ -400,7 +401,7 @@ const DadosDaLoja = () => {
                             name="state"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>UF</FormLabel>
+                                    <FormLabel>UF<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
@@ -421,7 +422,7 @@ const DadosDaLoja = () => {
                             name="city"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cidade</FormLabel>
+                                    <FormLabel>Cidade<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui sua cidade" {...field} />
                                     </FormControl>
@@ -434,7 +435,7 @@ const DadosDaLoja = () => {
                             name="neighborhood"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Bairro</FormLabel>
+                                    <FormLabel>Bairro<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui seu bairro" {...field} />
                                     </FormControl>
@@ -449,7 +450,7 @@ const DadosDaLoja = () => {
                         name="address"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Endereço</FormLabel>
+                                <FormLabel>Endereço<MandatoryLabel /></FormLabel>
                                 <FormControl>
                                     <Input placeholder="End:" {...field} />
                                 </FormControl>
@@ -464,7 +465,7 @@ const DadosDaLoja = () => {
                             name="number"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nº</FormLabel>
+                                    <FormLabel>Nº<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui seu numero" {...field} />
                                     </FormControl>

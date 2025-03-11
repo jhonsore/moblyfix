@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import SignUploader from "../../components/signUploader"
+import MandatoryLabel from "@/components/ui/mandatoryLabel"
 
 const FormSchema = z.object({
     item: z
@@ -328,7 +329,7 @@ const PageSales = () => {
                                 name="item"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Peças/Produto/Serviço</FormLabel>
+                                        <FormLabel>Peças/Produto/Serviço<MandatoryLabel /></FormLabel>
                                         <FormControl>
                                             <SearchSelect onChange={e => field.onChange(e.value)} store={store} db={db} requisition={DB.views.partsServicesProducts.list} />
                                         </FormControl>
@@ -381,7 +382,7 @@ const PageSales = () => {
                             name="customer"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cliente</FormLabel>
+                                    <FormLabel>Cliente<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <div>
                                             {!id && <SearchSelect onChange={e => {
