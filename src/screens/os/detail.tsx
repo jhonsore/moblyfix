@@ -38,6 +38,9 @@ import { useStoresContext } from "../../providers/stores/useStoresContext"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
 import TYPE_OF_USERS from "../../consts/TYPE_USERS"
 import { TypeUsersViewList } from "../../types/Users"
+import CreateOsFollowup from "../../functions/os/followup"
+import { useAuthContext } from "../../providers/auth/useAuthContext"
+import OSSale from "./sections/sale"
 
 const tabs = [
     { name: 'Dados da OS', href: 'about', current: true, section: <OSDados /> },
@@ -57,6 +60,8 @@ const PageOsDetail = () => {
     const { store } = useStoresContext()
     const [currentSection, setCurrentSection] = useState(0)
     const [technicalUsers, setTechnicalUsers] = useState<{ [id: string]: TypeUsersViewList }>({})
+    const { user } = useAuthContext()
+    const [finishStatus, setFinishStatus] = useState(false)
 
     useEffect(() => {
         async function load() {
@@ -75,14 +80,88 @@ const PageOsDetail = () => {
     }
 
     function responsavelTecnicoHandler(id: string) {
-        if (!setOs || !id || !os) return
+        if (!setOs || !id || !os || !user) return
         const responsibleTechnician = { name: technicalUsers[id].name, _id: id }
         DB.os.update({
             db,
             id: os?._id,
             data: { responsibleTechnician }
         })
-        setOs({ ...os, responsibleTechnician })
+        const followup = CreateOsFollowup({ description: responsibleTechnician.name, followup: os.followup, type: 'OsTechnicianChanged', createdBy: { _id: user.user.uid, name: user.data.name } });
+        setOs({ ...os, responsibleTechnician, followup })
+
+    }
+
+    function updateStatusHandler() {
+        if (!os || !setOs || !user) return
+        let status = TYPE_STATUS.created.value as keyof typeof TYPE_STATUS
+        let substatus = TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS
+        if (os.status === TYPE_STATUS.created.value && os.substatus === TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value) {
+            status = TYPE_STATUS.inService.value as keyof typeof TYPE_STATUS
+            substatus = TYPE_SUBSTATUS.inTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS
+        }
+        if (os.status === TYPE_STATUS.inService.value && os.substatus === TYPE_SUBSTATUS.inTechnicalAnalysis.value) {
+            status = TYPE_STATUS.inService.value as keyof typeof TYPE_STATUS
+            substatus = TYPE_SUBSTATUS.technicalAnalysisCompleted.value as keyof typeof TYPE_SUBSTATUS
+        }
+        if (os.status === TYPE_STATUS.inService.value && (os.substatus === TYPE_SUBSTATUS.technicalAnalysisCompleted.value)) {
+            status = TYPE_STATUS.inService.value as keyof typeof TYPE_STATUS
+            substatus = TYPE_SUBSTATUS.inRepair.value as keyof typeof TYPE_SUBSTATUS
+        }
+        if (os.status === TYPE_STATUS.inService.value && os.substatus === TYPE_SUBSTATUS.inRepair.value) {
+            status = TYPE_STATUS.inService.value as keyof typeof TYPE_STATUS
+            substatus = TYPE_SUBSTATUS.repairCompleted.value as keyof typeof TYPE_SUBSTATUS
+        }
+        const followup = CreateOsFollowup({ description: `${TYPE_STATUS[status].label} - ${TYPE_SUBSTATUS[substatus].label}`, followup: os.followup, type: 'OsStatusUpdate', createdBy: { _id: user.user.uid, name: user.data.name } });
+        setOs({ ...os, status, substatus, followup })
+        DB.os.update({
+            db,
+            id: os?._id,
+            data: { status, substatus, followup }
+        })
+
+    }
+
+    function finishHandler() {
+        setFinishStatus(true)
+    }
+
+    function cancelHandler() {
+        if (!os || !setOs || !user) return
+        const followup = CreateOsFollowup({ followup: os.followup, type: 'OsCancelled', createdBy: { _id: user.user.uid, name: user.data.name } });
+
+        setOs({ ...os, status: TYPE_STATUS.canceled.value, substatus: null, followup })
+        DB.os.update({
+            db,
+            id: os?._id,
+            data: { status: TYPE_STATUS.canceled.value, substatus: null }
+        })
+    }
+
+    const buttonLabels = new Map<string, Map<string, string> | string>([
+        [TYPE_STATUS.created.value, new Map([[TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value, 'Iniciar análise técnica']])],
+        [TYPE_STATUS.inService.value, new Map([
+            [TYPE_SUBSTATUS.inTechnicalAnalysis.value, 'Finalizar análise técnica'],
+            [TYPE_SUBSTATUS.technicalAnalysisCompleted.value, 'Iniciar reparo'],
+            [TYPE_SUBSTATUS.inRepair.value, 'Finalizar reparo'],
+            [TYPE_SUBSTATUS.repairCompleted.value, 'Reiniciar análise']
+        ])],
+        [TYPE_STATUS.finished.value, new Map([[TYPE_SUBSTATUS.repairCompleted.value, 'Reabrir OS']])],
+        [TYPE_STATUS.canceled.value, new Map([[TYPE_SUBSTATUS.repairCompleted.value, 'Reabrir OS']])]
+    ]);
+
+    const getButtonLabel = () => {
+        if (!os) return '';
+        const statusLabel = buttonLabels.get(os.status);
+
+        if (statusLabel instanceof Map) {
+            return os.substatus ? statusLabel.get(os.substatus) : 'Reabrir OS';
+        }
+        return statusLabel || '';
+    };
+
+    const onOpenFinishModal = (open: boolean) => {
+        setFinishStatus(open)
     }
 
     if (pageStatus === 'loading') {
@@ -99,19 +178,19 @@ const PageOsDetail = () => {
 
     if (!store || !db) return <LoadingPage />
 
-
     return <>
+        <OSSale open={finishStatus} onOpenChange={onOpenFinishModal} />
         <HeaderPage title="OS - 123456">
             <div className="flex items-center gap-4">
-                <Button variant={"orange"}>
-                    Finalizar análise técnica
-                    {/* Inicar reparo */}
-                    {/* Finalizar reparo */}
-                    {/* Reabrir reparo */}
+                <Button variant={"orange"} onClick={updateStatusHandler}>
+                    {getButtonLabel()}
                 </Button>
-                <Separator orientation="vertical" />
-                <Button variant={"destructive"}>Cancelar </Button>
-                <Button variant={"primary"}>Finalizar</Button>
+                <Separator className="h-7" orientation="vertical" />
+
+                {(os.status !== TYPE_STATUS.finished.value && os.status !== TYPE_STATUS.canceled.value) && <div className="flex items-center gap-4">
+                    <Button onClick={cancelHandler} variant={"destructive"}>Cancelar </Button>
+                </div>}
+                <Button variant={"primary"} onClick={finishHandler}>{`${os.status === TYPE_STATUS.finished.value ? 'Dados da venda' : 'Finalizar'}`}</Button>
             </div>
         </HeaderPage>
         <div className="mb-6 ">
@@ -135,7 +214,7 @@ const PageOsDetail = () => {
                         <div className="w-2/12">
                             <Label className="block">Status:</Label>
                             <Badge variant={getLabelByStatus(os.status)}>{TYPE_STATUS[os.status].label}</Badge>
-                            <span className="block text-[8px] text-gray-500">{TYPE_SUBSTATUS[os.substatus].label}</span>
+                            {os.substatus && <span className="block text-[8px] text-gray-500">{TYPE_SUBSTATUS[os.substatus].label}</span>}
                         </div>
                         <div className="w-1/12 h-10">
                             <Separator orientation="vertical" />

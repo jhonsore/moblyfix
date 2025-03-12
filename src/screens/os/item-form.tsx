@@ -39,6 +39,8 @@ import { ErrorPage } from "../../components/errorPage"
 import { useOsContext } from "./provider/useOsContext"
 import SignUploader from "../../components/signUploader"
 import MandatoryLabel from "../../components/ui/mandatoryLabel"
+import CreateOsFollowup from "../../functions/os/followup"
+import { useAuthContext } from "../../providers/auth/useAuthContext"
 
 const FormSchema = z.object({
   positionInCabinet: z.string().optional(),
@@ -97,6 +99,7 @@ const PageOsForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [customerData, setCustomerData] = useState<TypeOs['customer']>()
   const { os, pageStatus, setOs } = useOsContext()
+  const { user } = useAuthContext()
 
   useEffect(() => {
     if (!id) return
@@ -175,7 +178,12 @@ const PageOsForm = () => {
     const lastOs = await DB.os.list({ db, limit: 1, orderBy: [['createdAt', 'desc']] })
     const _customer = { name: resultCustomer.doc.name, _id: resultCustomer.doc._id, cpfCnpj: resultCustomer.doc.cpfCnpj }
     const numberOs = lastOs && lastOs.status && lastOs.docs && Object.values(lastOs.docs).length > 0 ? Number(Object.values(lastOs.docs)[0].numberOs) + 1 : 1
-    const _data = { report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile: _signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
+    const _data = { followup: id ? os?.followup : [], report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile: _signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
+
+    if (!id && user) {
+      const followup = CreateOsFollowup({ followup: [], type: 'OsCreated', createdBy: { _id: user.user.uid, name: user.data.name } });
+      _data.followup = followup;
+    }
 
     const result = !id ?
       await DB.os.create({
@@ -199,7 +207,6 @@ const PageOsForm = () => {
     }
 
     if (result.status && !id && result.doc) {
-      setStatusCreated(true)
       navigate(`/dashboard/ordens-servicos/${result.id}`)
     }
     if (result.status && id && setOs) {
@@ -289,7 +296,7 @@ const PageOsForm = () => {
               )}
             />
           </div>
-          {!id && <div className="pl-4">
+          {/* {!id && <div className="pl-4">
             <Sheet>
               <SheetTrigger asChild>
                 <Button className="mt-8" variant={"outlinePrimary"}>Novo cliente</Button>
@@ -301,7 +308,7 @@ const PageOsForm = () => {
                 </SheetHeader>
               </SheetContent>
             </Sheet>
-          </div>}
+          </div>} */}
 
         </div>
         <div className=" grid grid-cols-1 gap-y-4 sm:grid-cols-3 sm:gap-x-4">

@@ -1,8 +1,9 @@
 import { ParsedToken, User } from 'firebase/auth';
 import { createContext } from 'react';
+import { TypeUsers } from '../../types/Users';
 
 export interface IAuthContext {
-  user: User | null
+  user: { user: User, data: TypeUsers } | null
   idToken: string
   claims: ParsedToken
   login: ({ username, password }: { password: string, username: string }) => void

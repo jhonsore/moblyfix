@@ -3,7 +3,7 @@ const TYPE_STATUS = {
     inService: { value: 'inService', label: 'Em atendimento' },
     canceled: { value: 'canceled', label: 'Cancelado' },
     finished: { value: 'finished', label: 'Finalizado' }
-}
+} as const
 
 export type TypeOfStatus = keyof typeof TYPE_STATUS
 

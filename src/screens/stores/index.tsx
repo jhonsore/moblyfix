@@ -1,6 +1,5 @@
 import HeaderPage from "../../components/headerPage"
 import PageContent from "../../components/layout/pageContent"
-import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Button } from "../../components/ui/button"
 import { Link, useSearchParams } from "react-router"
 import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
@@ -28,7 +27,7 @@ const PageStores = () => {
     const [statusLoading, setStatusLoading] = useState(false)
     const [lastDocumentSnapshot, setLastDocumentSnapshot] = useState<QueryDocumentSnapshot<DocumentData> | undefined>(undefined)
     let [searchParams] = useSearchParams();
-      const removed = searchParams.get('deleted')
+    const removed = searchParams.get('deleted')
 
     useEffect(() => {
         if (!db || !claims) return
@@ -65,13 +64,11 @@ const PageStores = () => {
     }
 
     if (pageStatus === 'loading') {
-        return
-        <LoadingPage />
+        return <LoadingPage />
     }
 
     if (pageStatus === 'error') {
-        return
-        <ErrorPage />
+        return <ErrorPage />
     }
     return <>
         {statusLoading && <Loading />}

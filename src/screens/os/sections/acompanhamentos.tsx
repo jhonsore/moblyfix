@@ -1,16 +1,26 @@
+import { format } from "date-fns"
+import { useOsContext } from "../provider/useOsContext"
+import { EmptData } from "../../../components/emptyData"
+
 const OSAcompanhamentos = () => {
+    const { os, setOs } = useOsContext()
+
+    if (!os || !setOs) {
+        return <div>Erro ao carregar anexos</div>
+    }
+
     return <div className="py-8">
-        <div className='bg-[#F5F5F5]  rounded-lg p-6'>
+        {(!os.followup || os.followup.length === 0) && <EmptData />}
+        {os.followup && os.followup.map(item => <div key={item.createdAt.toMillis()} className='bg-[#F5F5F5]  rounded-lg p-6 mb-4'>
             <div className='flex justify-between text-sm'>
-                <h2>Criado por: Jhonnatan</h2>
-                <span>10/10/2024 10:00</span>
+                <span className="block font-bold text-lg">{item.title}</span>
+                <span>{format(item.createdAt.toDate(), "dd/MM/yyyy hh:mm")}</span>
             </div>
-            <p className='font-bold pt-2'>OS criada</p>
-        </div>
+            <span className="block text-xs">Criado por: {item.createdBy.name}</span>
+            <p className=' pt-2'>{item.description}</p>
+
+        </div>)}
     </div>
-
-
-
 }
 
 export default OSAcompanhamentos

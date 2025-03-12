@@ -242,7 +242,7 @@ const PageSales = () => {
 
     function getTotal({ products, discount, discountType }: { discountType: string, discount?: number | null, products: typeof items }) {
         const sum = products.reduce((prev, cur) => {
-            return prev + (form.getValues().paymentType === 'cash' ? cur.cashPrice : cur.installmentPrice)
+            return prev + (form.getValues().paymentType === 'cash' ? cur.cashPrice * cur.quantity : cur.installmentPrice * cur.quantity)
         }, 0)
         let sumTemp = sum
 
@@ -307,6 +307,7 @@ const PageSales = () => {
         const _items = items.filter(product => product._id !== item._id)
         setItems(_items)
         if (!_items.length) form.setValue('product', '')
+        getTotal({ products: _items, discount: form.getValues().discount ? Number(form.getValues().discount) : null, discountType: form.getValues().discountType || '' })
     }
 
     if (!store || !db) return <LoadingPage />
@@ -412,6 +413,7 @@ const PageSales = () => {
                                                 onValueChange={e => {
                                                     setPaymentType(e)
                                                     field.onChange(e)
+                                                    getTotal({ products: items, discount: form.getValues().discount ? Number(form.getValues().discount) : null, discountType: form.getValues().discountType || '' })
                                                 }}
                                                 value={field.value}
                                                 defaultValue={field.value}

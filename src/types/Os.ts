@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore"
 import { TypeOfStatus } from "../consts/TYPE_STATUS"
 import { TypeOfSubstatus } from "../consts/TYPE_SUBSTATUS"
-import { TypePartsServicesProducts } from "./PartsServicesProducts"
+import { TypeSales } from "./Sales"
 
 export type TypeOs = {
     _id: string
@@ -21,18 +21,12 @@ export type TypeOs = {
         createdAt: Timestamp
         createdBy: {
             name: string
+            _id: string
         }
         description: string
+        title: string
     }[]
-    partsServicesProducts: {
-        quantity: number
-        _id: TypePartsServicesProducts['_id']
-        name: TypePartsServicesProducts['name']
-        cashPrice: TypePartsServicesProducts['cashPrice'] // preço a vista
-        installmentPrice: TypePartsServicesProducts['installmentPrice'] // preço a prazo
-        costPrice: TypePartsServicesProducts['costPrice'] // preço de custo
-        type: TypePartsServicesProducts['type'] // define se o item é um produto
-    }[]
+    partsServicesProducts: TypeSales['items']
     technicalReports: {
         createdAt: Timestamp
         createdBy: {
@@ -43,7 +37,7 @@ export type TypeOs = {
     }[]
     finishedAt: Timestamp
     status: TypeOfStatus
-    substatus: TypeOfSubstatus
+    substatus: TypeOfSubstatus | null
     positionInCabinet: string
     serialNumber: string
     numberOs: number

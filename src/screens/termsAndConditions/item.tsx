@@ -169,7 +169,7 @@ const PageTermAndCondition = () => {
                                 <FormItem>
                                     <FormLabel>Texto da condição <MandatoryLabel /></FormLabel>
                                     <FormControl>
-                                        <Textarea placeholder="Digite aqui" {...field} />
+                                        <Textarea rows={20} placeholder="Digite aqui" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

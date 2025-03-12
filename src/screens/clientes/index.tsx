@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { slugify } from "../../functions/utils/slugify"
 import { toast } from "../../hooks/use-toast"
 import { ItemList } from "@/components/screens/customers/itemList"
+import { EmptData } from "../../components/emptyData"
 const LIMIT = 10
 const FormSchema = z.object({
   name: z
@@ -146,7 +147,8 @@ const Clientes = () => {
         {/* <Button variant={"outlinePrimary"}>Busca avançada</Button> */}
       </div>
       <div className="py-6">
-        <table className=" w-full">
+        {pageData.length === 0 && <EmptData />}
+        {pageData.length > 0 && <table className=" w-full">
           <thead className="bg-gray-50 hidden lg:table-header-group w-full">
             <tr>
               <th
@@ -179,7 +181,7 @@ const Clientes = () => {
           <tbody className=" bg-white">
             {pageData.filter(item => removed ? item._id !== removed : true).map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
-        </table>
+        </table>}
       </div>
       {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
         <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>
