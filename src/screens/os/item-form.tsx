@@ -158,6 +158,11 @@ const PageOsForm = () => {
       return
     }
 
+    if (!user) {
+      alert('Dados do usuário não encontrados (1001)')
+      return
+    }
+
     setStatusLoading(true)
     const { accessories, date, report, guarantee, observation, positionInCabinet, product, serialNumber, customer } = values
 
@@ -178,11 +183,17 @@ const PageOsForm = () => {
     const lastOs = await DB.os.list({ db, limit: 1, orderBy: [['createdAt', 'desc']] })
     const _customer = { name: resultCustomer.doc.name, _id: resultCustomer.doc._id, cpfCnpj: resultCustomer.doc.cpfCnpj }
     const numberOs = lastOs && lastOs.status && lastOs.docs && Object.values(lastOs.docs).length > 0 ? Number(Object.values(lastOs.docs)[0].numberOs) + 1 : 1
-    const _data = { followup: id ? os?.followup : [], report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile: _signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
+    const _data = { termsAndConditions: '', createdBy: { _id: user.user.uid, name: user.data.name }, followup: id ? os?.followup : [], report, substatus: TYPE_SUBSTATUS.waitingForTechnicalAnalysis.value as keyof typeof TYPE_SUBSTATUS, status: TYPE_STATUS.created.value as keyof typeof TYPE_STATUS, photos: imageUrl, signFile: _signFile, numberOs, accessories, product, date: dateToServer(date), observation, serialNumber, positionInCabinet, guarantee, customer: _customer, _headquarterId: store._headquarterId, _storeId: store._id }
 
     if (!id && user) {
       const followup = CreateOsFollowup({ followup: [], type: 'OsCreated', createdBy: { _id: user.user.uid, name: user.data.name } });
       _data.followup = followup;
+
+      const result = await DB.termsAndConditions.list({ db, limit: 1, wheres: [['_storeId', '==', store._id]] })
+      if (result.docs) {
+        const term = Object.values(result.docs).map(item => item)[0]
+        _data.termsAndConditions = term.text || ''
+      }
     }
 
     const result = !id ?

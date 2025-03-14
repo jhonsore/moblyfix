@@ -279,11 +279,11 @@ const PageOsDetail = () => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <button>
+                                    <a target="_blank" href={`/imprimir/os/entrada/${os._id}`}>
                                         <span className="material-symbols-outlined hover:text-blue-500">
                                             print
                                         </span>
-                                    </button>
+                                    </a>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Imprimir entrada</p>
