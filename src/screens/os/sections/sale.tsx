@@ -247,6 +247,9 @@ const OSSale = ({ open, onOpenChange }: { open: boolean, onOpenChange: (open: bo
     }
 
     function getTotal({ products, discount, discountType }: { discountType: string, discount?: number | null, products: typeof items }) {
+        if (!products) {
+            return
+        }
         const sum = products.reduce((prev, cur) => {
             return prev + (form.getValues().paymentType === 'cash' ? cur.cashPrice * cur.quantity : cur.installmentPrice * cur.quantity)
         }, 0)
@@ -548,10 +551,10 @@ const OSSale = ({ open, onOpenChange }: { open: boolean, onOpenChange: (open: bo
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {items.length === 0 && <tr>
+                                        {(!items || items.length === 0) && <tr>
                                             <td colSpan={4} className="text-center py-8">Nenhum item selecionado</td>
                                         </tr>}
-                                        {items.map(item => <tr key={item._id} className='border-b border-gray-200'>
+                                        {items && items.map(item => <tr key={item._id} className='border-b border-gray-200'>
                                             <td className="whitespace-nowrap pl-2 py-4 text-sm font-semibold text-gray-900">
                                                 {item.name}
                                             </td>
@@ -572,7 +575,7 @@ const OSSale = ({ open, onOpenChange }: { open: boolean, onOpenChange: (open: bo
                                         </tr>)}
                                     </tbody>
                                 </table>
-                                {items.length > 0 && <div>
+                                {items && items.length > 0 && <div>
                                     <div className="py-4 text-base font-bold text-gray-900 border-b border-gray-200 flex justify-between">
                                         <h2>
                                             Total

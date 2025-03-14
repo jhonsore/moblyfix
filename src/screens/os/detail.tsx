@@ -261,20 +261,7 @@ const PageOsDetail = () => {
                         ))}
                     </nav>
                     <div className='flex gap-3 text-gray-500 text-right'>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <button>
-                                        <span className="material-symbols-outlined hover:text-blue-500">
-                                            attachment
-                                        </span>
-                                    </button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Inserir anexo</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
