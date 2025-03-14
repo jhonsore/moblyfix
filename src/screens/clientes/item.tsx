@@ -44,6 +44,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import MandatoryLabel from "@/components/ui/mandatoryLabel"
 
 const FormSchema = z.object({
     name: z
@@ -85,7 +86,9 @@ const FormSchema = z.object({
             message: "Preencha o CEP do cliente",
         }),
     number: z
-        .string(),
+    .string().min(1, {
+        message: "Preencha o numero do cliente",
+    }),
     state: z
         .string().min(1, {
             message: "Preencha o estado do cliente",
@@ -251,7 +254,7 @@ const DadosDoCliente = () => {
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Cliente</FormLabel>
+                                <FormLabel>Cliente<MandatoryLabel /></FormLabel>
                                 <FormControl>
                                     <Input placeholder="Digite o nome do cliente" {...field} />
                                 </FormControl>
@@ -266,7 +269,7 @@ const DadosDoCliente = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>E-mail/Usuário</FormLabel>
+                                    <FormLabel>E-mail/Usuário<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui" {...field} />
                                     </FormControl>
@@ -279,7 +282,7 @@ const DadosDoCliente = () => {
                             name="cpfCnpj"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CPF/CNPJ</FormLabel>
+                                    <FormLabel>CPF/CNPJ<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input maxLength={14} placeholder="Digite aqui o CPF" {...field} onChange={(e) => form.setValue("cpfCnpj", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
@@ -292,7 +295,7 @@ const DadosDoCliente = () => {
                             name="whatsapp"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Whatsapp</FormLabel>
+                                    <FormLabel>Whatsapp<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
@@ -348,7 +351,7 @@ const DadosDoCliente = () => {
                             name="zipcode"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cep:</FormLabel>
+                                    <FormLabel>Cep:<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
                                     </FormControl>
@@ -370,7 +373,7 @@ const DadosDoCliente = () => {
                             name="state"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>UF</FormLabel>
+                                    <FormLabel>UF<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
@@ -390,7 +393,7 @@ const DadosDoCliente = () => {
                             name="city"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cidade</FormLabel>
+                                    <FormLabel>Cidade<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui a cidade" {...field} />
                                     </FormControl>
@@ -403,7 +406,7 @@ const DadosDoCliente = () => {
                             name="neighborhood"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Bairro</FormLabel>
+                                    <FormLabel>Bairro<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui o bairro" {...field} />
                                     </FormControl>
@@ -416,7 +419,7 @@ const DadosDoCliente = () => {
                             name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Endereço</FormLabel>
+                                    <FormLabel>Endereço<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="End:" {...field} />
                                     </FormControl>
@@ -429,7 +432,7 @@ const DadosDoCliente = () => {
                             name="number"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nº</FormLabel>
+                                    <FormLabel>Nº<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui o numero" {...field} />
                                     </FormControl>

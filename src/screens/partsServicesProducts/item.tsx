@@ -33,6 +33,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import MandatoryLabel from "@/components/ui/mandatoryLabel"
 
 
 
@@ -224,7 +225,7 @@ const PartsServicesProductsItem = () => {
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Nome</FormLabel>
+                                <FormLabel>Nome<MandatoryLabel /></FormLabel>
                                 <FormControl>
                                     <Input placeholder="Digite aqui" {...field} />
                                 </FormControl>
@@ -238,7 +239,7 @@ const PartsServicesProductsItem = () => {
                             name="costPrice"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Preço de custo</FormLabel>
+                                    <FormLabel>Preço de custo<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="R$ 0,00" {...field} onChange={(e) => form.setValue("costPrice", formatCurrency(e.target.value))} />
                                     </FormControl>
@@ -251,7 +252,7 @@ const PartsServicesProductsItem = () => {
                             name="cashPrice"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Venda à vista</FormLabel>
+                                    <FormLabel>Venda à vista<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="R$ 0,00" {...field} onChange={(e) => form.setValue("cashPrice", formatCurrency(e.target.value))} />
                                     </FormControl>
@@ -264,7 +265,7 @@ const PartsServicesProductsItem = () => {
                             name="installmentPrice"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Venda à prazo</FormLabel>
+                                    <FormLabel>Venda à prazo<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="R$ 0,00" {...field} onChange={(e) => form.setValue("installmentPrice", formatCurrency(e.target.value))} />
                                     </FormControl>

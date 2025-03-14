@@ -46,6 +46,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import MandatoryLabel from "@/components/ui/mandatoryLabel"
 
 
 const FormSchema = z.object({
@@ -290,7 +291,7 @@ const DadosDoUsuario = () => {
                             name="type"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Tipo de usuário</FormLabel>
+                                    <FormLabel>Tipo de usuário<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
@@ -312,7 +313,7 @@ const DadosDoUsuario = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nome</FormLabel>
+                                    <FormLabel>Nome<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Nome do usuário" {...field} />
                                     </FormControl>
@@ -328,7 +329,7 @@ const DadosDoUsuario = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>E-mail/Usuário</FormLabel>
+                                    <FormLabel>E-mail/Usuário<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui" {...field} disabled={!!id} />
                                     </FormControl>
@@ -342,7 +343,7 @@ const DadosDoUsuario = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Senha</FormLabel>
+                                        <FormLabel>Senha<MandatoryLabel /></FormLabel>
                                         <FormControl>
                                             <Input type="password" placeholder="Digite aqui" {...field} disabled={!!id} />
                                         </FormControl>
@@ -358,7 +359,7 @@ const DadosDoUsuario = () => {
                             name="cpf"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>CPF</FormLabel>
+                                    <FormLabel>CPF<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input maxLength={14} placeholder="Digite aqui o CPF" {...field} onChange={(e) => form.setValue("cpf", formatCpfCnpj(e.target.value))} />
                                     </FormControl>
@@ -371,7 +372,7 @@ const DadosDoUsuario = () => {
                             name="whatsapp"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Whatsapp</FormLabel>
+                                    <FormLabel>Whatsapp<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
                                     </FormControl>
@@ -427,7 +428,7 @@ const DadosDoUsuario = () => {
                             name="zipcode"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cep:</FormLabel>
+                                    <FormLabel>Cep:<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="xx.xxx-xxx" {...field} onChange={(e) => form.setValue("zipcode", formatCep(e.target.value))} />
                                     </FormControl>
@@ -449,7 +450,7 @@ const DadosDoUsuario = () => {
                             name="state"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>UF</FormLabel>
+                                    <FormLabel>UF<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                                             <SelectTrigger className="flex w-full text-left font-normal">
@@ -469,7 +470,7 @@ const DadosDoUsuario = () => {
                             name="city"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Cidade</FormLabel>
+                                    <FormLabel>Cidade<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui a cidade" {...field} />
                                     </FormControl>
@@ -482,7 +483,7 @@ const DadosDoUsuario = () => {
                             name="neighborhood"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Bairro</FormLabel>
+                                    <FormLabel>Bairro<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui o bairro" {...field} />
                                     </FormControl>
@@ -495,7 +496,7 @@ const DadosDoUsuario = () => {
                             name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Endereço</FormLabel>
+                                    <FormLabel>Endereço<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="End:" {...field} />
                                     </FormControl>
@@ -509,7 +510,7 @@ const DadosDoUsuario = () => {
                             name="number"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nº</FormLabel>
+                                    <FormLabel>Nº<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="Digite aqui o numero" {...field} />
                                     </FormControl>
