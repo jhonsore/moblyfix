@@ -1,11 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import AuthContext from './AuthContext'
+import AuthContext, { IAuthContext } from './AuthContext'
 import { onAuthStateChanged, ParsedToken, User } from 'firebase/auth';
 import { useFirebaseContext } from '../firebase/useFirebaseContext';
+import { DB } from '../../functions/database';
+import { TypeUsers } from '../../types/Users';
 
 export const AuthProvider: FC<{ children?: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>()
-  const { auth } = useFirebaseContext()
+  const [user, setUser] = useState<IAuthContext['user'] | null>()
+  const { auth, db } = useFirebaseContext()
   const [idToken, setIdToken] = useState('')
   const [claims, setClaims] = useState<ParsedToken>()
 
@@ -17,7 +19,11 @@ export const AuthProvider: FC<{ children?: React.ReactNode }> = ({ children }) =
       const idTokenResult = await auth.currentUser?.getIdTokenResult()
       if (idTokenResult) setClaims(idTokenResult.claims)
       if (idToken) setIdToken(idToken)
-      if (currentUser) setUser(currentUser)
+      if (currentUser) {
+        const result = await DB.users.read({ db, id: currentUser.uid })
+        if (result.status) setUser({ user: currentUser, data: result.doc as TypeUsers })
+
+      }
       else { setUser(null) }
     });
     return () => {

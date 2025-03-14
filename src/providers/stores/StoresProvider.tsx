@@ -4,6 +4,8 @@ import { useFirebaseContext } from '../firebase/useFirebaseContext';
 import { useAuthContext } from '../auth/useAuthContext';
 import { DB } from '../../functions/database';
 import { TypeStoresViewList } from '../../types/Stores';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { COLLECTIONS_VIEWS } from '../../types/Collections';
 
 export const StoresProvider: FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { db } = useFirebaseContext()
@@ -13,15 +15,18 @@ export const StoresProvider: FC<{ children?: React.ReactNode }> = ({ children })
 
   useEffect(() => {
     if (!claims || Object.keys(stores).length > 0) return
-    const load = async () => {
-      const response = await DB.views.stores.list({ db, orderBy: [['createdAt', 'desc']], wheres: [['_headquarterId', '==', claims.headquarterId]] })
 
-      if (response.status && response.docs) {
-        setStores(response.docs)
-        setStore(Object.values(response.docs).sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis())[0])
-      }
-    }
-    load()
+    const q = query(collection(db, COLLECTIONS_VIEWS._viewStoresList), orderBy('createdAt', 'desc'), where('_headquarterId', '==', claims.headquarterId));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const docs: typeof stores = {};
+      querySnapshot.forEach((doc) => {
+        docs[doc.id] = doc.data() as TypeStoresViewList;
+      });
+
+      setStores(docs)
+      setStore(Object.values(docs).sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis())[0])
+    });
+    () => unsubscribe()
   }, [claims])
 
   const value = { stores, store, setStore };

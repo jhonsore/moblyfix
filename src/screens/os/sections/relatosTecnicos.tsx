@@ -15,6 +15,8 @@ import { DB } from "../../../functions/database"
 import { EmptData } from "../../../components/emptyData"
 import { format } from "date-fns"
 import { useState } from "react"
+import CreateOsFollowup from "../../../functions/os/followup"
+import { toast } from "../../../hooks/use-toast"
 
 const FormSchema = z.object({
     description: z.string().min(1, {
@@ -43,24 +45,29 @@ const OSRelatosTecnicos = () => {
             createdAt: Timestamp.now(),
             description: data.description,
             createdBy: {
-                name: user.displayName || '',
-                _id: user.uid
+                name: user.data.name || '',
+                _id: user.user.uid
             }
         }
 
         const technicalReports = os.technicalReports ? [newTechnicalReports, ...os.technicalReports] : [newTechnicalReports]
-
-
+        const followup = CreateOsFollowup({ followup: os.followup, description: newTechnicalReports.description, type: 'OsTechnicianAdded', createdBy: { _id: user.user.uid, name: user.data.name } });
         setLoading(true)
+        const _data = { technicalReports, followup }
         DB.os.update({
             db,
             id: os._id,
-            data: { technicalReports }
+            data: _data
         })
-        setOs({ ...os, technicalReports })
+        setOs({ ...os, ..._data })
         setLoading(false)
         setOpen(false)
         form.reset()
+        toast({
+            duration: 4000,
+            title: "Relato adicionado",
+            description: "O relato foi inserido com sucesso"
+        })
     }
 
     if (!os || !setOs) {

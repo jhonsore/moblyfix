@@ -25,7 +25,6 @@ import { ErrorPage } from "@/components/errorPage"
 import { Loading } from "@/components/loading"
 import { StoreNotFoundAlert } from "@/components/storeNotFoundAlert"
 import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
-import { Timestamp } from "firebase/firestore"
 import formatPhone from "../../functions/utils/formatPhone"
 import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
 import { Search } from "lucide-react"
@@ -232,7 +231,7 @@ const DadosDaLoja = () => {
         })
         setStatusDeleting(true)
         navigate(`/dashboard/lojas/?deleted=${id}`)
-        
+
 
     }
 

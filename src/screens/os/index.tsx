@@ -32,6 +32,7 @@ import { TypePageStatus } from "@/types/PageStatus"
 import { TypeOsViewList } from "@/types/Os"
 import { DB } from "@/functions/database"
 import { ItemList } from "@/components/screens/os/itemList"
+import { EmptData } from "../../components/emptyData"
 
 const LIMIT = 10
 
@@ -223,10 +224,9 @@ const OrdensServicos = () => {
           }
         </form>
       </Form>
-
-
       <div className=" pt-6 hidden lg:block">
-        <table className=" w-full lg:table " >
+        {pageData.length === 0 && <EmptData />}
+        {pageData.length > 0 && <table className=" w-full lg:table " >
           <thead className="bg-gray-50">
             <tr>
               <th
@@ -278,10 +278,9 @@ const OrdensServicos = () => {
             </tr>
           </thead>
           <tbody className=" bg-white">
-
             {pageData.map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
-        </table>
+        </table>}
       </div>
       {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>
         <Button onClick={loadMoreHandler} variant={'outline'}>Carregar mais</Button>

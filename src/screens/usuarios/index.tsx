@@ -13,6 +13,7 @@ import { useStoresContext } from "../../providers/stores/useStoresContext"
 import ItemList from "../../components/screens/users/itemList"
 import { Loading } from "@/components/loading"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { EmptData } from "../../components/emptyData"
 
 const LIMIT = 10
 
@@ -76,9 +77,9 @@ const Usuarios = () => {
       </Link>
     </HeaderPage>
     <PageContent>
-
       <div className=" py-6">
-        <table className=" w-full">
+        {pageData.length === 0 && <EmptData />}
+        {pageData.length > 0 && <table className=" w-full">
           <thead className="bg-gray-50 hidden lg:table-header-group w-full">
             <tr>
               <th
@@ -104,7 +105,7 @@ const Usuarios = () => {
           <tbody className=" bg-white">
             {pageData.filter(item => removed ? item._id !== removed : true).map((data) => <ItemList key={data._id} data={data} />)}
           </tbody>
-        </table>
+        </table>}
       </div>
 
       {pageData.length >= LIMIT && loadMoreStatus && <div className='py-4 text-center'>

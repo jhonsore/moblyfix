@@ -5,7 +5,7 @@ import { TypeCustomers } from "./Customers"
 import PAYMENT_TYPES from "../consts/PAYMENT_TYPES"
 import DISCOUNT_TYPES from "../consts/DISCOUNT_TYPES"
 
-type Items = Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'> & { quantity: number }
+export type ItemsSales = Omit<TypePartsServicesProducts, 'createdAt' | '_headquarterId' | '_storeId'> & { quantity: number }
 
 export type TypeSales = {
     _id: string
@@ -17,7 +17,7 @@ export type TypeSales = {
         _id: TypeCustomers['_id'],
         name: TypeCustomers['name']
     }
-    items: Items[]
+    items: ItemsSales[]
     paymentType: keyof typeof PAYMENT_TYPES
     discountType: keyof typeof DISCOUNT_TYPES | null
     paymentMethod: keyof typeof PAYMENT_METHODS | null
