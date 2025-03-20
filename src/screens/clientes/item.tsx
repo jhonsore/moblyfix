@@ -86,9 +86,9 @@ const FormSchema = z.object({
             message: "Preencha o CEP do cliente",
         }),
     number: z
-    .string().min(1, {
-        message: "Preencha o numero do cliente",
-    }),
+        .string().min(1, {
+            message: "Preencha o numero do cliente",
+        }),
     state: z
         .string().min(1, {
             message: "Preencha o estado do cliente",
@@ -148,10 +148,10 @@ const DadosDoCliente = () => {
                 form.setValue('name', doc.name || '')
                 form.setValue('cpfCnpj', doc.cpfCnpj || '')
                 form.setValue('email', doc.email || '')
-                form.setValue('whatsapp', doc.whatsapp || '')
-                form.setValue('phone', doc.phone || '')
-                form.setValue('phone2', doc.phone2 || '')
-                form.setValue('phone3', doc.phone3 || '')
+                form.setValue('whatsapp', formatPhone(doc.whatsapp) || '')
+                form.setValue('phone', formatPhone(doc.phone) || '')
+                form.setValue('phone2', formatPhone(doc.phone2) || '')
+                form.setValue('phone3', formatPhone(doc.phone3) || '')
                 form.setValue('state', doc.state || '')
                 form.setValue('city', doc.city || '')
                 form.setValue('neighborhood', doc.neighborhood || '')
