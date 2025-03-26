@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { CalendarIcon, } from "lucide-react"
@@ -24,11 +24,7 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "../../components/ui/badge"
 import { Link } from "react-router"
-// import { useFirebaseContext } from "@/providers/firebase/useFirebaseContext"
-// import { TypePageStatus } from "@/types/PageStatus"
-// import { DB } from "@/functions/database"
-// import { LoadingPage } from "@/components/loadingPage"
-// import { ErrorPage } from "@/components/errorPage"
+
 
 const transactions = [
   {

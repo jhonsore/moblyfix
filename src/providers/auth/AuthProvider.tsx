@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import AuthContext, { IAuthContext } from './AuthContext'
-import { onAuthStateChanged, ParsedToken, User } from 'firebase/auth';
+import { onAuthStateChanged, ParsedToken } from 'firebase/auth';
 import { useFirebaseContext } from '../firebase/useFirebaseContext';
 import { DB } from '../../functions/database';
 import { TypeUsers } from '../../types/Users';

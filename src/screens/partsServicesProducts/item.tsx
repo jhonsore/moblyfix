@@ -4,7 +4,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import HeaderPage from '@/components/headerPage'
-import { data, useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext"
@@ -152,7 +152,7 @@ const PartsServicesProductsItem = () => {
         })
         setStatusDeleting(true)
         navigate(`/dashboard/pecas-servicos/?deleted=${id}`)
-        
+
 
     }
 
@@ -165,7 +165,7 @@ const PartsServicesProductsItem = () => {
         return <ErrorPage />
     }
 
-    
+
 
 
 

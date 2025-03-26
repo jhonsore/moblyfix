@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFirebaseContext } from '../../../providers/firebase/useFirebaseContext';
 import { useParams } from 'react-router';
 import { DB } from '../../../functions/database';
@@ -7,20 +7,20 @@ import { ErrorPage } from '../../../components/errorPage';
 import { LoadingPage } from '../../../components/loadingPage';
 
 function TechnicalAnalysisCompleted() {
-const [htmlString, setHtmlString] = useState('')
-const { db } = useFirebaseContext()
-const { id } = useParams()
-const [error, setError] = useState(false)
+    const [htmlString, setHtmlString] = useState('')
+    const { db } = useFirebaseContext()
+    const { id } = useParams()
+    const [error, setError] = useState(false)
 
-useEffect(() => {
-async function load() {
-if (!id) return
-const result = await DB.os.read({ db, id })
-if (!result.status) {
-setError(true)
-return
-}
-setHtmlString(`<div class="container">
+    useEffect(() => {
+        async function load() {
+            if (!id) return
+            const result = await DB.os.read({ db, id })
+            if (!result.status) {
+                setError(true)
+                return
+            }
+            setHtmlString(`<div class="container">
     <table>
         <tr>
             <td>
@@ -45,7 +45,7 @@ setHtmlString(`<div class="container">
     <div class="border-alert">
         <span>Atenção, este é um e-mail automático. favor não responder.</span>
     </div>
-    <span class="servico-feito">FEITO REPARO ${result.doc?.devices?.device}</span>
+    <span class="servico-feito">FEITO REPARO xxxxxxxx</span>
     
     <table>
         <tr>
@@ -55,18 +55,18 @@ setHtmlString(`<div class="container">
         </tr>
         <tr>
             <td class="subtitulo">
-                Nome: <span class="dados">${result.doc?.customer?.name}</span>
+                Nome: <span class="dados">xxxxxxx</span>
             </td>
             <td class="subtitulo">
                 Cpf/Cnpj: <span class="dados">${result.doc?.customer?.cpfCnpj}</span>
             </td>
             <td class="subtitulo">
-                E-mail: <span class="dados">${result.doc?.customer?.email}</span>
-            </td>
+                E-mail: <span class="dados">xxxxxxx</span>
+            </td>xxx
         </tr>
         <tr>
             <td class="subtitulo">
-                Telefone: <span class="dados">${result.doc?.customer?.phone}</span>
+                Telefone: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
                 Contato1: <span class="dados"></span>
@@ -75,31 +75,31 @@ setHtmlString(`<div class="container">
                 Contato2: <span class="dados"></span>
             </td>
             <td class="subtitulo">
-                WhatsApp: <span class="dados">${result.doc?.customer?.whatsapp}</span>
+                WhatsApp: <span class="dados">xxxxxxxx</span>
             </td>
         </tr>
         <tr>
             <td class="subtitulo">
-                Uf: <span class="dados">${result.doc?.customer?.state}</span>
+                Uf: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Cidade: <span class="dados">${result.doc?.customer?.city}</span>
+                Cidade: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Bairro: <span class="dados">${result.doc?.customer?.neighborhood}</span>
+                Bairro: <span class="dados">xxxxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Cep: <span class="dados">${result.doc?.customer?.zipcode}</span>
+                Cep: <span class="dados">xxxxxxxxxxx</span>
             </td>
         <tr>
             <td class="subtitulo">
-                Endereço: <span class="dados">${result.doc?.customer?.address}</span>
+                Endereço: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Número: <span class="dados">${result.doc?.customer?.number}</span>
+                Número: <span class="dados">xxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Complemento: <span class="dados">${result.doc?.customer?.complement}</span>
+                Complemento: <span class="dados">xxxxxxxx</span>
             </td>
         </tr>
         <tr>
@@ -114,27 +114,27 @@ setHtmlString(`<div class="container">
         </tr>
         <tr>
             <td colspan="2" class="subtitulo">
-                Produto: <span class="dados">${result.doc?.devices?.device}</span>
+                Produto: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Serial: <span class="dados">${result.doc?.finishedAt?.serialNumber}</span>
+                Serial: <span class="dados">xxxxxxxxxx</span>
             </td>
         <tr>
             <td colspan="2" class="subtitulo">
-                Acessório: <span class="dados">${result.doc?.finishedAt?.accessories}</span>
+                Acessório: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Garantia: <span class="dados">${result.doc?.finishedAt?.guarantee}</span>
+                Garantia: <span class="dados">xxxxxxxxx</span>
             </td>
         </tr>
         <tr>
             <td class="relato-tecnico">
-                 Relato Técnico: <span> FEITO REPARO ${result.doc?.devices?.device}</span>
+                 Relato Técnico: <span> FEITO REPARO xxxxxxxxx</span>
             </td>
         </tr>
         <tr>
             <td class="subtitulo">
-                Observações: <span class="dados">${result.doc?.finishedAt?.observation}</span>
+                Observações: <span class="dados">xxxxxxxxxxx</span>
             </td>
         </tr>
         <tr>
@@ -196,7 +196,7 @@ setHtmlString(`<div class="container">
     </div>
     <div class="assinatura">
         <h3 class="titulo">
-            Gerado em: <span>${result.doc?.finishedAt?.date}</span>
+            Gerado em: <span>xxxxxxxxxx</span>
         </h3>
         <span class="nome-cliente">${result.doc?.customer?.name}</span>
         <span class="border-assinatura"></span>
@@ -390,22 +390,20 @@ setHtmlString(`<div class="container">
     }
 </style>
 `)
-}
-load()
-}, [id])
+        }
+        load()
+    }, [id])
 
-if (error) {
-return
-<ErrorPage />
-}
+    if (error) {
+        return <ErrorPage />
+    }
 
-if (!htmlString) {
-return
-<LoadingPage />
-}
+    if (!htmlString) {
+        return <LoadingPage />
+    }
 
-return (
-<HTMLtoPDFViewer htmlString={htmlString} />);
+    return (
+        <HTMLtoPDFViewer htmlString={htmlString} />);
 }
 
 export default TechnicalAnalysisCompleted;

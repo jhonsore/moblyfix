@@ -1,7 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { TypeUsers } from '../../types/Users';
-
-
 // Interface para o tipo de resposta que esperamos da API
 export interface CreateResponse {
     status: boolean;

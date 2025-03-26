@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFirebaseContext } from '../../../providers/firebase/useFirebaseContext';
 import { useParams } from 'react-router';
 import { DB } from '../../../functions/database';
@@ -7,20 +7,20 @@ import { ErrorPage } from '../../../components/errorPage';
 import { LoadingPage } from '../../../components/loadingPage';
 
 function NewTechnicianReport() {
-const [htmlString, setHtmlString] = useState('')
-const { db } = useFirebaseContext()
-const { id } = useParams()
-const [error, setError] = useState(false)
+    const [htmlString, setHtmlString] = useState('')
+    const { db } = useFirebaseContext()
+    const { id } = useParams()
+    const [error, setError] = useState(false)
 
-useEffect(() => {
-async function load() {
-if (!id) return
-const result = await DB.os.read({ db, id })
-if (!result.status) {
-setError(true)
-return
-}
-setHtmlString(`<div class="container">
+    useEffect(() => {
+        async function load() {
+            if (!id) return
+            const result = await DB.os.read({ db, id })
+            if (!result.status) {
+                setError(true)
+                return
+            }
+            setHtmlString(`<div class="container">
     <table>
         <tr>
             <td>
@@ -31,7 +31,7 @@ setHtmlString(`<div class="container">
                     Moblyfix
                 </h3>
                 <p>
-                    Técnico: <span>${result.doc?.responsibleTechnician?.name}</span>
+                    Técnico: <span>xxxxxxxxx</span>
                 </p>
             </td>
             <td class="subtitulo-loja">
@@ -47,7 +47,7 @@ setHtmlString(`<div class="container">
     </div>
     <div class="alert-status">
         <span> BOA TARDE !</span><span>${result.doc?.customer?.name}</span>
-        <p class="text-status">SEU ${result.doc?.devices?.device} ESTA PRONTO</p>
+        <p class="text-status">SEU xxxxxxxxx ESTA PRONTO</p>
     </div>
     <table>
         <tr>
@@ -62,22 +62,22 @@ setHtmlString(`<div class="container">
         </tr>
         <tr>
             <td colspan="2" class="subtitulo">
-                Produto: <span class="dados">${result.doc?.devices?.device}</span>
+                Produto: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Serial: <span class="dados">${result.doc?.finishedAt?.serialNumber}</span>
+                Serial: <span class="dados">xxxxxxxxxx</span>
             </td>
         <tr>
             <td colspan="2" class="subtitulo">
-                Acessório: <span class="dados">${result.doc?.finishedAt?.accessories}</span>
+                Acessório: <span class="dados">xxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Garantia: <span class="dados">${result.doc?.finishedAt?.guarantee}</span>
+                Garantia: <span class="dados">xxxxxxxxx</span>
             </td>
         </tr>
         <tr>
             <td class="subtitulo">
-                Observação: <span class="dados">${result.doc?.finishedAt?.observation}</span>
+                Observação: <span class="dados">xxxxxxxxx</span>
             </td>
         </tr>
 
@@ -186,22 +186,20 @@ setHtmlString(`<div class="container">
     }
 </style>
 `)
-}
-load()
-}, [id])
+        }
+        load()
+    }, [id])
 
-if (error) {
-return
-<ErrorPage />
-}
+    if (error) {
+        return <ErrorPage />
+    }
 
-if (!htmlString) {
-return
-<LoadingPage />
-}
+    if (!htmlString) {
+        return <LoadingPage />
+    }
 
-return (
-<HTMLtoPDFViewer htmlString={htmlString} />);
+    return (
+        <HTMLtoPDFViewer htmlString={htmlString} />);
 }
 
 export default NewTechnicianReport;

@@ -1,17 +1,8 @@
 import HeaderPage from "../../components/headerPage"
-import { ImageUploader } from "../../components/imageUploader"
-import PageContent from "../../components/layout/pageContent"
-import { Button } from "../../components/ui/button";
-import { DB } from "../../functions/database";
-import { useFirebaseContext } from "../../providers/firebase/useFirebaseContext";
-import { useStoresContext } from "../../providers/stores/useStoresContext";
 import GraphMethodsPayment from "./components/graphMethodsPayment";
 import GraphTypePayments from "./components/graphTypePayments";
 
 const PageDashboard = () => {
-    const { db } = useFirebaseContext()
-    const { store } = useStoresContext()
-
     return <>
         <HeaderPage title="Dashboard" />
         <div className=" px-4 sm:px-6 lg:px-8">
