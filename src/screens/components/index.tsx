@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button"
 import { Badge } from "../../components/ui/badge"
 import { Checkbox } from "../../components/ui/checkbox"
 import { format } from "date-fns"
-import { CalendarIcon, Mail, Search } from "lucide-react"
+import { CalendarIcon, Mail } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import {

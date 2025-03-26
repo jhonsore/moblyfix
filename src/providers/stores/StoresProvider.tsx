@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import AuthContext from './StoresContext'
 import { useFirebaseContext } from '../firebase/useFirebaseContext';
 import { useAuthContext } from '../auth/useAuthContext';
-import { DB } from '../../functions/database';
 import { TypeStoresViewList } from '../../types/Stores';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { COLLECTIONS_VIEWS } from '../../types/Collections';

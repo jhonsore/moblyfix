@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFirebaseContext } from '../../../providers/firebase/useFirebaseContext';
 import { useParams } from 'react-router';
 import { DB } from '../../../functions/database';
@@ -7,20 +7,20 @@ import { ErrorPage } from '../../../components/errorPage';
 import { LoadingPage } from '../../../components/loadingPage';
 
 function TechnicalAnalysis() {
-const [htmlString, setHtmlString] = useState('')
-const { db } = useFirebaseContext()
-const { id } = useParams()
-const [error, setError] = useState(false)
+    const [htmlString, setHtmlString] = useState('')
+    const { db } = useFirebaseContext()
+    const { id } = useParams()
+    const [error, setError] = useState(false)
 
-useEffect(() => {
-async function load() {
-if (!id) return
-const result = await DB.os.read({ db, id })
-if (!result.status) {
-setError(true)
-return
-}
-setHtmlString(`<div class="container">
+    useEffect(() => {
+        async function load() {
+            if (!id) return
+            const result = await DB.os.read({ db, id })
+            if (!result.status) {
+                setError(true)
+                return
+            }
+            setHtmlString(`<div class="container">
     <table>
         <tr>
             <td>
@@ -46,7 +46,7 @@ setHtmlString(`<div class="container">
         <span>Atenção, este é um e-mail automático. favor não responder.</span>
     </div>
     <div class="alert-status">
-        <span> Sua ordem de serviço nº<span>${result.doc?.technicalReports?.description}</span> entrou em análise pelos nossos técnicos</span>
+        <span> Sua ordem de serviço nº<span>xxxxxxxx</span> entrou em análise pelos nossos técnicos</span>
     </div>
     <table>
         <tr>
@@ -61,22 +61,22 @@ setHtmlString(`<div class="container">
         </tr>
         <tr>
             <td colspan="2" class="subtitulo">
-                Produto: <span class="dados">${result.doc?.devices?.device}</span>
+                Produto: <span class="dados">xxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Serial: <span class="dados">${result.doc?.finishedAt?.serialNumber}</span>
+                Serial: <span class="dados">xxxxxxxxxx</span>
             </td>
         <tr>
             <td colspan="2" class="subtitulo">
-                Acessório: <span class="dados">${result.doc?.finishedAt?.accessories}</span>
+                Acessório: <span class="dados">xxxxxxxxx</span>
             </td>
             <td class="subtitulo">
-                Garantia: <span class="dados">${result.doc?.finishedAt?.guarantee}</span>
+                Garantia: <span class="dados">$xxxxxxxxxxx</span>
             </td>
         </tr>
         <tr>
             <td class="subtitulo">
-                Observação: <span class="dados">${result.doc?.finishedAt?.observation}</span>
+                Observação: <span class="dados">xxxxxxxx</span>
             </td>
         </tr>
 
@@ -181,22 +181,20 @@ setHtmlString(`<div class="container">
     }
 </style>
 `)
-}
-load()
-}, [id])
+        }
+        load()
+    }, [id])
 
-if (error) {
-return
-<ErrorPage />
-}
+    if (error) {
+        return <ErrorPage />
+    }
 
-if (!htmlString) {
-return
-<LoadingPage />
-}
+    if (!htmlString) {
+        return <LoadingPage />
+    }
 
-return (
-<HTMLtoPDFViewer htmlString={htmlString} />);
+    return (
+        <HTMLtoPDFViewer htmlString={htmlString} />);
 }
 
 export default TechnicalAnalysis;
