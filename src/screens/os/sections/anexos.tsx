@@ -11,6 +11,7 @@ import { PATH_ATTACHMENTS_OS } from "../item-form";
 import { useParams } from "react-router";
 import { DB } from "../../../functions/database";
 import { toast } from "../../../hooks/use-toast";
+import { EmptData } from "../../../components/emptyData";
 
 
 
@@ -81,24 +82,31 @@ const OSAnexos = () => {
 
     return <div>
         {statusLoading && <Loading />}
-        <div className='flex gap-4 mt-4 flex-wrap'>
-            {
-                imageUrl.map(item => <div key={item.url} className={`relative w-32 h-32`}>
-                    <img src={item.url} alt="Imgem do aparelho" />
-                    <button onClick={() => removeImage(item)}>
-                        <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
-                            delete
-                        </span>
-                    </button>
-                </div>)
-            }
-            <div className=" flex relative cursor-pointer">
-                <Button type="button" variant={'primary'}><span className="material-symbols-outlined sm:mr-2 cursor-pointer">
-                    add_a_photo
-                </span> <span className="hidden sm:block">Nova foto</span></Button>
-                <input className="absolute top-0 left-0 w-full h-full opacity-0  cursor-pointer " type="file" accept="image/*" onChange={handleImageUpload} ref={fileInputRef} />
+        <div className="mt-4">
+            <div className="flex justify-end w-full">
+                <div className=" flex relative cursor-pointer">
+                    <Button type="button" variant={'primary'}><span className="material-symbols-outlined sm:mr-2 cursor-pointer">
+                        add_a_photo
+                    </span> <span className="hidden sm:block">Nova foto</span></Button>
+                    <input className="absolute top-0 left-0 w-full h-full opacity-0  cursor-pointer " type="file" accept="image/*" onChange={handleImageUpload} ref={fileInputRef} />
+                </div>
+            </div>
+            {!imageUrl.length && <EmptData />}
+            <div className='flex gap-4  flex-wrap'>
+                {
+                    imageUrl.map(item => <div key={item.url} className={`relative w-32 h-32`}>
+                        <img src={item.url} alt="Imgem do aparelho" />
+                        <button onClick={() => removeImage(item)}>
+                            <span className="material-symbols-outlined absolute top-1 right-2 text-slate-500 text-lg px-1 bg-slate-300 rounded-full">
+                                delete
+                            </span>
+                        </button>
+                    </div>)
+                }
+
             </div>
         </div>
+
 
     </div>
 

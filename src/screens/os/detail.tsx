@@ -41,6 +41,9 @@ import { TypeUsersViewList } from "../../types/Users"
 import CreateOsFollowup from "../../functions/os/followup"
 import { useAuthContext } from "../../providers/auth/useAuthContext"
 import OSSale from "./sections/sale"
+import OS from "../../functions/os"
+import { Loading } from "../../components/loading"
+import { toast } from "../../hooks/use-toast"
 
 const tabs = [
     { name: 'Dados da OS', href: 'about', current: true, section: <OSDados /> },
@@ -60,8 +63,9 @@ const PageOsDetail = () => {
     const { store } = useStoresContext()
     const [currentSection, setCurrentSection] = useState(0)
     const [technicalUsers, setTechnicalUsers] = useState<{ [id: string]: TypeUsersViewList }>({})
-    const { user } = useAuthContext()
+    const { user, idToken } = useAuthContext()
     const [finishStatus, setFinishStatus] = useState(false)
+    const [statusLoading, setStatusLoading] = useState(false)
 
     useEffect(() => {
         async function load() {
@@ -164,6 +168,32 @@ const PageOsDetail = () => {
         setFinishStatus(open)
     }
 
+    const sendOsByEmail = async () => {
+        if (!idToken || !os) {
+            return
+        }
+        setStatusLoading(true)
+        try {
+            await OS.sendOsByEmail(idToken, { osId: os._id });
+            toast({
+                duration: 4000,
+                title: "Email enviado",
+                description: "O email foi enviado com sucesso ao cliente"
+            })
+        } catch (error: unknown) {
+            const _error = error as { response: { data: string } }
+            toast({
+                duration: 4000,
+                variant: "destructive",
+                title: "Email não enviado",
+                description: _error?.response?.data || "Ocorreu um erro ao enviar o email, tente novamente mais tard."
+            })
+        }
+        setStatusLoading(false)
+    }
+
+    // TODO: fazer deploy na firebase e criar url para ser enviado a msg de zap com url da os ao cliente
+
     if (pageStatus === 'loading') {
         return <LoadingPage />
     }
@@ -179,6 +209,7 @@ const PageOsDetail = () => {
     if (!store || !db) return <LoadingPage />
 
     return <>
+        {statusLoading && <Loading />}
         <OSSale open={finishStatus} onOpenChange={onOpenFinishModal} />
         <HeaderPage title="OS - 123456">
             <div className="flex items-center gap-4">
@@ -265,7 +296,7 @@ const PageOsDetail = () => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <button>
+                                    <button onClick={sendOsByEmail}>
                                         <span className="material-symbols-outlined hover:text-blue-500">
                                             mail
                                         </span>
@@ -279,11 +310,11 @@ const PageOsDetail = () => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <button>
+                                    <a target="_blank" href={`/imprimir/os/entrada/${os._id}`}>
                                         <span className="material-symbols-outlined hover:text-blue-500">
                                             print
                                         </span>
-                                    </button>
+                                    </a>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Imprimir entrada</p>

@@ -6,6 +6,7 @@ export type TypeCustomers = {
     _storeId: string
     createdAt: Timestamp
 
+    birthdate: Timestamp | null
     cpfCnpj: string
     name: string
     email: string

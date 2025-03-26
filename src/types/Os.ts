@@ -14,6 +14,11 @@ export type TypeOs = {
         _id: string
         cpfCnpj: string
     }
+    termsAndConditions: string
+    createdBy: {
+        name: string
+        _id: string
+    }
     attachments: {
         file: string
     }

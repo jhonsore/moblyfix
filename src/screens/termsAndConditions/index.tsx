@@ -75,9 +75,9 @@ const PageTermsandConditions = () => {
   return <>
     {statusLoading && <Loading />}
     <HeaderPage title="Condições de serviços">
-      <Link to={'/dashboard/condicoes-de-servicos/novo'}>
+      {termsAndConditions.length <= 0 && <Link to={'/dashboard/condicoes-de-servicos/novo'}>
         <Button variant={"primary"}>Novo item</Button>
-      </Link>
+      </Link>}
     </ HeaderPage>
     <PageContent>
       <div className=" m-w-full py-6">

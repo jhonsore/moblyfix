@@ -29,7 +29,7 @@ import { ItemCreatedAlert } from "@/components/itemCreatedAlert"
 import { Timestamp } from "firebase/firestore"
 import cleanValue from "../../functions/utils/cleanValue"
 import { getCep } from "../../functions/cep"
-import { Search } from "lucide-react"
+import { CalendarIcon, Search } from "lucide-react"
 import formatCep from "../../functions/utils/formatCep"
 import formatCpfCnpj from "../../functions/utils/formatCpfCnpj"
 import formatPhone from "../../functions/utils/formatPhone"
@@ -45,8 +45,15 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import MandatoryLabel from "@/components/ui/mandatoryLabel"
+import { Popover, PopoverContent, PopoverTrigger } from "../../components/ui/popover"
+import { Calendar } from "../../components/ui/calendar"
+import { cn } from "@/lib/utils"
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns"
+import dateToServer from "../../functions/utils/dateToServer"
 
 const FormSchema = z.object({
+    birthdate: z.date().nullable(),
     name: z
         .string().min(1, {
             message: "Preencha o nome do cliente",
@@ -56,9 +63,7 @@ const FormSchema = z.object({
             message: "Preencha o CPF do cliente",
         }),
     email: z
-        .string().email('Email inválido').min(1, {
-            message: "Preencha o Email",
-        }),
+        .string(),
     whatsapp: z
         .string().min(1, {
             message: "Preencha o whatsapp do cliente",
@@ -86,9 +91,9 @@ const FormSchema = z.object({
             message: "Preencha o CEP do cliente",
         }),
     number: z
-    .string().min(1, {
-        message: "Preencha o numero do cliente",
-    }),
+        .string().min(1, {
+            message: "Preencha o numero do cliente",
+        }),
     state: z
         .string().min(1, {
             message: "Preencha o estado do cliente",
@@ -120,6 +125,7 @@ const DadosDoCliente = () => {
             zipcode: "",
             number: "",
             complement: "",
+            birthdate: null
         },
     })
     const { id } = useParams()
@@ -148,10 +154,10 @@ const DadosDoCliente = () => {
                 form.setValue('name', doc.name || '')
                 form.setValue('cpfCnpj', doc.cpfCnpj || '')
                 form.setValue('email', doc.email || '')
-                form.setValue('whatsapp', doc.whatsapp || '')
-                form.setValue('phone', doc.phone || '')
-                form.setValue('phone2', doc.phone2 || '')
-                form.setValue('phone3', doc.phone3 || '')
+                form.setValue('whatsapp', formatPhone(doc.whatsapp) || '')
+                form.setValue('phone', formatPhone(doc.phone) || '')
+                form.setValue('phone2', formatPhone(doc.phone2) || '')
+                form.setValue('phone3', formatPhone(doc.phone3) || '')
                 form.setValue('state', doc.state || '')
                 form.setValue('city', doc.city || '')
                 form.setValue('neighborhood', doc.neighborhood || '')
@@ -159,6 +165,7 @@ const DadosDoCliente = () => {
                 form.setValue('zipcode', doc.zipcode || '')
                 form.setValue('number', doc.number || '')
                 form.setValue('complement', doc.complement || '')
+                form.setValue('birthdate', doc.birthdate?.toDate() || null)
             }
         }
         load()
@@ -170,16 +177,17 @@ const DadosDoCliente = () => {
             return
         }
         setStatusLoading(true)
-        const { name, email, whatsapp, phone, phone2, phone3, state, city, neighborhood, address, zipcode, number, complement, cpfCnpj, } = values
+        const { name, email, whatsapp, birthdate, phone, phone2, phone3, state, city, neighborhood, address, zipcode, number, complement, cpfCnpj, } = values
+        const _birthdate = birthdate ? dateToServer(birthdate) : null
         const result = !id ?
             await DB.customers.create({
                 db,
-                data: { createdAt: Timestamp.now(), name, email, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj), _headquarterId: store._headquarterId, _storeId: store._id }
+                data: { createdAt: Timestamp.now(), birthdate: _birthdate, name, email, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj), _headquarterId: store._headquarterId, _storeId: store._id }
             }) :
             await DB.customers.update({
                 db,
                 id,
-                data: { name, email, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj) }
+                data: { name, email, birthdate: _birthdate, whatsapp: cleanValue(whatsapp), phone: cleanValue(phone), phone2: cleanValue(phone2), phone3: cleanValue(phone3), state, city, neighborhood, address, zipcode: cleanValue(zipcode), number, complement, cpfCnpj: cleanValue(cpfCnpj) }
             })
         if (result.status) {
             setStatusCreated(true)
@@ -249,34 +257,66 @@ const DadosDoCliente = () => {
             <ItemCreatedAlert type={id ? 'update' : 'create'} open={statusCreated} closeHandler={() => setStatusCreated(false)} confirmHandler={onCreateHandler} />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Cliente<MandatoryLabel /></FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Digite o nome do cliente" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
 
-                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 py-4'>
+                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 py-4'>
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>E-mail/Usuário<MandatoryLabel /></FormLabel>
+                                    <FormLabel>Cliente<MandatoryLabel /></FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Digite aqui" {...field} />
+                                        <Input placeholder="Digite o nome do cliente" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="birthdate"
+                            render={({ field }) => (
+                                <FormItem >
+                                    <FormLabel>Data de nascimento</FormLabel>
+                                    <div className="w-full">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            " pl-3 text-left font-normal w-full",
+                                                            !field.value && "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(field.value, "dd/MM/yyyy")
+                                                        ) : (
+                                                            <span>Escolha uma data</span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value || undefined}
+                                                    onSelect={field.onChange}
+                                                    locale={ptBR}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 py-4'>
+
                         <FormField
                             control={form.control}
                             name="cpfCnpj"
@@ -298,6 +338,19 @@ const DadosDoCliente = () => {
                                     <FormLabel>Whatsapp<MandatoryLabel /></FormLabel>
                                     <FormControl>
                                         <Input placeholder="(xx) xxxxx-xxxx" {...field} onChange={(e) => form.setValue("whatsapp", formatPhone(e.target.value))} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>E-mail</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Digite aqui" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
