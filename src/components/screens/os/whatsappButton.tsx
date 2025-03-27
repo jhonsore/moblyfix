@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import formatPhone from "../../../functions/utils/formatPhone"
 import cleanValue from "../../../functions/utils/cleanValue"
 import sendWhatsappMesage from "../../../functions/utils/sendWhatsappMessage"
+import SETTINGS from "../../../consts/SETTINGS"
 
 const FormSchema = z.object({
     whatsapp: z
@@ -52,7 +53,8 @@ const WhatsappButton = () => {
         }
         setCustomer(resultCustomer.doc)
         if (resultCustomer.doc?.whatsapp) form.setValue("whatsapp", formatPhone(resultCustomer.doc?.whatsapp))
-        form.setValue("message", "Aqui está o contrato da sua Ordem de serviço: https://www.exemplo.com.br/produto?id=123")
+        const url = `https://${SETTINGS.host}/imprimir/os/entrada/${os._id}`
+        form.setValue("message", `Aqui está o contrato da sua Ordem de serviço: ${url}`)
     }
 
     async function onSubmit(values: z.infer<typeof FormSchema>) {

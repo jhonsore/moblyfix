@@ -25,6 +25,7 @@ function OsEntrance() {
                 return
             }
             const resultStore = await DB.stores.read({ db, id: result.doc?._storeId })
+            console.log(resultStore)
             if (!resultStore.status || !resultStore.doc) {
                 setError(true)
                 return
@@ -39,7 +40,7 @@ function OsEntrance() {
             </td>
             <td colspan="2" class="titulo-loja">
                 <h3>
-                    Moblyfix
+            ${resultStore.doc.name}
                 </h3>
                 <p>
                     Vendedor: <span>${result.doc?.createdBy?.name}</span>

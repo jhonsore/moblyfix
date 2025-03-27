@@ -214,7 +214,7 @@ const PageDashboard = () => {
                 <div className="rounded-2xl border border-gray-200 bg-white p-5   md:p-6">
                     <div className="flex items-start justify-between">
                         <h3 className="text-lg font-semibold text-gray-800 ">
-                            Aniversariantes do mês
+                            Aniversariantes do dia
                         </h3>
                     </div>
 
