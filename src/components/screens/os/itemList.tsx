@@ -68,7 +68,7 @@ export function ItemList({ data }: { data: TypeOsViewList }) {
         <td>
             <div className="max-w-36">
                 <Badge variant={getLabelByStatus(data.status)}>{TYPE_STATUS[data.status].label}</Badge>
-                {data.substatus && <span className="block text-[8px] text-gray-500">{TYPE_SUBSTATUS[data.substatus].label}</span>}
+                {data.substatus && <span className="block text-[8px] leading-none mt-1 text-gray-500">{TYPE_SUBSTATUS[data.substatus].label}</span>}
             </div>
         </td>
         <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

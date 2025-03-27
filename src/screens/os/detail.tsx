@@ -44,6 +44,7 @@ import OSSale from "./sections/sale"
 import OS from "../../functions/os"
 import { Loading } from "../../components/loading"
 import { toast } from "../../hooks/use-toast"
+import { useLocation } from "react-router"
 
 const tabs = [
     { name: 'Dados da OS', href: 'about', current: true, section: <OSDados /> },
@@ -66,6 +67,11 @@ const PageOsDetail = () => {
     const { user, idToken } = useAuthContext()
     const [finishStatus, setFinishStatus] = useState(false)
     const [statusLoading, setStatusLoading] = useState(false)
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     useEffect(() => {
         async function load() {

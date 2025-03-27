@@ -217,6 +217,11 @@ const PageOsForm = () => {
 
     if (result.status && !id && result.doc) {
       navigate(`/dashboard/ordens-servicos/${result.id}`)
+      toast({
+        duration: 4000,
+        title: "OS criada",
+        description: "A OS foi criada com sucesso"
+      })
     }
     if (result.status && id && setOs) {
       setOs({ ...os, ..._data } as TypeOs)
